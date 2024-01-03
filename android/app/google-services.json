@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1048969344310",
+    "project_id": "noteaiapp-514ed",
+    "storage_bucket": "noteaiapp-514ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048969344310:android:f6b484c9c3409817066f97",
+        "android_client_info": {
+          "package_name": "com.example.todoaiapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6KEfDBYwuDaCtEyrbFeAGXQQtDyTcgIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
