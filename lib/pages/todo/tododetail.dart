@@ -2,13 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dropdownfield2/dropdownfield2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/pages/todo/data.dart';
-
+import 'package:todoaiapp/pages/todo/notification.dart';
 
 import 'package:todoaiapp/pages/todo/todoedit.dart';
 
@@ -33,11 +34,19 @@ class detail extends StatefulWidget {
 }
 
 class _detailState extends State<detail> {
+  var scheduleTime;
+  Notificationservice notificationservice = Notificationservice();
+  @override
+  void initState() {
+    update();
+    super.initState();
+    notificationservice.initialisenotification();
+  }
+
   TextEditingController pop = TextEditingController();
   TextEditingController pop1 = TextEditingController();
   TextEditingController date = TextEditingController();
-  TextEditingController reminderdate = TextEditingController();
-  TextEditingController remindertime = TextEditingController();
+  TextEditingController datetimecontroler = TextEditingController();
   TextEditingController priority = TextEditingController();
   List<data> data1s = [];
   int selectedindex = -1;
@@ -64,12 +73,6 @@ class _detailState extends State<detail> {
     }
   }
 
-  @override
-  void initState() {
-    update();
-    super.initState();
-  }
-
   update() async {
     List<data> sdata = await getdata();
     setState(() {
@@ -81,20 +84,14 @@ class _detailState extends State<detail> {
     if (pop.text != "" &&
         pop1.text != "" &&
         priority.text != "" &&
-        date.text != "" &&
-        remindertime.text != "" &&
-        remindertime.text != "") {
+        date.text != "") {
       setState(() {
         data1s.add(data(
             tittle: pop.text.trim(),
             content: pop1.text.trim(),
             priority: priority.text.trim(),
             duedate: date.text.trim(),
-            check: check,
-            remeninderdate: reminderdate.text.trim(),
-            remenindertime: remindertime.text.trim(),
-            total:
-                "${reminderdate.text.trim() + "" + remindertime.text.trim()}"));
+            check: check));
       });
       setdata();
     } else {
@@ -217,56 +214,44 @@ class _detailState extends State<detail> {
                     Column(
                       children: [
                         TextField(
-                          controller: reminderdate,
+                          controller: datetimecontroler,
                           decoration: InputDecoration(
                               hintText: "Enter Date",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12)),
                               suffixIcon: IconButton(
                                   onPressed: () async {
-                                    DateTime? pickeddata = await showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2000),
-                                        lastDate: DateTime(2101));
-                                    if (pickeddata != null) {
-                                      String savedata = pickeddata.toString();
-                                      for (int i = 0; i <= 10; i++) {
-                                        finaldate = finaldate + savedata[i];
-                                      }
-                                      setState(() {
-                                        reminderdate.text =
-                                            finaldate.toString();
-                                      });
-                                    }
+                                    showCupertinoModalPopup(
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                          height: 100,
+                                          width: 300,
+                                          child: CupertinoDatePicker(
+                                            backgroundColor: Colors.white,
+                                            onDateTimeChanged: (date) {
+                                              setState(() {
+                                                datetimecontroler.text =
+                                                    date.toString();
+                                              });
+                                              scheduleTime = date;
+                                              debugPrint(
+                                                  'notification scheduked fir $scheduleTime');
+
+                                              notificationservice
+                                                  .scheduleNotification(
+                                                      title:
+                                                          'complete your task',
+                                                      body: '$scheduleTime',
+                                                      scheduledNotificationDateTime:
+                                                          scheduleTime);
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    );
                                   },
                                   icon: Icon(Icons.calendar_month))),
-                        ),
-                        TextField(
-                          controller: remindertime,
-                          decoration: InputDecoration(
-                              hintText: "Enter Time",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12)),
-                              suffixIcon: IconButton(
-                                  onPressed: () async {
-                                    TimeOfDay? pickedtime =
-                                        await showTimePicker(
-                                            context: context,
-                                            initialTime: TimeOfDay.now());
-                                    if (pickedtime != null) {
-                                      int p = pickedtime.toString().length;
-                                      String q = pickedtime.toString();
-                                      for (int i = 10; i < p - 1; i++) {
-                                        remindertime1 = remindertime1 + q[i];
-                                      }
-                                      setState(() {
-                                        remindertime.text =
-                                            remindertime1.toString();
-                                      });
-                                    }
-                                  },
-                                  icon: Icon(Icons.timer))),
                         ),
                       ],
                     ),
@@ -287,8 +272,6 @@ class _detailState extends State<detail> {
                           pop1.clear();
                           priority.clear();
                           date.clear();
-                          reminderdate.clear();
-                          remindertime.clear();
                         },
                         child: Container(
                           width: 250,
@@ -427,7 +410,7 @@ class _detailState extends State<detail> {
                               subtitle: Row(
                                 children: [
                                   updatetime(
-                                    remindertime: data1s[index].remenindertime,
+                                    remindertime: data1s[index],
                                   ),
                                 ],
                               ),

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todoaiapp/pages/notes/firebase_options.dart';
 
+import 'package:timezone/data/latest.dart' as tz;
 import 'package:todoaiapp/pages/welcomepage.dart';
 
 void main(List<String> args) async {
     WidgetsFlutterBinding.ensureInitialized();
+    tz.initializeTimeZones();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
 );
