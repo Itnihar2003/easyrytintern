@@ -482,7 +482,7 @@ Widget allfunction(BuildContext context, DataSnapshot snapshot) {
                         Navigator.pop(context);
                         FirebaseDatabase.instance
                             .ref("post")
-                            .child(snapshot.child("tittle").value.toString())
+                            .child(snapshot.child("id").value.toString())
                             .remove();
                       },
                       child: ListTile(
