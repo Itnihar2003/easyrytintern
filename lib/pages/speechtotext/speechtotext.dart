@@ -48,14 +48,16 @@ class _SpeechScreenState extends State<SpeechScreen> {
                 onError: (val) => print('onError: $val'),
               );
               if (available) {
-                setState(() {
-                  finaltext = finaltext + " " + _text;
-                  controler.text = finaltext;
-                });
                 setState(() => _isListening = true);
                 _speech.listen(onResult: (val) {
                   setState(() {
+                    finaltext = finaltext + " " + _text;
+                    controler.text = finaltext;
+                  });
+                  
+                  setState(() {
                     _text = val.recognizedWords;
+
                     if (val.hasConfidenceRating && val.confidence > 0) {
                       _confidence = val.confidence;
                     }
@@ -65,9 +67,6 @@ class _SpeechScreenState extends State<SpeechScreen> {
             }
           },
           onTapUp: (details) {
-            setState(() {
-              _text = "";
-            });
             setState(() => _isListening = false);
             _speech.stop();
           },
@@ -112,9 +111,6 @@ class _SpeechScreenState extends State<SpeechScreen> {
                   ),
                   SizedBox(
                     height: 20,
-                  ),
-                  Container(
-                    child: Text(_text),
                   ),
                   Container(
                     child: Center(

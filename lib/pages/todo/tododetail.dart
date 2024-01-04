@@ -35,6 +35,7 @@ class detail extends StatefulWidget {
 
 class _detailState extends State<detail> {
   var scheduleTime;
+  var duetime;
   Notificationservice notificationservice = Notificationservice();
   @override
   void initState() {
@@ -45,7 +46,7 @@ class _detailState extends State<detail> {
 
   TextEditingController pop = TextEditingController();
   TextEditingController pop1 = TextEditingController();
-  TextEditingController date = TextEditingController();
+  TextEditingController date1 = TextEditingController();
   TextEditingController datetimecontroler = TextEditingController();
   TextEditingController priority = TextEditingController();
   List<data> data1s = [];
@@ -84,13 +85,13 @@ class _detailState extends State<detail> {
     if (pop.text != "" &&
         pop1.text != "" &&
         priority.text != "" &&
-        date.text != "") {
+        date1.text != "") {
       setState(() {
         data1s.add(data(
             tittle: pop.text.trim(),
             content: pop1.text.trim(),
             priority: priority.text.trim(),
-            duedate: date.text.trim(),
+            duedate: date1.text.trim(),
             check: check));
       });
       setdata();
@@ -183,23 +184,41 @@ class _detailState extends State<detail> {
                           fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     TextField(
-                      controller: date,
+                      controller: date1,
                       decoration: InputDecoration(
-                          hintText: "Enter currentdate ",
+                          hintText: "Enter Date",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12)),
                           suffixIcon: IconButton(
                               onPressed: () async {
-                                DateTime? pickeddata = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2101));
-                                if (pickeddata != null) {
-                                  setState(() {
-                                    date.text = pickeddata.toString();
-                                  });
-                                }
+                                showCupertinoModalPopup(
+                                  context: context,
+                                  builder: (context) {
+                                    return Container(
+                                      height: 100,
+                                      width: 300,
+                                      child: CupertinoDatePicker(
+                                        backgroundColor: Colors.white,
+                                        onDateTimeChanged: (date) {
+                                          setState(() {
+                                            date1.text = date.toString();
+                                          });
+                                          duetime = date;
+                                          debugPrint(
+                                              'notification scheduked fir $scheduleTime');
+
+                                          // notificationservice
+                                          //     .scheduleNotification(
+                                          //         title:
+                                          //             'complete your task',
+                                          //         body: '$scheduleTime',
+                                          //         scheduledNotificationDateTime:
+                                          //             scheduleTime);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                );
                               },
                               icon: Icon(Icons.calendar_month))),
                     ),
@@ -253,6 +272,19 @@ class _detailState extends State<detail> {
                                   },
                                   icon: Icon(Icons.calendar_month))),
                         ),
+                        Row(
+                          children: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  
+                                  notificationservice.scheduleminute(
+                                    "hello",
+                                    "hii",duetime
+                                  );
+                                },
+                                child: Text("everyminite"))
+                          ],
+                        )
                       ],
                     ),
                     SizedBox(
@@ -271,7 +303,7 @@ class _detailState extends State<detail> {
                           pop.clear();
                           pop1.clear();
                           priority.clear();
-                          date.clear();
+                          date1.clear();
                         },
                         child: Container(
                           width: 250,

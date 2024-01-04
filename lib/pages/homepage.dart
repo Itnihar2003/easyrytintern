@@ -4,28 +4,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todoaiapp/pages/notes/editnotes.dart';
 
 import 'package:todoaiapp/pages/notes/notes.dart';
 import 'package:todoaiapp/pages/Aipage.dart';
 import 'package:todoaiapp/pages/diary/diary.dart';
-
 
 import 'package:todoaiapp/pages/speechtotext/speechtotext.dart';
 
 import 'package:todoaiapp/pages/todo/tododetail.dart';
 
 class home extends StatefulWidget {
-  const home({super.key,});
-  
+  const home({
+    super.key,
+  });
 
   @override
   State<home> createState() => _homeState();
 }
 
 class _homeState extends State<home> with TickerProviderStateMixin {
- 
- 
-
   late AnimationController _controller =
       AnimationController(vsync: this, duration: Duration(seconds: 10))
         ..repeat();
@@ -226,65 +224,85 @@ class _homeState extends State<home> with TickerProviderStateMixin {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: ListTile(
-                                      leading: Text(
-                                        "(" + index.toString() + ")",
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      title: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Quick Note",
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => editnotes(id:snapshot
+                                                      .child("id")
+                                                      .value
+                                                      .toString(), 
+                                                  tittle: snapshot
+                                                      .child("tittle")
+                                                      .value
+                                                      .toString(),
+                                                  content: snapshot
+                                                      .child("content")
+                                                      .value
+                                                      .toString()),
+                                            ));
+                                      },
+                                      child: ListTile(
+                                        leading: Text(
+                                          "(" + index.toString() + ")",
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Quick Note",
+                                              style: GoogleFonts.poppins(
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              showModalBottomSheet(
-                                                context: context,
-                                                builder: (context) =>
-                                                    allfunction(
-                                                        context, snapshot),
-                                              );
-                                            },
-                                            icon: Icon(
-                                              Icons.menu,
-                                              size: 30,
-                                              color: Colors.black,
+                                            IconButton(
+                                              onPressed: () {
+                                                showModalBottomSheet(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      allfunction(
+                                                          context, snapshot),
+                                                );
+                                              },
+                                              icon: Icon(
+                                                Icons.menu,
+                                                size: 30,
+                                                color: Colors.black,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        subtitle: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Tittle=" +
+                                                  snapshot
+                                                      .child("tittle")
+                                                      .value
+                                                      .toString(),
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      subtitle: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Tittle=" +
+                                            Text("content=" +
                                                 snapshot
-                                                    .child("tittle")
+                                                    .child("content")
                                                     .value
-                                                    .toString(),
-                                            style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text("content=" +
-                                              snapshot
-                                                  .child("content")
-                                                  .value
-                                                  .toString())
-                                        ],
+                                                    .toString())
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

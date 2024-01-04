@@ -11,14 +11,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:todoaiapp/pages/homepage.dart';
 
-class notes extends StatefulWidget {
-  const notes({Key? key}) : super(key: key);
+TextEditingController editController = TextEditingController();
+TextEditingController editwritingController = TextEditingController();
+
+class editnotes extends StatefulWidget {
+  final String tittle;
+  final String content;
+  final String id;
+  const editnotes({Key? key, required this.tittle, required this.content, required this.id})
+      : super(key: key);
 
   @override
-  _notesState createState() => _notesState();
+  _editnotesState createState() => _editnotesState();
 }
 
-class _notesState extends State<notes> {
+class _editnotesState extends State<editnotes> {
   Color selectedColor = Colors.white;
   double _fontSize = 20.0;
   Color _textColor = Colors.black;
@@ -80,8 +87,8 @@ class _notesState extends State<notes> {
 
   TextSpan _textSpan = TextSpan(text: '', style: TextStyle(fontSize: 20));
   void toggleBold() {
-    String text = writingController.text;
-    TextSelection selection = writingController.selection;
+    String text = editwritingController.text;
+    TextSelection selection = editController.selection;
     int start = selection.start;
     int end = selection.end;
     for (int i = start; i <= end; i++) {
@@ -159,8 +166,8 @@ class _notesState extends State<notes> {
   Future<void> loadContent() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      titleController.text = prefs.getString('title') ?? '';
-      writingController.text = prefs.getString('content') ?? '';
+      editController.text = prefs.getString('title') ?? '';
+      editwritingController.text = prefs.getString('content') ?? '';
 
       final selectedColorValue = prefs.getInt('selectedColor');
       selectedColor = Color(selectedColorValue ?? Colors.white.value);
@@ -174,26 +181,23 @@ class _notesState extends State<notes> {
     loadContent();
   }
 
-  String id = DateTime.now().millisecondsSinceEpoch.toString();
-  save() {
-    String savedtittle = titleController.text;
-    String savedcontent = writingController.text;
-    titleController.clear();
-    writingController.clear();
-    if (savedtittle != "" && savedcontent != "") {
-      FirebaseDatabase.instance
-          .ref("post")
-          .child(id)
-          .set({"tittle": savedtittle, "content": savedcontent, "id": id});
-    } else {
-      Get.snackbar("Error", "Plese fill all data",
-          backgroundColor: Colors.grey);
-    }
-  }
+  // save() {
+  //   String savedtittle = titleController.text;
+  //   String savedcontent = writingController.text;
+  //   titleController.clear();
+  //   writingController.clear();
+  //   if (savedtittle != "" && savedcontent != "") {
+  //     FirebaseDatabase.instance
+  //         .ref("post")
+  //         .child(savedtittle)
+  //         .set({"tittle": savedtittle, "content": savedcontent});
+  //   } else {
+  //     Get.snackbar("Error", "Plese fill all data",
+  //         backgroundColor: Colors.grey);
+  //   }
+  // }
 
-  TextEditingController titleController = TextEditingController();
-  TextEditingController writingController = TextEditingController();
-  QuillController _controller = QuillController.basic();
+  update() {}
 
   // Flag to track whether the keyboard is open
   bool isKeyboardOpen = false;
@@ -202,27 +206,35 @@ class _notesState extends State<notes> {
   bool isunderline = false;
 
   String? selectedText;
-
+  String tit = "";
+  String finalvalue = "";
+  String con = "";
+  String finalcontent = "";
   @override
   Widget build(BuildContext context) {
+    tit = widget.tittle;
+    con = widget.content;
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 50),
         child: InkWell(
             onTap: () {
+              FirebaseDatabase.instance
+                  .ref("post")
+                  .child(widget.id)
+                  .update({"tittle": finalvalue, "content": finalcontent});
               Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => home(),
                   ));
-              save();
             },
             child: CircleAvatar(
               radius: 25,
               backgroundColor: Colors.black,
               child: Icon(
-                Icons.add,
+                Icons.replay_outlined,
                 color: Colors.white,
                 size: 30,
               ),
@@ -275,12 +287,20 @@ class _notesState extends State<notes> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: TextFormField(
-                      controller: titleController,
+                      initialValue: tit,
+                      onChanged: (value) {
+                        setState(() {
+                          if (value != "") {
+                            tit = value;
+                            finalvalue = value;
+                          }
+                        });
+                      },
                       maxLines: 2,
                       autofocus: true,
                       obscureText: false,
                       decoration: InputDecoration(
-                        hintText: 'Title',
+                        hintText: "tittle",
                         hintStyle: GoogleFonts.poppins(
                           color: Color(0xFFBFBFBF),
                           fontSize: 18,
@@ -301,8 +321,16 @@ class _notesState extends State<notes> {
                       decoration: BoxDecoration(),
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
-                        child: TextField(
-                          controller: writingController,
+                        child: TextFormField(
+                          initialValue: con,
+                          onChanged: (value1) {
+                            setState(() {
+                              con = value1;
+                              finalcontent = value1;
+                            });
+                          },
+                          // initialValue: widget.content,
+
                           textAlign: isTextStart
                               ? TextAlign.start
                               : isTextCenter
