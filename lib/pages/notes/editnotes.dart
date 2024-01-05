@@ -18,7 +18,8 @@ class editnotes extends StatefulWidget {
   final String tittle;
   final String content;
   final String id;
-  const editnotes({Key? key, required this.tittle, required this.content, required this.id})
+  const editnotes(
+      {Key? key, required this.tittle, required this.content, required this.id})
       : super(key: key);
 
   @override
@@ -220,10 +221,27 @@ class _editnotesState extends State<editnotes> {
         padding: const EdgeInsets.only(bottom: 50),
         child: InkWell(
             onTap: () {
-              FirebaseDatabase.instance
-                  .ref("post")
-                  .child(widget.id)
-                  .update({"tittle": finalvalue, "content": finalcontent});
+              if (finalcontent != "" && finalvalue != "") {
+                FirebaseDatabase.instance
+                    .ref("post")
+                    .child(widget.id)
+                    .update({"tittle": finalvalue, "content": finalcontent});
+              } else if (finalcontent != "" && finalvalue == "") {
+                FirebaseDatabase.instance
+                    .ref("post")
+                    .child(widget.id)
+                    .update({"tittle": tit, "content": finalcontent});
+              } else if (finalcontent == "" && finalvalue != "") {
+                FirebaseDatabase.instance
+                    .ref("post")
+                    .child(widget.id)
+                    .update({"tittle": finalvalue, "content": con});
+              } else {
+                FirebaseDatabase.instance
+                    .ref("post")
+                    .child(widget.id)
+                    .update({"tittle": tit, "content": con});
+              }
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -293,6 +311,8 @@ class _editnotesState extends State<editnotes> {
                           if (value != "") {
                             tit = value;
                             finalvalue = value;
+                          } else {
+                            finalvalue = widget.tittle;
                           }
                         });
                       },
@@ -325,8 +345,12 @@ class _editnotesState extends State<editnotes> {
                           initialValue: con,
                           onChanged: (value1) {
                             setState(() {
-                              con = value1;
-                              finalcontent = value1;
+                              if (value1 != "") {
+                                con = value1;
+                                finalcontent = value1;
+                              } else {
+                                finalcontent = widget.content;
+                              }
                             });
                           },
                           // initialValue: widget.content,
@@ -372,119 +396,119 @@ class _editnotesState extends State<editnotes> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        color: Colors.white,
-        height: 120,
-        width: 400,
-        child: Column(
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: StatefulBuilder(builder: (context, state) {
-                return FastColorPicker(
-                  selectedColor: textColor,
-                  onColorSelected: (Color color) {
-                    state(() {});
-                    onColorChange(color);
-                  },
-                );
-              }),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      toggleItalic();
-                    },
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(
-                        Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      foregroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.black),
-                    ),
-                    child: const Text('I',
-                        style: TextStyle(
-                            fontStyle: FontStyle.italic, fontSize: 16)),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      toggleBold();
-                    },
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(
-                        Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      foregroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.black),
-                    ),
-                    child: const Text('B',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16)),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      toggleUnderlined();
-                    },
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(
-                        Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      foregroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.black),
-                    ),
-                    child: const Text('U',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontSize: 16)),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      toggleTextStart();
-                    },
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(
-                        Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      foregroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.black),
-                    ),
-                    child: const Icon(Icons.align_horizontal_left),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      toggleTextCenter();
-                    },
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(
-                        Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      foregroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.black),
-                    ),
-                    child: const Icon(Icons.align_horizontal_center),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      toggleTextEnd();
-                    },
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(
-                        Color.fromARGB(255, 255, 255, 255),
-                      ),
-                      foregroundColor:
-                          MaterialStatePropertyAll<Color>(Colors.black),
-                    ),
-                    child: const Icon(Icons.align_horizontal_right),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      // bottomNavigationBar: Container(
+      //   color: Colors.white,
+      //   height: 120,
+      //   width: 400,
+      //   child: Column(
+      //     children: [
+      //       SingleChildScrollView(
+      //         scrollDirection: Axis.horizontal,
+      //         child: StatefulBuilder(builder: (context, state) {
+      //           return FastColorPicker(
+      //             selectedColor: textColor,
+      //             onColorSelected: (Color color) {
+      //               state(() {});
+      //               onColorChange(color);
+      //             },
+      //           );
+      //         }),
+      //       ),
+      //       SingleChildScrollView(
+      //         scrollDirection: Axis.horizontal,
+      //         child: Row(
+      //           children: [
+      //             ElevatedButton(
+      //               onPressed: () {
+      //                 toggleItalic();
+      //               },
+      //               style: const ButtonStyle(
+      //                 backgroundColor: MaterialStatePropertyAll<Color>(
+      //                   Color.fromARGB(255, 255, 255, 255),
+      //                 ),
+      //                 foregroundColor:
+      //                     MaterialStatePropertyAll<Color>(Colors.black),
+      //               ),
+      //               child: const Text('I',
+      //                   style: TextStyle(
+      //                       fontStyle: FontStyle.italic, fontSize: 16)),
+      //             ),
+      //             ElevatedButton(
+      //               onPressed: () {
+      //                 toggleBold();
+      //               },
+      //               style: const ButtonStyle(
+      //                 backgroundColor: MaterialStatePropertyAll<Color>(
+      //                   Color.fromARGB(255, 255, 255, 255),
+      //                 ),
+      //                 foregroundColor:
+      //                     MaterialStatePropertyAll<Color>(Colors.black),
+      //               ),
+      //               child: const Text('B',
+      //                   style: TextStyle(
+      //                       fontWeight: FontWeight.bold, fontSize: 16)),
+      //             ),
+      //             ElevatedButton(
+      //               onPressed: () {
+      //                 toggleUnderlined();
+      //               },
+      //               style: const ButtonStyle(
+      //                 backgroundColor: MaterialStatePropertyAll<Color>(
+      //                   Color.fromARGB(255, 255, 255, 255),
+      //                 ),
+      //                 foregroundColor:
+      //                     MaterialStatePropertyAll<Color>(Colors.black),
+      //               ),
+      //               child: const Text('U',
+      //                   style: TextStyle(
+      //                       decoration: TextDecoration.underline,
+      //                       fontSize: 16)),
+      //             ),
+      //             ElevatedButton(
+      //               onPressed: () {
+      //                 toggleTextStart();
+      //               },
+      //               style: const ButtonStyle(
+      //                 backgroundColor: MaterialStatePropertyAll<Color>(
+      //                   Color.fromARGB(255, 255, 255, 255),
+      //                 ),
+      //                 foregroundColor:
+      //                     MaterialStatePropertyAll<Color>(Colors.black),
+      //               ),
+      //               child: const Icon(Icons.align_horizontal_left),
+      //             ),
+      //             ElevatedButton(
+      //               onPressed: () {
+      //                 toggleTextCenter();
+      //               },
+      //               style: const ButtonStyle(
+      //                 backgroundColor: MaterialStatePropertyAll<Color>(
+      //                   Color.fromARGB(255, 255, 255, 255),
+      //                 ),
+      //                 foregroundColor:
+      //                     MaterialStatePropertyAll<Color>(Colors.black),
+      //               ),
+      //               child: const Icon(Icons.align_horizontal_center),
+      //             ),
+      //             ElevatedButton(
+      //               onPressed: () {
+      //                 toggleTextEnd();
+      //               },
+      //               style: const ButtonStyle(
+      //                 backgroundColor: MaterialStatePropertyAll<Color>(
+      //                   Color.fromARGB(255, 255, 255, 255),
+      //                 ),
+      //                 foregroundColor:
+      //                     MaterialStatePropertyAll<Color>(Colors.black),
+      //               ),
+      //               child: const Icon(Icons.align_horizontal_right),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
