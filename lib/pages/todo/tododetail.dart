@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todoaiapp/pages/homepage.dart';
+import 'package:todoaiapp/pages/notes/notedata.dart';
 import 'package:todoaiapp/pages/todo/data.dart';
 import 'package:todoaiapp/pages/todo/notification.dart';
 
@@ -88,11 +90,12 @@ class _detailState extends State<detail> {
         date1.text != "") {
       setState(() {
         data1s.add(data(
-            tittle: pop.text.trim(),
-            content: pop1.text.trim(),
-            priority: priority.text.trim(),
-            duedate: date1.text.trim(),
-            check: check));
+          tittle: pop.text.trim(),
+          content: pop1.text.trim(),
+          priority: priority.text.trim(),
+          duedate: date1.text.trim(),
+          check: check,
+        ));
       });
       setdata();
     } else {
@@ -276,11 +279,8 @@ class _detailState extends State<detail> {
                           children: [
                             ElevatedButton(
                                 onPressed: () {
-                                  
                                   notificationservice.scheduleminute(
-                                    "hello",
-                                    "hii",duetime
-                                  );
+                                      "hello", "hii", duetime);
                                 },
                                 child: Text("everyminite"))
                           ],
@@ -351,8 +351,6 @@ class _detailState extends State<detail> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: IconButton(
                 onPressed: () {
-                  Get.snackbar("Error", "Plese fill all data",
-                      backgroundColor: Colors.grey);
                   setState(() {
                     selectedindex = widget.finalindex;
                     data1s[selectedindex].tittle = widget.finaltittle;

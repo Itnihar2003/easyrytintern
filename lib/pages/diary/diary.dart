@@ -275,7 +275,7 @@ class _diaryState extends State<diary> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => home(),
+                                  builder: (context) => home(datas: [],),
                                 ));
                           },
                           icon: Icon(

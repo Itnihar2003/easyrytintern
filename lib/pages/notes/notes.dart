@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:todoaiapp/pages/homepage.dart';
+import 'package:todoaiapp/pages/notes/notedata.dart';
 
 class notes extends StatefulWidget {
   const notes({Key? key}) : super(key: key);
@@ -19,172 +20,219 @@ class notes extends StatefulWidget {
 }
 
 class _notesState extends State<notes> {
-  Color selectedColor = Colors.white;
-  double _fontSize = 20.0;
-  Color _textColor = Colors.black;
-  String _fontFamily = 'Roboto';
-  bool isItalic = false;
-  bool isBold = false;
-  bool isUnderlined = false;
-  bool isTextStart = true;
-  bool isTextEnd = false;
-  bool isTextCenter = false;
-  Color _fontColor = Colors.black;
-  void updateFontSize(double newSize) {
-    setState(() {
-      fontSize = newSize;
-    });
+  // Color selectedColor = Colors.white;
+  // double _fontSize = 20.0;
+  // Color _textColor = Colors.black;
+  // String _fontFamily = 'Roboto';
+  // bool isItalic = false;
+  // bool isBold = false;
+  // bool isUnderlined = false;
+  // bool isTextStart = true;
+  // bool isTextEnd = false;
+  // bool isTextCenter = false;
+  // Color _fontColor = Colors.black;
+  // void updateFontSize(double newSize) {
+  //   setState(() {
+  //     fontSize = newSize;
+  //   });
+  // }
+
+  // void updateColor(Color newColor) {
+  //   setState(() {
+  //     _fontColor = newColor;
+  //   });
+  // }
+
+  // var _newFontWeight = FontWeight.w300;
+  // final List<Color> colors = [
+  //   Colors.orange,
+  //   Colors.red,
+  //   Colors.green,
+  //   Colors.blue,
+  //   Colors.yellow,
+  //   Colors.teal,
+  //   Colors.cyan,
+  //   Colors.purple,
+  // ];
+  // final _FontWeight = [
+  //   FontWeight.w200,
+  //   FontWeight.w900,
+  //   FontWeight.w700,
+  //   FontWeight.w800,
+  //   FontWeight.w300,
+  //   FontWeight.w400,
+  //   FontWeight.w500,
+  //   FontWeight.w600,
+  //   FontWeight.w100,
+  //   FontWeight.w200,
+  // ];
+  // double colorSize = 50; // Custom size for color containers
+  // double paddingBetweenColors = 30;
+  // double fontSize = 20; // Custom padding between colors
+  // Color textColor = Colors.black;
+  // String fontFamily = "Roboto";
+
+  // bool extraBottomItems = false;
+  // void toggleItalic() {
+  //   setState(() {
+  //     isItalic = !isItalic;
+  //   });
+  // }
+
+  // TextSpan _textSpan = TextSpan(text: '', style: TextStyle(fontSize: 20));
+  // void toggleBold() {
+  //   String text = writingController.text;
+  //   TextSelection selection = writingController.selection;
+  //   int start = selection.start;
+  //   int end = selection.end;
+  //   for (int i = start; i <= end; i++) {
+  //     setState(() {
+  //       isBold = !isBold;
+  //     });
+  //   }
+  // }
+
+  // void toggleUnderlined() {
+  //   setState(() {
+  //     isUnderlined = !isUnderlined;
+  //   });
+  // }
+
+  // void toggleTextStart() {
+  //   if (!isTextStart) {
+  //     isTextStart = true;
+  //     isTextCenter = false;
+  //     isTextEnd = false;
+  //   }
+  //   setState(() {});
+  // }
+
+  // void toggleTextEnd() {
+  //   if (!isTextEnd) {
+  //     isTextStart = false;
+  //     isTextCenter = false;
+  //     isTextEnd = true;
+  //   } else {
+  //     isTextStart = true;
+  //     isTextCenter = false;
+  //     isTextEnd = false;
+  //   }
+  //   setState(() {});
+  // }
+
+  // void toggleTextCenter() {
+  //   if (!isTextCenter) {
+  //     isTextStart = false;
+  //     isTextCenter = true;
+  //     isTextEnd = false;
+  //   } else {
+  //     isTextStart = true;
+  //     isTextCenter = false;
+  //     isTextEnd = false;
+  //   }
+  //   setState(() {});
+  // }
+
+  // void onColorSelected(Color color) {
+  //   setState(() {
+  //     selectedColor = color;
+  //   });
+  // }
+
+  // void onSizeChange(value) {
+  //   setState(() {
+  //     _fontSize = value;
+  //   });
+  // }
+
+  // void onColorChange(Color color) {
+  //   setState(() {
+  //     _textColor = color;
+  //   });
+  // }
+
+  // void onFamilyChange(String type) {
+  //   setState(() {
+  //     _fontFamily = type.toString();
+  //   });
+  // }
+
+  // Future<void> loadContent() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     titleController.text = prefs.getString('title') ?? '';
+  //     writingController.text = prefs.getString('content') ?? '';
+
+  //     final selectedColorValue = prefs.getInt('selectedColor');
+  //     selectedColor = Color(selectedColorValue ?? Colors.white.value);
+  //     // Load other properties here as well.
+  //   });
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   loadContent();
+  // }
+
+  // String id = DateTime.now().millisecondsSinceEpoch.toString();
+  // save() {
+  //   String savedtittle = titleController.text;
+  //   String savedcontent = writingController.text;
+  //   titleController.clear();
+  //   writingController.clear();
+  //   if (savedtittle != "" && savedcontent != "") {
+  //     FirebaseDatabase.instance
+  //         .ref("post")
+  //         .child(id)
+  //         .set({"tittle": savedtittle, "content": savedcontent, "id": id});
+  //   } else {
+  //     Get.snackbar("Error", "Plese fill all data",
+  //         backgroundColor: Colors.grey);
+  //   }
+  // }
+
+  List<data1> allnote = [];
+
+  setdata1() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    List<String> data2list =
+        allnote.map((data1) => jsonEncode(data1.toJson())).toList();
+    pref.setStringList('myData2', data2list);
   }
 
-  void updateColor(Color newColor) {
-    setState(() {
-      _fontColor = newColor;
-    });
-  }
-
-  var _newFontWeight = FontWeight.w300;
-  final List<Color> colors = [
-    Colors.orange,
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.yellow,
-    Colors.teal,
-    Colors.cyan,
-    Colors.purple,
-  ];
-  final _FontWeight = [
-    FontWeight.w200,
-    FontWeight.w900,
-    FontWeight.w700,
-    FontWeight.w800,
-    FontWeight.w300,
-    FontWeight.w400,
-    FontWeight.w500,
-    FontWeight.w600,
-    FontWeight.w100,
-    FontWeight.w200,
-  ];
-  double colorSize = 50; // Custom size for color containers
-  double paddingBetweenColors = 30;
-  double fontSize = 20; // Custom padding between colors
-  Color textColor = Colors.black;
-  String fontFamily = "Roboto";
-
-  bool extraBottomItems = false;
-  void toggleItalic() {
-    setState(() {
-      isItalic = !isItalic;
-    });
-  }
-
-  TextSpan _textSpan = TextSpan(text: '', style: TextStyle(fontSize: 20));
-  void toggleBold() {
-    String text = writingController.text;
-    TextSelection selection = writingController.selection;
-    int start = selection.start;
-    int end = selection.end;
-    for (int i = start; i <= end; i++) {
-      setState(() {
-        isBold = !isBold;
-      });
+  getdata() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    List<String>? data2list = pref.getStringList('myData2');
+    if (data2list != null) {
+      List<data1> finaldata2 = data2list
+          //here data and data1 are not same
+          .map((data2) => data1.fromJson(json.decode(data2)))
+          .toList();
+      return finaldata2;
     }
-  }
-
-  void toggleUnderlined() {
-    setState(() {
-      isUnderlined = !isUnderlined;
-    });
-  }
-
-  void toggleTextStart() {
-    if (!isTextStart) {
-      isTextStart = true;
-      isTextCenter = false;
-      isTextEnd = false;
-    }
-    setState(() {});
-  }
-
-  void toggleTextEnd() {
-    if (!isTextEnd) {
-      isTextStart = false;
-      isTextCenter = false;
-      isTextEnd = true;
-    } else {
-      isTextStart = true;
-      isTextCenter = false;
-      isTextEnd = false;
-    }
-    setState(() {});
-  }
-
-  void toggleTextCenter() {
-    if (!isTextCenter) {
-      isTextStart = false;
-      isTextCenter = true;
-      isTextEnd = false;
-    } else {
-      isTextStart = true;
-      isTextCenter = false;
-      isTextEnd = false;
-    }
-    setState(() {});
-  }
-
-  void onColorSelected(Color color) {
-    setState(() {
-      selectedColor = color;
-    });
-  }
-
-  void onSizeChange(value) {
-    setState(() {
-      _fontSize = value;
-    });
-  }
-
-  void onColorChange(Color color) {
-    setState(() {
-      _textColor = color;
-    });
-  }
-
-  void onFamilyChange(String type) {
-    setState(() {
-      _fontFamily = type.toString();
-    });
-  }
-
-  Future<void> loadContent() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      titleController.text = prefs.getString('title') ?? '';
-      writingController.text = prefs.getString('content') ?? '';
-
-      final selectedColorValue = prefs.getInt('selectedColor');
-      selectedColor = Color(selectedColorValue ?? Colors.white.value);
-      // Load other properties here as well.
-    });
   }
 
   @override
   void initState() {
+    update();
     super.initState();
-    loadContent();
   }
 
-  String id = DateTime.now().millisecondsSinceEpoch.toString();
-  save() {
-    String savedtittle = titleController.text;
-    String savedcontent = writingController.text;
-    titleController.clear();
-    writingController.clear();
-    if (savedtittle != "" && savedcontent != "") {
-      FirebaseDatabase.instance
-          .ref("post")
-          .child(id)
-          .set({"tittle": savedtittle, "content": savedcontent, "id": id});
+  update() async {
+    List<data1> sdata = await getdata();
+    setState(() {
+      allnote = sdata;
+    });
+  }
+
+  save1() {
+    if (titleController.text != "" && writingController.text != "") {
+      setState(() {
+        allnote.add(data1(
+            tittle1: titleController.text, content1: writingController.text));
+      });
+      setdata1();
     } else {
       Get.snackbar("Error", "Plese fill all data",
           backgroundColor: Colors.grey);
@@ -213,9 +261,14 @@ class _notesState extends State<notes> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => home(),
+                    builder: (context) => home(
+                      datas: allnote,
+                    ),
                   ));
-              save();
+              save1();
+              writingController.clear();
+              writingController.clear();
+              print(allnote.length);
             },
             child: CircleAvatar(
               radius: 25,
@@ -302,11 +355,11 @@ class _notesState extends State<notes> {
                         padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                         child: TextField(
                           controller: writingController,
-                          textAlign: isTextStart
-                              ? TextAlign.start
-                              : isTextCenter
-                                  ? TextAlign.center
-                                  : TextAlign.end,
+                          // textAlign: isTextStart
+                          //     ? TextAlign.start
+                          //     : isTextCenter
+                          //         ? TextAlign.center
+                          //         : TextAlign.end,
                           decoration: InputDecoration(
                             hintText: 'Start Writing..',
                             border: InputBorder.none,
@@ -321,18 +374,18 @@ class _notesState extends State<notes> {
                             focusedErrorBorder: InputBorder.none,
                           ),
                           maxLines: null,
-                          style: TextStyle(
-                            fontSize: _fontSize,
-                            color: _textColor,
-                            fontFamily: _fontFamily,
-                            fontStyle:
-                                isItalic ? FontStyle.italic : FontStyle.normal,
-                            fontWeight:
-                                isBold ? FontWeight.bold : FontWeight.normal,
-                            decoration: isUnderlined
-                                ? TextDecoration.underline
-                                : TextDecoration.none,
-                          ),
+                          // style: TextStyle(
+                          //   fontSize: _fontSize,
+                          //   color: _textColor,
+                          //   fontFamily: _fontFamily,
+                          //   fontStyle:
+                          //       isItalic ? FontStyle.italic : FontStyle.normal,
+                          //   fontWeight:
+                          //       isBold ? FontWeight.bold : FontWeight.normal,
+                          //   decoration: isUnderlined
+                          //       ? TextDecoration.underline
+                          //       : TextDecoration.none,
+                          // ),
                         ),
                       ),
                     ),

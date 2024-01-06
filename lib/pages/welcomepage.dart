@@ -101,7 +101,7 @@ class _welcomeState extends State<welcome> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => home(),
+                            builder: (context) => home(datas: [],),
                           ));
                     },
                     child: Container(
