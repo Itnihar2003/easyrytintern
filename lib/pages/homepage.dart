@@ -53,18 +53,10 @@ class _homeState extends State<home> with TickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => welcome(),
-                                      ));
-                                },
-                                icon: Icon(Icons.arrow_back)),
                             Container(
-                              height: 40,
+                              height: 35,
                               width: 300,
                               padding: EdgeInsets.symmetric(horizontal: 5),
                               child: Row(
@@ -98,6 +90,8 @@ class _homeState extends State<home> with TickerProviderStateMixin {
                                 ],
                               ),
                             ),
+                            IconButton(
+                                onPressed: () {}, icon: Icon(Icons.settings)),
                           ],
                         ),
 
@@ -317,30 +311,35 @@ class _homeState extends State<home> with TickerProviderStateMixin {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: InkWell(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => aiask(),
-              ));
-        },
-        child: AnimatedBuilder(
-          animation: _controller,
-          child: Container(
-            width: 100,
-            child: Image(
-              image: AssetImage("assets/ai.png"),
-              fit: BoxFit.cover,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => aiask(),
+                  ));
+            },
+            child: AnimatedBuilder(
+              animation: _controller,
+              child: Container(
+                width: 150,
+                child: Image(
+                  image: AssetImage("assets/ai.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              builder: (context, child) {
+                return Transform.rotate(
+                  angle: _controller.value * 2 * 3.141,
+                  child: child,
+                );
+              },
             ),
           ),
-          builder: (context, child) {
-            return Transform.rotate(
-              angle: _controller.value * 2 * 3.141,
-              child: child,
-            );
-          },
-        ),
+        ],
       ),
     );
   }
@@ -382,8 +381,8 @@ Widget quickTools(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: 70,
-            width: 70,
+            height: 50,
+            width: 50,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
