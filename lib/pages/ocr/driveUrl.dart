@@ -246,108 +246,108 @@ class _DriveUrlState extends State<DriveUrl> {
     }
     // final String apiUrl = 'https://ocr-xj19.onrender.com/ocr/imageUrlText';
     // final String apiUrl = 'https://scannerimage-e52f6979766b.herokuapp.com';
-    final String apiUrl =
-        'https://scannerimage-e52f6979766b.herokuapp.com/ocr/googleDriveText';
+    // final String apiUrl =
+    //     'https://scannerimage-e52f6979766b.herokuapp.com/ocr/googleDriveText';
 
-    try {
-      var _header = {
-        'Content-Type': 'application/json',
-      };
-      print(urlController.text);
-      print(selectedLangCode);
+    // try {
+    //   var _header = {
+    //     'Content-Type': 'application/json',
+    //   };
+    //   print(urlController.text);
+    //   print(selectedLangCode);
 
-      var _body = {
-        // 'url':
-        //     'https://d2jaiao3zdxbzm.cloudfront.net/wp-content/uploads/figure-65.png',
-        'url': urlController.text,
-        'lang': selectedLangCode,
-      };
-      final http.Response response = await http.post(
-        Uri.parse(apiUrl),
-        body: json.encode(_body),
-        headers: _header,
-      );
-      var value = jsonDecode(response.body);
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        setState(() {
-          isLoading = false;
-        });
-        data = value["data"];
-        print("here data");
-        // Successful response, handle accordingly
-        print(data);
-        if (data != null) {
-          Navigator.push(
-            context,
-            PageTransition(
-              child: TextViewer(
-                data: data!,
-                langCode: selectedLangCode,
-              ),
-              type: PageTransitionType.fade,
-              isIos: true,
-              duration: Duration(milliseconds: 900),
-            ),
-          );
-          isLoading = false;
-        }
-        print('Response: ${response.body}');
-      } else {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Error'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Error: ${response.statusCode}'),
-                Text("Please check the link format . "),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pushAndRemoveUntil(
-                    context,
-                    PageTransition(
-                      child: HomePage(),
-                      type: PageTransitionType.fade,
-                      isIos: true,
-                      duration: Duration(milliseconds: 900),
-                    ),
-                    (route) => false),
-                child: Text('OK'),
-              ),
-            ],
-          ),
-        );
-      }
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Exception'),
-          content: Text('Exception: $e'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pushAndRemoveUntil(
-                  context,
-                  PageTransition(
-                    child: HomePage(),
-                    type: PageTransitionType.fade,
-                    isIos: true,
-                    duration: Duration(milliseconds: 900),
-                  ),
-                  (route) => false),
-              child: Text('OK'),
-            ),
-          ],
-        ),
-      );
-      // Handle exceptions
-      print('Exception: $e');
-    }
+      // var _body = {
+      //   // 'url':
+      //   //     'https://d2jaiao3zdxbzm.cloudfront.net/wp-content/uploads/figure-65.png',
+      //   'url': urlController.text,
+      //   'lang': selectedLangCode,
+      // };
+      // final http.Response response = await http.post(
+      //   Uri.parse(apiUrl),
+      //   body: json.encode(_body),
+      //   headers: _header,
+      // );
+    //   var value = jsonDecode(response.body);
+    //   print(response.statusCode);
+    //   if (response.statusCode == 200) {
+    //     setState(() {
+    //       isLoading = false;
+    //     });
+    //     data = value["data"];
+    //     print("here data");
+    //     // Successful response, handle accordingly
+    //     print(data);
+    //     if (data != null) {
+    //       Navigator.push(
+    //         context,
+    //         PageTransition(
+    //           child: TextViewer(
+    //             data: data!,
+    //             langCode: selectedLangCode,
+    //           ),
+    //           type: PageTransitionType.fade,
+    //           isIos: true,
+    //           duration: Duration(milliseconds: 900),
+    //         ),
+    //       );
+    //       isLoading = false;
+    //     }
+    //     print('Response: ${response.body}');
+    //   } else {
+    //     showDialog(
+    //       context: context,
+    //       builder: (context) => AlertDialog(
+    //         title: Text('Error'),
+    //         content: Column(
+    //           mainAxisSize: MainAxisSize.min,
+    //           crossAxisAlignment: CrossAxisAlignment.start,
+    //           children: [
+    //             Text('Error: ${response.statusCode}'),
+    //             Text("Please check the link format . "),
+    //           ],
+    //         ),
+    //         actions: <Widget>[
+    //           TextButton(
+    //             onPressed: () => Navigator.pushAndRemoveUntil(
+    //                 context,
+    //                 PageTransition(
+    //                   child: HomePage(),
+    //                   type: PageTransitionType.fade,
+    //                   isIos: true,
+    //                   duration: Duration(milliseconds: 900),
+    //                 ),
+    //                 (route) => false),
+    //             child: Text('OK'),
+    //           ),
+    //         ],
+    //       ),
+    //     );
+    //   }
+    // } catch (e) {
+    //   showDialog(
+    //     context: context,
+    //     builder: (context) => AlertDialog(
+    //       title: Text('Exception'),
+    //       content: Text('Exception: $e'),
+    //       actions: <Widget>[
+    //         TextButton(
+    //           onPressed: () => Navigator.pushAndRemoveUntil(
+    //               context,
+    //               PageTransition(
+    //                 child: HomePage(),
+    //                 type: PageTransitionType.fade,
+    //                 isIos: true,
+    //                 duration: Duration(milliseconds: 900),
+    //               ),
+    //               (route) => false),
+    //           child: Text('OK'),
+    //         ),
+    //       ],
+    //     ),
+    //   );
+    //   // Handle exceptions
+    //   print('Exception: $e');
+    // }
   }
 
   @override
@@ -457,6 +457,14 @@ class _DriveUrlState extends State<DriveUrl> {
                 ),
                 InkWell(
                   onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TextViewer(
+                            data: urlController.text,
+                            langCode: selectedLangCode,
+                          ),
+                        ));
                     // _postData();
                     _showLanguageSelectionDialog();
                   },

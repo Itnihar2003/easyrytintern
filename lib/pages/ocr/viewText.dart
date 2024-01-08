@@ -459,7 +459,7 @@ class _MyDialogState extends State<MyDialog> {
             'converted_text_${DateTime.now().millisecondsSinceEpoch}.pdf';
 
         // here in body add langcode same as language code selected
-        final userData = {"text": text, "langCode": widget.langcode};
+        final userData = {"text": text, "langCode": 'eng'};
         http.Response response = await http.post(
           Uri.parse(convertUrl),
           headers: {'Content-Type': 'application/json'},

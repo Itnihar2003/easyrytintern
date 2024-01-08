@@ -1,5 +1,8 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:todoaiapp/pages/homepage.dart';
 
 class welcome extends StatefulWidget {
@@ -10,6 +13,9 @@ class welcome extends StatefulWidget {
 }
 
 class _welcomeState extends State<welcome> {
+  //notificatin permission
+  var status = Permission.notification.request();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,12 +103,19 @@ class _welcomeState extends State<welcome> {
                   ),
                   InkWell(
                     overlayColor: MaterialStateProperty.all(Colors.transparent),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => home(datas: [],),
-                          ));
+                    onTap: () async {
+                      if (await status.isGranted) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => home(
+                                datas: [],
+                              ),
+                            ));
+                      } else {
+                        Get.snackbar("error",
+                            "please allow notification for get notified");
+                      }
                     },
                     child: Container(
                       width: 40,
