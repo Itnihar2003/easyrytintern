@@ -1,22 +1,17 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
-import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:page_transition/page_transition.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:todoaiapp/pages/ocr/homePage.dart';
 
 class MyDialogg extends StatefulWidget {
   String textcontroller;
   MyDialogg({
-    Key? key,
+    super.key,
     required this.textcontroller,
-  }) : super(key: key);
+  });
 
   @override
   State<MyDialogg> createState() => _MyDialoggState();
@@ -43,14 +38,14 @@ class _MyDialoggState extends State<MyDialogg> {
     if (isLoading) {
       showDialog(
         context: context,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: CircularProgressIndicator(
             color: Colors.blue,
           ),
         ),
       );
     } else {
-      Text("");
+      const Text("");
     }
     String text = widget.textcontroller.toString();
 
@@ -62,88 +57,84 @@ class _MyDialoggState extends State<MyDialogg> {
       Directory generalDownloadDir =  Directory('/storage/emulated/0/Download');
       print(generalDownloadDir);
 
-      if (generalDownloadDir != null) {
-        String directoryPath = generalDownloadDir.path;
+      String directoryPath = generalDownloadDir.path;
 
-        // FilePickerResult? result = await FilePicker.platform.getDirectoryPath();
-        // Directory saveDir = await getTemporaryDirectory();
-        // print(saveDir);
-        // if (saveDir != null) {
-        //   String directoryPath = saveDir.path;
-        // String directoryPath = result.paths.first ?? '';
+      // FilePickerResult? result = await FilePicker.platform.getDirectoryPath();
+      // Directory saveDir = await getTemporaryDirectory();
+      // print(saveDir);
+      // if (saveDir != null) {
+      //   String directoryPath = saveDir.path;
+      // String directoryPath = result.paths.first ?? '';
 
-        String fileName =
-            'converted_text_${DateTime.now().millisecondsSinceEpoch}.pdf';
+      String fileName =
+          'converted_text_${DateTime.now().millisecondsSinceEpoch}.pdf';
 
-        final userData = {"text": text};
-        http.Response response = await http.post(
-          Uri.parse(convertUrl),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(userData),
-        );
+      final userData = {"text": text};
+      http.Response response = await http.post(
+        Uri.parse(convertUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(userData),
+      );
 
-        print(response.statusCode);
-        if (response.statusCode == 200) {
-          List<int> pdfBytes = response.bodyBytes;
-          String filePath = '$directoryPath/$fileName';
-          await File(filePath).writeAsBytes(pdfBytes);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        List<int> pdfBytes = response.bodyBytes;
+        String filePath = '$directoryPath/$fileName';
+        await File(filePath).writeAsBytes(pdfBytes);
 
-          // await OpenFile.open(filePath);
+        // await OpenFile.open(filePath);
 
-          Future.delayed(Duration(seconds: 5), () {
-            Navigator.of(context).pop();
-
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: Text('Success'),
-                content: Text('Successfully converted to pdf '),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => Navigator.pushAndRemoveUntil(
-                        context,
-                        PageTransition(
-                          child: HomePage(),
-                          type: PageTransitionType.fade,
-                          isIos: true,
-                          duration: Duration(milliseconds: 900),
-                        ),
-                        (route) => false),
-                    child: Text('OK'),
-                  ),
-                ],
-              ),
-            );
-
-            print("loading");
-            setState(() {
-              isLoading = false;
-            });
-          });
-        } else {
-          setState(() {
-            isLoading = false;
-          });
+        Future.delayed(const Duration(seconds: 5), () {
+          Navigator.of(context).pop();
 
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Error'),
-              content: Text('Failed to convert to pdf ${response.statusCode}'),
+              title: const Text('Success'),
+              content: const Text('Successfully converted to pdf '),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('OK'),
+                  onPressed: () => Navigator.pushAndRemoveUntil(
+                      context,
+                      PageTransition(
+                        child: const HomePage(),
+                        type: PageTransitionType.fade,
+                        isIos: true,
+                        duration: const Duration(milliseconds: 900),
+                      ),
+                      (route) => false),
+                  child: const Text('OK'),
                 ),
               ],
             ),
           );
-          print('Failed to convert to PDF: ${response.statusCode}');
-        }
+
+          print("loading");
+          setState(() {
+            isLoading = false;
+          });
+        });
       } else {
-        print('External storage directory not available');
+        setState(() {
+          isLoading = false;
+        });
+
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Error'),
+            content: Text('Failed to convert to pdf ${response.statusCode}'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+        print('Failed to convert to PDF: ${response.statusCode}');
       }
-    } catch (error) {
+        } catch (error) {
       print('Error: $error');
       setState(() {
         isLoading = false;
@@ -151,12 +142,12 @@ class _MyDialoggState extends State<MyDialogg> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to convert to pdf'),
+          title: const Text('Error'),
+          content: const Text('Failed to convert to pdf'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -173,7 +164,7 @@ class _MyDialoggState extends State<MyDialogg> {
         width: 312,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          image: DecorationImage(
+          image: const DecorationImage(
             image: AssetImage(
                 'assets/images/DRIVE BOX.png'), // Replace with your image asset path
             fit: BoxFit.cover,
@@ -232,7 +223,7 @@ class _MyDialoggState extends State<MyDialogg> {
                       ),
                     ),
                   ),
-                  Center(
+                  const Center(
                     child: Text(
                       'Word',
                       style: TextStyle(
@@ -244,7 +235,7 @@ class _MyDialoggState extends State<MyDialogg> {
                 ],
               ),
             ),
-            SizedBox(width: 18.0),
+            const SizedBox(width: 18.0),
             Expanded(
               child: InkWell(
                 onTap: () {
@@ -294,7 +285,7 @@ class _MyDialoggState extends State<MyDialogg> {
                         ),
                       ),
                     ),
-                    Center(
+                    const Center(
                       child: Text(
                         'Text',
                         style: TextStyle(
@@ -307,7 +298,7 @@ class _MyDialoggState extends State<MyDialogg> {
                 ),
               ),
             ),
-            SizedBox(width: 8.0),
+            const SizedBox(width: 8.0),
             Expanded(
               child: InkWell(
                 onTap: () {
@@ -352,7 +343,7 @@ class _MyDialoggState extends State<MyDialogg> {
                         ),
                       ),
                     ),
-                    Center(
+                    const Center(
                       child: Text(
                         'Pdf',
                         style: TextStyle(
@@ -380,7 +371,7 @@ class _MyDialoggState extends State<MyDialogg> {
                 width: 120,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage(
                         'assets/images/DRIVE BOX.png'), // Replace with your image asset path
                     fit: BoxFit.cover,
@@ -390,7 +381,7 @@ class _MyDialoggState extends State<MyDialogg> {
                 //   borderRadius: BorderRadius.circular(12),
                 //   color: Colors.white,
                 // ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Cancel',
                     style: TextStyle(
@@ -401,7 +392,7 @@ class _MyDialoggState extends State<MyDialogg> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 19,
             ),
             InkWell(
@@ -424,7 +415,7 @@ class _MyDialoggState extends State<MyDialogg> {
                 width: 120,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage(
                         'assets/images/DRIVE BOX.png'), // Replace with your image asset path
                     fit: BoxFit.cover,
@@ -434,7 +425,7 @@ class _MyDialoggState extends State<MyDialogg> {
                 //   borderRadius: BorderRadius.circular(12),
                 //   color: Colors.white,
                 // ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Save',
                     style: TextStyle(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -22,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Language Selection'),
+        title: const Text('Language Selection'),
       ),
       body: Center(
         child: ElevatedButton(
@@ -30,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // Show language selection dialog
             _showLanguageSelectionDialog();
           },
-          child: Text('Select Language'),
+          child: const Text('Select Language'),
         ),
       ),
     );
@@ -45,11 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: Text('Select Language'),
+              title: const Text('Select Language'),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       height: 90,
                       // width: 200,
                       child: TextField(
@@ -67,13 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                 .toList();
                           });
                         },
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Search Language',
                           hintText: 'Enter language name or code',
                         ),
                       ),
                     ),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                     Container(
                       // height: 300,
                       color: Colors.blue,

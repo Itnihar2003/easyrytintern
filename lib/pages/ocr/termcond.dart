@@ -7,9 +7,9 @@ class TermCond extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Terms and Conditions'),
+        title: const Text('Terms and Conditions'),
       ),
-      body: Column(
+      body: const Column(
         children: [
           Text(
               "By using EasyRyt OCR, you agree to the following terms and conditions:\n "),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:page_transition/page_transition.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/pages/ocr/homePage.dart';
 
 class NewStarting extends StatefulWidget {
@@ -21,7 +20,7 @@ class _NewStartingState extends State<NewStarting> {
         body: Container(
           height: double.infinity,
           width: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
                   'assets/new/newbg.png'), // Replace with your image asset path
@@ -31,7 +30,7 @@ class _NewStartingState extends State<NewStarting> {
           child: Stack(
             children: [
               Align(
-                alignment: Alignment(0.06, -0.03),
+                alignment: const Alignment(0.06, -0.03),
                 // top: 305,
                 // left: 117,
                 // top: size.height * 0.37,
@@ -53,7 +52,7 @@ class _NewStartingState extends State<NewStarting> {
                 ),
               ),
               Align(
-                alignment: Alignment(-1, -0.02),
+                alignment: const Alignment(-1, -0.02),
                 // top: 325,
                 // top: size.height * 0.4,
                 // left: 0,
@@ -74,7 +73,7 @@ class _NewStartingState extends State<NewStarting> {
                 ),
               ),
               Align(
-                alignment: Alignment(1, -0.0009),
+                alignment: const Alignment(1, -0.0009),
                 // top: 325,
                 // top: size.height * 0.4,
                 // right: 0,
@@ -96,7 +95,7 @@ class _NewStartingState extends State<NewStarting> {
               ),
 
               Align(
-                alignment: Alignment(0.1, 0.4),
+                alignment: const Alignment(0.1, 0.4),
                 // top: 507,
                 // top: size.height * 0.6,
                 // left: size.width * 0.21,
@@ -116,11 +115,11 @@ class _NewStartingState extends State<NewStarting> {
               ),
 
               Align(
-                alignment: Alignment(0, 0.6),
+                alignment: const Alignment(0, 0.6),
                 // top: 530,
                 // top: size.height * 0.65,
                 // left: size.width * 0.07,
-                child: Container(
+                child: SizedBox(
                   height: 60,
                   width: 350,
                   // height: size.height * 0.05,
@@ -128,7 +127,7 @@ class _NewStartingState extends State<NewStarting> {
                   child: Center(
                     child: RichText(
                       textAlign: TextAlign.center,
-                      text: TextSpan(
+                      text: const TextSpan(
                         children: <TextSpan>[
                           TextSpan(
                             text:
@@ -163,7 +162,7 @@ class _NewStartingState extends State<NewStarting> {
                 ),
               ),
               Align(
-                alignment: Alignment(0.8, 0.8),
+                alignment: const Alignment(0.8, 0.8),
                 // top: size.height * 0.83,
                 // right: size.width * 0.09,
                 child: InkWell(
@@ -171,10 +170,10 @@ class _NewStartingState extends State<NewStarting> {
                     Navigator.pushAndRemoveUntil(
                         context,
                         PageTransition(
-                          child: HomePage(),
+                          child: const HomePage(),
                           type: PageTransitionType.fade,
                           isIos: true,
-                          duration: Duration(milliseconds: 900),
+                          duration: const Duration(milliseconds: 900),
                         ),
                         (route) => false);
                   },
@@ -182,7 +181,7 @@ class _NewStartingState extends State<NewStarting> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       border: Border.all(width: 0.2),
-                      color: Color(0xffF0CDB7),
+                      color: const Color(0xffF0CDB7),
                     ),
                     height: 55,
                     width: 55,
@@ -191,7 +190,7 @@ class _NewStartingState extends State<NewStarting> {
                     //   fit: BoxFit.fitHeight,
                     //   // color: Colors.black,
                     // ),
-                    child: Center(
+                    child: const Center(
                       child: Icon(
                         Icons.arrow_forward_ios,
                         size: 25,
@@ -301,7 +300,7 @@ class _NewStartingState extends State<NewStarting> {
               //     ],
               //   ),
               // ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
             ],

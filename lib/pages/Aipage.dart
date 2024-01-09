@@ -20,7 +20,7 @@ class _AskAiScreenState extends State<aiask> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(horizontal: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
           child: Column(
             children: [
               appbar(),
@@ -31,19 +31,19 @@ class _AskAiScreenState extends State<aiask> {
                       return singleSenderChatTile();
                     }),
               ),
-              SizedBox(height: 2.5),
+              const SizedBox(height: 2.5),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   // height: 60,
                   width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(vertical: 2.5),
+                  padding: const EdgeInsets.symmetric(vertical: 2.5),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 3),
+                          padding: const EdgeInsets.symmetric(horizontal: 3),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
@@ -72,7 +72,7 @@ class _AskAiScreenState extends State<aiask> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Container(
                         height: 50,
                         width: 50,
@@ -88,7 +88,7 @@ class _AskAiScreenState extends State<aiask> {
                             ),
                           ],
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Icon(
                             Icons.send_sharp,
                             size: 20,
@@ -100,7 +100,7 @@ class _AskAiScreenState extends State<aiask> {
                   ),
                 ),
               ),
-              SizedBox(height: 2.5)
+              const SizedBox(height: 2.5)
             ],
           ),
         ),
@@ -124,7 +124,7 @@ class _AskAiScreenState extends State<aiask> {
                 ),
               ),
             ),
-            SizedBox(width: 2.5),
+            const SizedBox(width: 2.5),
             Text(
               "You",
               style: GoogleFonts.poppins(
@@ -141,7 +141,7 @@ class _AskAiScreenState extends State<aiask> {
               height: 25,
               width: 25,
             ),
-            SizedBox(width: 2.5),
+            const SizedBox(width: 2.5),
             Text(
               "Write About AI",
               style: GoogleFonts.poppins(
@@ -158,7 +158,7 @@ class _AskAiScreenState extends State<aiask> {
               height: 25,
               width: 25,
             ),
-            SizedBox(width: 2.5),
+            const SizedBox(width: 2.5),
             Expanded(
               child: Text(
                 chatReply,
@@ -188,13 +188,13 @@ class _AskAiScreenState extends State<aiask> {
             onTap: () {
               Get.back();
             },
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back,
               color: Colors.black,
               size: 30,
             ),
           ),
-          Row(
+          const Row(
             children: [
               Icon(
                 Icons.edit,

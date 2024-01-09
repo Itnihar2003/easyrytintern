@@ -6,12 +6,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
 import 'package:todoaiapp/main.dart';
 import 'package:todoaiapp/pages/ocr/iconFileList.dart';
 
 class TxtList extends StatefulWidget {
+  const TxtList({super.key});
+
   @override
   _TxtListState createState() => _TxtListState();
 }
@@ -30,7 +31,7 @@ class _TxtListState extends State<TxtList> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           // color: Colors.blue,
           image: DecorationImage(
             image: AssetImage(
@@ -38,13 +39,13 @@ class _TxtListState extends State<TxtList> {
             fit: BoxFit.cover,
           ),
         ),
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AppBar(
               backgroundColor: Colors.transparent,
-              title: Center(child: Text('List of TXT Files')),
+              title: const Center(child: Text('List of TXT Files')),
             ),
             SizedBox(
               height: size.height * 0.02,
@@ -73,10 +74,10 @@ class _TxtListState extends State<TxtList> {
                             },
                             child: Text(
                               textFiles[index].fileName,
-                              style: TextStyle(fontSize: 14.0),
+                              style: const TextStyle(fontSize: 14.0),
                             ),
                           ),
-                          trailing: Container(
+                          trailing: SizedBox(
                             // color: Colors.red,
                             width: 50,
                             child: Row(
@@ -88,20 +89,20 @@ class _TxtListState extends State<TxtList> {
                                         'Successfully converted to TXT',
                                         textFiles[index].filePath);
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.download,
                                     size: 20,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    shareTxt('${textFiles[index].filePath}',
-                                        '${textFiles[index].fileName}');
+                                    shareTxt(textFiles[index].filePath,
+                                        textFiles[index].fileName);
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.share,
                                     size: 20,
                                   ),
@@ -117,7 +118,7 @@ class _TxtListState extends State<TxtList> {
                       },
                     )
                   : Container(
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           "No Text Files Found",
                           style: TextStyle(color: Colors.black, fontSize: 15),

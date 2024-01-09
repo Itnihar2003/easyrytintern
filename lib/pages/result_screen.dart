@@ -1,7 +1,7 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:todoaiapp/pages/homepage.dart';
 
 class ResultScreen extends StatelessWidget {
   final String text;
@@ -21,10 +21,15 @@ class ResultScreen extends StatelessWidget {
         ),
         floatingActionButton: TextButton(
             onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => home(datas: const []),
+                  ));
               FlutterClipboard.copy(text);
               Get.snackbar("copied", "");
               Navigator.pop(context);
             },
-            child: Image.asset("assets/copy.png")),
+            child: const Icon(Icons.copy)),
       );
 }

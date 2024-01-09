@@ -55,7 +55,7 @@ class _editState extends State<edit> {
         Expanded(
           child: Container(
               child: AlertDialog(
-                  insetPadding: EdgeInsets.all(10),
+                  insetPadding: const EdgeInsets.all(10),
                   backgroundColor: Colors.white,
                   content: SizedBox(
                     width: MediaQuery.of(context).size.width,
@@ -64,7 +64,7 @@ class _editState extends State<edit> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Tittle",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -77,10 +77,10 @@ class _editState extends State<edit> {
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Text(
+                          const Text(
                             "Description",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -94,10 +94,10 @@ class _editState extends State<edit> {
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Text(
+                          const Text(
                             "Priority",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -117,10 +117,10 @@ class _editState extends State<edit> {
                                   items: country,
                                 ),
                               ]),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Text(
+                          const Text(
                             "DueDate",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -146,12 +146,12 @@ class _editState extends State<edit> {
                                         });
                                       }
                                     },
-                                    icon: Icon(Icons.calendar_month))),
+                                    icon: const Icon(Icons.calendar_month))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Text(
+                          const Text(
                             "Remiinder",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -164,7 +164,7 @@ class _editState extends State<edit> {
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                           ),
                           ElevatedButton(
@@ -181,7 +181,7 @@ class _editState extends State<edit> {
                                       ),
                                     ));
                               },
-                              child: Container(
+                              child: const SizedBox(
                                 width: 250,
                                 height: 50,
                                 child: Center(
@@ -203,12 +203,12 @@ class _editState extends State<edit> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.arrow_back,
                             size: 30,
                             color: Colors.black,
                           )),
-                      Text(
+                      const Text(
                         "Created Task",
                         style: TextStyle(
                             color: Colors.black, fontWeight: FontWeight.bold),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
+  const MyButton({super.key});
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -12,7 +14,7 @@ class MyButton extends StatelessWidget {
             return AlertDialog(
               content: Container(
                 // Customize the container as needed
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -21,7 +23,7 @@ class MyButton extends StatelessWidget {
                         // sharePdf('${pdfFiles[index].filePath}',
                         //           '${pdfFiles[index].fileName}');
                       },
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(
                             Icons.share,
@@ -34,13 +36,13 @@ class MyButton extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     InkWell(
                       onTap: () {
               //           showNotification(
               // 'PDF Conversion Successful', 'Successfully converted to PDF');
                       },
-                      child: Row(
+                      child: const Row(
                         children: [
                           Icon(
                             Icons.download,
@@ -60,7 +62,7 @@ class MyButton extends StatelessWidget {
           },
         );
       },
-      child: Text('Open Container with Two Texts'),
+      child: const Text('Open Container with Two Texts'),
     );
   }
 }

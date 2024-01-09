@@ -6,13 +6,14 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
 import 'package:todoaiapp/main.dart';
 import 'package:todoaiapp/pages/ocr/iconFileList.dart';
 // import 'package:open_file/open_file.dart';
 
 class DocList extends StatefulWidget {
+  const DocList({super.key});
+
   @override
   _DocListState createState() => _DocListState();
 }
@@ -31,19 +32,19 @@ class _DocListState extends State<DocList> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/home/0 5.png'),
             fit: BoxFit.cover,
           ),
         ),
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AppBar(
               backgroundColor: Colors.transparent,
-              title: Center(child: Text('List of DOC Files')),
+              title: const Center(child: Text('List of DOC Files')),
             ),
             SizedBox(
               height: size.height * 0.02,
@@ -68,10 +69,10 @@ class _DocListState extends State<DocList> {
                             },
                             child: Text(
                               docFiles[index].fileName,
-                              style: TextStyle(fontSize: 14.0),
+                              style: const TextStyle(fontSize: 14.0),
                             ),
                           ),
-                          trailing: Container(
+                          trailing: SizedBox(
                             // color: Colors.red,
                             width: 50,
                             child: Row(
@@ -83,20 +84,20 @@ class _DocListState extends State<DocList> {
                                         'Successfully converted to DOC',
                                         docFiles[index].filePath);
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.download,
                                     size: 20,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    shareDoc('${docFiles[index].filePath}',
-                                        '${docFiles[index].fileName}');
+                                    shareDoc(docFiles[index].filePath,
+                                        docFiles[index].fileName);
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.share,
                                     size: 20,
                                   ),
@@ -108,7 +109,7 @@ class _DocListState extends State<DocList> {
                       },
                     )
                   : Container(
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           "No DOC Files Found",
                           style: TextStyle(color: Colors.black, fontSize: 15),

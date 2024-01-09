@@ -1,14 +1,12 @@
 // ignore_for_file: unnecessary_null_comparison, null_check_always_fails
 
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class draw extends StatefulWidget {
-  const draw({Key? key}) : super(key: key);
+  const draw({super.key});
 
   @override
   _drawState createState() => _drawState();
@@ -30,13 +28,13 @@ class _drawState extends State<draw> {
   bool isErasing = false;
   List<DrawingPoint> drawingPoints = [];
   List<Color> colors = [
-    Color(0xffFF0101),
-    Color(0xff8FFF01),
-    Color(0xff05FFC3),
-    Color(0xff01D1FF),
-    Color(0xff9E01FF)
+    const Color(0xffFF0101),
+    const Color(0xff8FFF01),
+    const Color(0xff05FFC3),
+    const Color(0xff01D1FF),
+    const Color(0xff9E01FF)
   ];
-  Color selectedBackgroundColor = Color(0xFF9D85DC).withOpacity(0.6);
+  Color selectedBackgroundColor = const Color(0xFF9D85DC).withOpacity(0.6);
 
   void openColorPicker(BuildContext context) {
     showDialog(
@@ -100,7 +98,7 @@ class _drawState extends State<draw> {
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setState) {
-            return Container(
+            return SizedBox(
               height: 225,
               child: Column(
                 children: <Widget>[
@@ -127,15 +125,15 @@ class _drawState extends State<draw> {
                     padding: const EdgeInsets.only(left: 25),
                     child: Row(
                       children: [
-                        Text("Size:"),
-                        Container(
+                        const Text("Size:"),
+                        SizedBox(
                           width: 250,
                           child: Slider(
                             min: 0,
                             max: 100,
                             activeColor: _selectedIndex == 2
                                 ? Colors.red
-                                : Color(0xff9D85DC),
+                                : const Color(0xff9D85DC),
                             value:
                                 _selectedIndex == 2 ? eraserSize : strokeWidth,
                             onChanged: (val) {
@@ -159,7 +157,7 @@ class _drawState extends State<draw> {
                             color: Colors.grey.withOpacity(0.4),
                           ),
                           child: Text(
-                            "${_selectedIndex == 2 ? eraserSize.toStringAsFixed(0) : strokeWidth.toStringAsFixed(0)}",
+                            _selectedIndex == 2 ? eraserSize.toStringAsFixed(0) : strokeWidth.toStringAsFixed(0),
                           ),
                         ),
                       ],
@@ -190,17 +188,17 @@ class _drawState extends State<draw> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10)),
             boxShadow: [
               BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)
             ]),
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10)),
           child: BottomNavigationBar(
             items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(
                   Icons.draw,
                   color: Colors.black,
@@ -208,7 +206,7 @@ class _drawState extends State<draw> {
                 ),
                 label: 'Pen',
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(
                   Icons.picture_in_picture,
                   color: Colors.black,
@@ -237,7 +235,7 @@ class _drawState extends State<draw> {
               ),
             ],
             currentIndex: _selectedIndex,
-            selectedItemColor: Color.fromARGB(255, 41, 28, 73),
+            selectedItemColor: const Color.fromARGB(255, 41, 28, 73),
             unselectedItemColor: Colors.black,
             showSelectedLabels: true,
             showUnselectedLabels: true,
@@ -274,7 +272,8 @@ class _drawState extends State<draw> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
+                height: 100,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -284,21 +283,21 @@ class _drawState extends State<draw> {
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_back,
                               size: 30,
                               color: Colors.black,
                             )),
                         IconButton(
                             onPressed: () {},
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.undo,
                               size: 30,
                               color: Colors.black,
                             )),
                         IconButton(
                             onPressed: () {},
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.redo,
                               size: 30,
                               color: Colors.black,
@@ -307,16 +306,15 @@ class _drawState extends State<draw> {
                     ),
                     IconButton(
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.menu,
                           size: 30,
                           color: Colors.black,
                         ))
                   ],
                 ),
-                height: 100,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Align(
@@ -360,14 +358,14 @@ class _drawState extends State<draw> {
                           drawingPoints.add(null!);
                         });
                       },
-                      child: Container(
+                      child: SizedBox(
                         width: 333,
                         height: 500,
                         child: CustomPaint(
-                          size: Size(333, 500),
+                          size: const Size(333, 500),
                           painter: _DrawingPainter(drawingPoints, eraserSize,
                               selectedBackgroundColor, isErasing),
-                          child: Container(
+                          child: const SizedBox(
                             width: 333,
                             height: 500,
                           ),

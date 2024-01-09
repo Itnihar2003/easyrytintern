@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/pages/ocr/contactTxt.dart';
 import 'package:todoaiapp/pages/ocr/docFileList.dart';
@@ -47,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       } else {
         // Navigator.pop(context);
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
         // Navigator.pushAndRemoveUntil(
         //     context,
         //     PageTransition(
@@ -219,11 +218,11 @@ class _HomePageState extends State<HomePage> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: Text('Select Language'),
+              title: const Text('Select Language'),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       height: 90,
                       // width: 200,
                       child: TextField(
@@ -241,14 +240,14 @@ class _HomePageState extends State<HomePage> {
                                 .toList();
                           });
                         },
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Search Language',
                           hintText: 'Enter language name or code',
                         ),
                       ),
                     ),
-                    SizedBox(height: 16.0),
-                    Container(
+                    const SizedBox(height: 16.0),
+                    SizedBox(
                       // height: 300,
                       // color: Colors.blue,
                       width: MediaQuery.of(context).size.width * 0.7,
@@ -291,20 +290,20 @@ class _HomePageState extends State<HomePage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text(" Please select the language code . "),
+          title: const Text('Error'),
+          content: const Text(" Please select the language code . "),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pushAndRemoveUntil(
                   context,
                   PageTransition(
-                    child: HomePage(),
+                    child: const HomePage(),
                     type: PageTransitionType.fade,
                     isIos: true,
-                    duration: Duration(milliseconds: 900),
+                    duration: const Duration(milliseconds: 900),
                   ),
                   (route) => false),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -352,14 +351,14 @@ class _HomePageState extends State<HomePage> {
     if (isLoading) {
       showDialog(
         context: context,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: CircularProgressIndicator(
             color: Colors.blue,
           ),
         ),
       );
     } else {
-      Text("");
+      const Text("");
     }
     var url = Uri.parse(
         'https://scannerimage-e52f6979766b.herokuapp.com/ocr/imageToText');
@@ -396,7 +395,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 type: PageTransitionType.fade,
                 isIos: true,
-                duration: Duration(milliseconds: 900),
+                duration: const Duration(milliseconds: 900),
               ),
               (route) => false);
         } else {
@@ -404,20 +403,20 @@ class _HomePageState extends State<HomePage> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Error'),
-              content: Text('Error: ${result}'),
+              title: const Text('Error'),
+              content: Text('Error: $result'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pushAndRemoveUntil(
                       context,
                       PageTransition(
-                        child: HomePage(),
+                        child: const HomePage(),
                         type: PageTransitionType.fade,
                         isIos: true,
-                        duration: Duration(milliseconds: 900),
+                        duration: const Duration(milliseconds: 900),
                       ),
                       (route) => false),
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             ),
@@ -507,7 +506,7 @@ class _HomePageState extends State<HomePage> {
         ),
         type: PageTransitionType.fade,
         isIos: true,
-        duration: Duration(milliseconds: 900),
+        duration: const Duration(milliseconds: 900),
       ),
     );
 
@@ -516,20 +515,20 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> _launchUrl(Uri _url) async {
+  Future<void> _launchUrl(Uri url) async {
     print("hi");
-    if (!await launchUrl(_url)) {
+    if (!await launchUrl(url)) {
       showDialog<void>(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text('Could not launch $_url.'),
+            content: Text('Could not launch $url.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           );
@@ -576,7 +575,7 @@ class _HomePageState extends State<HomePage> {
     // For example, you can use Navigator to navigate to the first visit screen
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => NewStarting()),
+      MaterialPageRoute(builder: (context) => const NewStarting()),
     );
   }
 
@@ -635,11 +634,11 @@ class _HomePageState extends State<HomePage> {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        drawer: MyDrawer(),
+        drawer: const MyDrawer(),
         // drawer: CustomDrawer(context),
         body: Container(
           height: size.height,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
                   'assets/home/0 5.png'), // Replace with your image asset path
@@ -652,7 +651,7 @@ class _HomePageState extends State<HomePage> {
               // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 AppBar(
@@ -665,7 +664,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 22),
                   child: Container(
-                    child: Text(
+                    child: const Text(
                       "Recent downloads",
                       style: TextStyle(
                           fontSize: 17,
@@ -682,7 +681,7 @@ class _HomePageState extends State<HomePage> {
                           // height: 240,
                           height: size.height * 0.33,
                           color: Colors.transparent,
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 6.0, vertical: 6),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -699,11 +698,11 @@ class _HomePageState extends State<HomePage> {
                                         Navigator.push(
                                           context,
                                           PageTransition(
-                                            child: PdfList(),
+                                            child: const PdfList(),
                                             type: PageTransitionType.fade,
                                             isIos: true,
                                             duration:
-                                                Duration(milliseconds: 900),
+                                                const Duration(milliseconds: 900),
                                           ),
                                         );
                                       },
@@ -714,7 +713,7 @@ class _HomePageState extends State<HomePage> {
                                           borderRadius:
                                               BorderRadius.circular(16.0),
                                           color: Colors.white,
-                                          boxShadow: [
+                                          boxShadow: const [
                                             BoxShadow(
                                               color: Colors.black54,
                                               offset: Offset(0, 0),
@@ -742,11 +741,11 @@ class _HomePageState extends State<HomePage> {
                                         Navigator.push(
                                           context,
                                           PageTransition(
-                                            child: DocList(),
+                                            child: const DocList(),
                                             type: PageTransitionType.fade,
                                             isIos: true,
                                             duration:
-                                                Duration(milliseconds: 900),
+                                                const Duration(milliseconds: 900),
                                           ),
                                         );
                                       },
@@ -759,7 +758,7 @@ class _HomePageState extends State<HomePage> {
                                           borderRadius:
                                               BorderRadius.circular(16.0),
                                           color: Colors.white,
-                                          boxShadow: [
+                                          boxShadow: const [
                                             BoxShadow(
                                               color: Colors.black54,
                                               offset: Offset(0, 0),
@@ -786,11 +785,11 @@ class _HomePageState extends State<HomePage> {
                                         Navigator.push(
                                           context,
                                           PageTransition(
-                                            child: TxtList(),
+                                            child: const TxtList(),
                                             type: PageTransitionType.fade,
                                             isIos: true,
                                             duration:
-                                                Duration(milliseconds: 900),
+                                                const Duration(milliseconds: 900),
                                           ),
                                         );
                                       },
@@ -804,7 +803,7 @@ class _HomePageState extends State<HomePage> {
                                               BorderRadius.circular(16.0),
                                           color: Colors.white,
                                           // color: Colors.pink,
-                                          boxShadow: [
+                                          boxShadow: const [
                                             BoxShadow(
                                               color: Colors.black54,
                                               offset: Offset(0, 0),
@@ -881,8 +880,8 @@ class _HomePageState extends State<HomePage> {
                         height: size.height * 0.33,
                         color: Colors.transparent,
                         padding:
-                            EdgeInsets.symmetric(horizontal: 6.0, vertical: 6),
-                        child: Center(child: Text("No recent downloads")),
+                            const EdgeInsets.symmetric(horizontal: 6.0, vertical: 6),
+                        child: const Center(child: Text("No recent downloads")),
                       ),
                 SizedBox(
                   height: size.height * 0.02,
@@ -890,7 +889,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 22),
                   child: Container(
-                    child: Text(
+                    child: const Text(
                       "Tools",
                       style: TextStyle(
                           fontSize: 17,
@@ -909,7 +908,7 @@ class _HomePageState extends State<HomePage> {
                     width: size.width * 0.9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16.0),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                         image: AssetImage(
                             'assets/images/DRIVE BOX.png'), // Replace with your image asset path
                         fit: BoxFit.cover,
@@ -947,7 +946,7 @@ class _HomePageState extends State<HomePage> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: Colors.white,
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       color: Colors.black54,
                                       offset: Offset(0, 0),
@@ -972,10 +971,10 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                   context,
                                   PageTransition(
-                                    child: ImageUrlscreen(),
+                                    child: const ImageUrlscreen(),
                                     type: PageTransitionType.fade,
                                     isIos: true,
-                                    duration: Duration(milliseconds: 900),
+                                    duration: const Duration(milliseconds: 900),
                                   ),
                                 );
                               },
@@ -986,7 +985,7 @@ class _HomePageState extends State<HomePage> {
                                   borderRadius: BorderRadius.circular(8.0),
                                   // color: Colors.white,
                                   color: Colors.white,
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       color: Colors.black54,
                                       offset: Offset(0, 0),
@@ -1011,10 +1010,10 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                   context,
                                   PageTransition(
-                                    child: DriveUrl(),
+                                    child: const DriveUrl(),
                                     type: PageTransitionType.fade,
                                     isIos: true,
-                                    duration: Duration(milliseconds: 900),
+                                    duration: const Duration(milliseconds: 900),
                                   ),
                                 );
                               },
@@ -1024,7 +1023,7 @@ class _HomePageState extends State<HomePage> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.0),
                                   color: Colors.white,
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       color: Colors.black54,
                                       offset: Offset(0, 0),
@@ -1045,12 +1044,12 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        Container(
+                        SizedBox(
                           // height: 21,
                           height: size.height * 0.04,
                           // width: 150,
                           // color: Colors.green,
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               "Extract Text From Link",
                               style: TextStyle(
@@ -1079,7 +1078,7 @@ class _HomePageState extends State<HomePage> {
 
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage(
                             'assets/images/black.png',
                           ),
@@ -1101,7 +1100,7 @@ class _HomePageState extends State<HomePage> {
                               });
                             },
                             child: AnimatedContainer(
-                              duration: Duration(milliseconds: 800),
+                              duration: const Duration(milliseconds: 800),
                               // height: 27,
                               // width: 27,
                               height: size.height * 0.04,
@@ -1130,7 +1129,7 @@ class _HomePageState extends State<HomePage> {
                               });
                             },
                             child: AnimatedContainer(
-                              duration: Duration(milliseconds: 800),
+                              duration: const Duration(milliseconds: 800),
                               height: size.height * 0.06,
                               width: size.width * 0.11,
                               decoration: BoxDecoration(
@@ -1163,13 +1162,13 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => FileListWidget(),
+                                    builder: (context) => const FileListWidget(),
                                   ),
                                 );
                               });
                             },
                             child: AnimatedContainer(
-                              duration: Duration(milliseconds: 800),
+                              duration: const Duration(milliseconds: 800),
                               // height: 27,
                               // width: 27,
                               height: size.height * 0.04,
@@ -1218,7 +1217,7 @@ class MyDrawer extends StatelessWidget {
     return Drawer(
       // backgroundColor: Color.fromARGB(255, 54, 53, 53),
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           image: DecorationImage(
             image: AssetImage(
@@ -1240,12 +1239,12 @@ class MyDrawer extends StatelessWidget {
                   //   MaterialPageRoute(builder: (context) => ContactTxt()),
                   // );
                 },
-                child: Text(
+                child: const Text(
                   "Share App",
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               InkWell(
@@ -1255,55 +1254,55 @@ class MyDrawer extends StatelessWidget {
                   //   MaterialPageRoute(builder: (context) => ContactTxt()),
                   // );
                 },
-                child: Text(
+                child: const Text(
                   "Send FeedBack",
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               InkWell(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => TermCond()));
+                      MaterialPageRoute(builder: (context) => const TermCond()));
                 },
-                child: Text(
+                child: const Text(
                   "Terms & condition",
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               InkWell(
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => PrivacyPolicy()),
+                    MaterialPageRoute(builder: (context) => const PrivacyPolicy()),
                   );
                 },
-                child: Text(
+                child: const Text(
                   "Privcy Policy",
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               InkWell(
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ContactTxt()),
+                    MaterialPageRoute(builder: (context) => const ContactTxt()),
                   );
                 },
-                child: Text(
+                child: const Text(
                   "Contact Info",
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
             ],

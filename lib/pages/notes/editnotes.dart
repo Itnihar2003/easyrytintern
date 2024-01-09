@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 
 import 'package:flutter/material.dart';
@@ -20,12 +19,11 @@ class editnotes extends StatefulWidget {
   final int id;
   final List<data1> edit;
   const editnotes(
-      {Key? key,
+      {super.key,
       required this.tittle,
       required this.content,
       required this.id,
-      required this.edit})
-      : super(key: key);
+      required this.edit});
 
   @override
   _editnotesState createState() => _editnotesState();
@@ -268,11 +266,11 @@ class _editnotesState extends State<editnotes> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => home(
-                      datas: [],
+                      datas: const [],
                     ),
                   ));
             },
-            child: CircleAvatar(
+            child: const CircleAvatar(
               radius: 25,
               backgroundColor: Colors.black,
               child: Icon(
@@ -291,7 +289,7 @@ class _editnotesState extends State<editnotes> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: 82,
                     child: Row(
@@ -304,11 +302,11 @@ class _editnotesState extends State<editnotes> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                icon: Icon(Icons.arrow_back)),
+                                icon: const Icon(Icons.arrow_back)),
                             IconButton(
-                                onPressed: () {}, icon: Icon(Icons.undo)),
+                                onPressed: () {}, icon: const Icon(Icons.undo)),
                             IconButton(
-                                onPressed: () {}, icon: Icon(Icons.redo)),
+                                onPressed: () {}, icon: const Icon(Icons.redo)),
                           ],
                         ),
                         Padding(
@@ -316,10 +314,10 @@ class _editnotesState extends State<editnotes> {
                           child: Row(
                             children: [
                               IconButton(
-                                  onPressed: () {}, icon: Icon(Icons.share)),
+                                  onPressed: () {}, icon: const Icon(Icons.share)),
                               IconButton(
                                   onPressed: () {},
-                                  icon: Icon(Icons.list_outlined)),
+                                  icon: const Icon(Icons.list_outlined)),
                             ],
                           ),
                         )
@@ -327,7 +325,7 @@ class _editnotesState extends State<editnotes> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: TextFormField(
                       initialValue: tit,
                       onChanged: (value) {
@@ -346,7 +344,7 @@ class _editnotesState extends State<editnotes> {
                       decoration: InputDecoration(
                         hintText: "tittle",
                         hintStyle: GoogleFonts.poppins(
-                          color: Color(0xFFBFBFBF),
+                          color: const Color(0xFFBFBFBF),
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                         ),
@@ -358,13 +356,13 @@ class _editnotesState extends State<editnotes> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: Container(
                          width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                         child: TextFormField(
                           initialValue: con,
                           onChanged: (value1) {
@@ -388,7 +386,7 @@ class _editnotesState extends State<editnotes> {
                             hintText: 'Start Writing..',
                             border: InputBorder.none,
                             hintStyle: GoogleFonts.poppins(
-                              color: Color(0xFFBFBFBF),
+                              color: const Color(0xFFBFBFBF),
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),

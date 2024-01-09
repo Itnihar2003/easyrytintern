@@ -12,7 +12,7 @@ import 'package:todoaiapp/pages/homepage.dart';
 import 'package:todoaiapp/pages/diary/pen.dart';
 
 class diary extends StatefulWidget {
-  const diary({Key? key}) : super(key: key);
+  const diary({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -267,7 +267,7 @@ class _diaryState extends State<diary> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: IconButton(
@@ -275,10 +275,10 @@ class _diaryState extends State<diary> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => home(datas: [],),
+                                  builder: (context) => home(datas: const [],),
                                 ));
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.arrow_back,
                             size: 30,
                             color: Colors.black,
@@ -289,7 +289,7 @@ class _diaryState extends State<diary> {
                     onTap: undo,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Icon(
+                      child: const Icon(
                         Icons.undo,
                         size: 30,
                         color: Colors.black,
@@ -300,18 +300,18 @@ class _diaryState extends State<diary> {
                     onTap: redo,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Icon(
+                      child: const Icon(
                         Icons.redo,
                         size: 30,
                         color: Colors.black,
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
                     child: GestureDetector(
                       onTap: () {
                         showModalBottomSheet(
@@ -319,14 +319,14 @@ class _diaryState extends State<diary> {
                           builder: (BuildContext context) => StatefulBuilder(
                             builder:
                                 (BuildContext context, StateSetter setState) =>
-                                    Container(
+                                    SizedBox(
                               height: 250,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
                                     height: 56,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Color(0xff6C6C6C),
                                     ),
                                     child: Padding(
@@ -463,7 +463,7 @@ class _diaryState extends State<diary> {
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
-                        child: Icon(
+                        child: const Icon(
                           Icons.menu,
                           size: 30,
                           color: Colors.black,
@@ -504,7 +504,7 @@ class _diaryState extends State<diary> {
                               ),
                             ],
                           ),
-                          Container(
+                          SizedBox(
                             width: MediaQuery.sizeOf(context).width,
                             height: 50,
                             child: TextField(
@@ -519,7 +519,7 @@ class _diaryState extends State<diary> {
                                 errorBorder: InputBorder.none,
                                 focusedErrorBorder: InputBorder.none,
                                 hintStyle: GoogleFonts.poppins(
-                                  color: Color(0xFFBFBFBF),
+                                  color: const Color(0xFFBFBFBF),
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -529,7 +529,7 @@ class _diaryState extends State<diary> {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          Container(
+                          SizedBox(
                             width: 345,
                             height: 96,
                             child: TextField(
@@ -543,7 +543,7 @@ class _diaryState extends State<diary> {
                                 hintText: 'Start Writing..',
                                 border: InputBorder.none,
                                 hintStyle: GoogleFonts.poppins(
-                                  color: Color(0xFFBFBFBF),
+                                  color: const Color(0xFFBFBFBF),
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -648,7 +648,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
   final VoidCallback toggleTextCenterCallback;
 
   CustomBottomNavigationBar({
-    Key? key,
+    super.key,
     required this.context,
     required this.selectedColor,
     required this.onColorSelected,
@@ -674,7 +674,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
     required this.toggleTextStartCallback,
     required this.toggleTextEndCallback,
     required this.toggleTextCenterCallback,
-  }) : super(key: key);
+  });
   @override
   // ignore: library_private_types_in_public_api
   _CustomBottomNavigationBarState createState() =>
@@ -728,7 +728,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     });
   }
 
-  String _fontFamily = 'Roboto';
+  final String _fontFamily = 'Roboto';
   var _newFontWeight = FontWeight.w300;
   final List<Color> colors = [
     Colors.orange,
@@ -768,7 +768,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       builder: (BuildContext context) {
         return SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
             color: Colors.white,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -800,7 +800,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                         setState(() {
                           Navigator.pop(
                             context,
-                            MaterialPageRoute(builder: (context) => diary()),
+                            MaterialPageRoute(builder: (context) => const diary()),
                           );
                         });
                       },
@@ -892,7 +892,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     );
                   }),
                 ),
-                Container(
+                SizedBox(
                   height: 40,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
@@ -905,7 +905,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                           color: const Color.fromARGB(255, 173, 180, 179),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        child: Center(child: Text("Regular")),
+                        child: const Center(child: Text("Regular")),
                       ),
                       Container(
                         width: 80,
@@ -914,7 +914,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                           color: const Color.fromARGB(255, 173, 180, 179),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        child: Center(child: Text("Medium")),
+                        child: const Center(child: Text("Medium")),
                       ),
                       Container(
                         width: 80,
@@ -923,7 +923,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                           color: const Color.fromARGB(255, 173, 180, 179),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        child: Center(
+                        child: const Center(
                             child: Text(
                           "Bold",
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -971,7 +971,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Container(
@@ -983,7 +983,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       childAspectRatio: 2.0,
                     ),
@@ -1003,7 +1003,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          margin: EdgeInsets.all(5),
+                          margin: const EdgeInsets.all(5),
                           child: Center(
                             child: Text(
                               (index == 0) ? "Default" : "Bold",
@@ -1034,11 +1034,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     return Container(
       height: 70,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: const Color.fromARGB(
+            color: Color.fromARGB(
                 255, 132, 131, 131), // Set the shadow color
             blurRadius: 0.4, // Set the blur radiu
             offset: Offset(0, -3), // Set the vertical offset
@@ -1051,7 +1051,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           if (extraBottomItems == false)
             BottomNavigationBarItem(
               icon: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.format_paint,
                   color: Colors.black,
                   size: 30,
@@ -1070,7 +1070,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           if (extraBottomItems == false)
             BottomNavigationBarItem(
               icon: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.add_photo_alternate_outlined,
                   color: Colors.black,
                   size: 30,
@@ -1084,7 +1084,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           if (extraBottomItems == false)
             BottomNavigationBarItem(
               icon: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.draw_outlined,
                   color: Colors.black,
                   size: 30,
@@ -1095,7 +1095,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => draw(),
+                        builder: (context) => const draw(),
                       ));
                 },
               ),
@@ -1104,7 +1104,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           if (extraBottomItems == false)
             BottomNavigationBarItem(
               icon: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.emoji_emotions_outlined,
                   color: Colors.black,
                   size: 30,
@@ -1127,8 +1127,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           // for extra items
         ],
         unselectedLabelStyle:
-            TextStyle(fontWeight: FontWeight.w500, fontSize: 8),
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 9),
+            const TextStyle(fontWeight: FontWeight.w500, fontSize: 8),
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 9),
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
         showUnselectedLabels: true,
@@ -1289,7 +1289,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 children: [
                   const Text('Size :', style: TextStyle(fontSize: 16)),
                   StatefulBuilder(builder: (context, state) {
-                    return Container(
+                    return SizedBox(
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: Slider(
                         value: fontSize,

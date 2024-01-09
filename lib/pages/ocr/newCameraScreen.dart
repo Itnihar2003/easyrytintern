@@ -10,7 +10,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:page_transition/page_transition.dart';
-import 'package:image/image.dart' as img;
 import 'package:http/http.dart' as http;
 import 'package:todoaiapp/pages/ocr/homePage.dart';
 import 'package:todoaiapp/pages/ocr/viewText.dart';
@@ -18,7 +17,7 @@ import 'package:todoaiapp/pages/ocr/viewText.dart';
 class CameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
 
-  const CameraScreen({Key? key, required this.cameras}) : super(key: key);
+  const CameraScreen({super.key, required this.cameras});
 
   @override
   _CameraScreenState createState() => _CameraScreenState();
@@ -58,34 +57,12 @@ class _CameraScreenState extends State<CameraScreen> {
       XFile imageFile = await _cameraController.takePicture();
       setState(() {
         _imageFile = imageFile;
-        if (imageFile != null) {
-          // _toggleFlash();
-          if (_isFlashOn) {
-            _cameraController.setFlashMode(FlashMode.off);
-          }
-          _cropImage(imageFile);
-        } else {
-          Navigator.push(
-            context,
-            PageTransition(
-              child: HomePage(),
-              type: PageTransitionType.fade,
-              isIos: true,
-              duration: Duration(milliseconds: 900),
-            ),
-          );
-          // Navigator.push(
-          //   context,
-          //   PageTransition(
-          //     child: ImageToText(),
-          //     type: PageTransitionType.fade,
-          //     isIos: true,
-          //     duration: Duration(milliseconds: 900),
-          //   ),
-          // );
-          print('No image selected');
+        // _toggleFlash();
+        if (_isFlashOn) {
+          _cameraController.setFlashMode(FlashMode.off);
         }
-      });
+        _cropImage(imageFile);
+            });
     } catch (e) {
       print(e);
     }
@@ -247,11 +224,11 @@ class _CameraScreenState extends State<CameraScreen> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: Text('Select Language'),
+              title: const Text('Select Language'),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       height: 90,
                       // width: 200,
                       child: TextField(
@@ -269,14 +246,14 @@ class _CameraScreenState extends State<CameraScreen> {
                                 .toList();
                           });
                         },
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Search Language',
                           hintText: 'Enter language name or code',
                         ),
                       ),
                     ),
-                    SizedBox(height: 16.0),
-                    Container(
+                    const SizedBox(height: 16.0),
+                    SizedBox(
                       // height: 300,
                       // color: Colors.blue,
                       width: MediaQuery.of(context).size.width * 0.7,
@@ -319,20 +296,20 @@ class _CameraScreenState extends State<CameraScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text(" Please select the language code . "),
+          title: const Text('Error'),
+          content: const Text(" Please select the language code . "),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pushAndRemoveUntil(
                   context,
                   PageTransition(
-                    child: HomePage(),
+                    child: const HomePage(),
                     type: PageTransitionType.fade,
                     isIos: true,
-                    duration: Duration(milliseconds: 900),
+                    duration: const Duration(milliseconds: 900),
                   ),
                   (route) => false),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -380,14 +357,14 @@ class _CameraScreenState extends State<CameraScreen> {
     if (isLoading) {
       showDialog(
         context: context,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: CircularProgressIndicator(
             color: Colors.blue,
           ),
         ),
       );
     } else {
-      Text("");
+      const Text("");
     }
     // here received selected code value
     print("code lang");
@@ -426,7 +403,7 @@ class _CameraScreenState extends State<CameraScreen> {
                 ),
                 type: PageTransitionType.fade,
                 isIos: true,
-                duration: Duration(milliseconds: 900),
+                duration: const Duration(milliseconds: 900),
               ),
               (route) => false);
         } else {
@@ -434,20 +411,20 @@ class _CameraScreenState extends State<CameraScreen> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Error'),
-              content: Text('Error: ${result}'),
+              title: const Text('Error'),
+              content: Text('Error: $result'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pushAndRemoveUntil(
                       context,
                       PageTransition(
-                        child: HomePage(),
+                        child: const HomePage(),
                         type: PageTransitionType.fade,
                         isIos: true,
-                        duration: Duration(milliseconds: 900),
+                        duration: const Duration(milliseconds: 900),
                       ),
                       (route) => false),
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             ),
@@ -494,7 +471,7 @@ class _CameraScreenState extends State<CameraScreen> {
         ),
         type: PageTransitionType.fade,
         isIos: true,
-        duration: Duration(milliseconds: 900),
+        duration: const Duration(milliseconds: 900),
       ),
     );
 
@@ -523,10 +500,10 @@ class _CameraScreenState extends State<CameraScreen> {
         Navigator.push(
           context,
           PageTransition(
-            child: HomePage(),
+            child: const HomePage(),
             type: PageTransitionType.fade,
             isIos: true,
-            duration: Duration(milliseconds: 900),
+            duration: const Duration(milliseconds: 900),
           ),
         );
         print('No image selected');
@@ -599,7 +576,7 @@ class _CameraScreenState extends State<CameraScreen> {
         body: Container(
           height: size.height,
           color: Colors.black,
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -619,26 +596,26 @@ class _CameraScreenState extends State<CameraScreen> {
                   ElevatedButton(
                     onPressed: _toggleFlash,
                     child: _isFlashOn
-                        ? Container(
+                        ? SizedBox(
                             height: size.height * 0.05,
                             width: size.width * 0.1,
                             // color: Colors.red,
-                            child: Icon(
+                            child: const Icon(
                               Icons.flash_on,
                             ),
                           )
-                        : Container(
+                        : SizedBox(
                             height: size.height * 0.05,
                             width: size.width * 0.1,
                             // color: Colors.red,
-                            child: Icon(
+                            child: const Icon(
                               Icons.flash_off,
                             ),
                           ),
                   ),
                 ],
               ),
-              Container(
+              SizedBox(
                 // height: 600,
                 height: MediaQuery.of(context).size.height * 0.7,
                 child: CameraPreview(_cameraController),
@@ -657,19 +634,19 @@ class _CameraScreenState extends State<CameraScreen> {
                   ElevatedButton(
                     onPressed: _toggleCameraDirection,
                     child: _isFrontCamera
-                        ? Container(
+                        ? SizedBox(
                             height: size.height * 0.05,
                             width: size.width * 0.1,
-                            child: Icon(
+                            child: const Icon(
                               Icons.camera_front,
                               size: 30,
                             ),
                           )
-                        : Container(
+                        : SizedBox(
                             // color: Colors.red,
                             height: size.height * 0.05,
                             width: size.width * 0.1,
-                            child: Icon(
+                            child: const Icon(
                               Icons.camera_rear,
                               size: 30,
                             ),
@@ -679,7 +656,7 @@ class _CameraScreenState extends State<CameraScreen> {
                     onTap: () {
                       _takePicture();
                     },
-                    child: Container(
+                    child: SizedBox(
                       height: size.height * 0.07,
                       width: size.width * 0.17,
                       // color: Colors.red,
@@ -692,11 +669,11 @@ class _CameraScreenState extends State<CameraScreen> {
                   ),
                   ElevatedButton(
                     onPressed: _pickImageFromGallery,
-                    child: Container(
+                    child: SizedBox(
                       // color: Colors.red,
                       height: size.height * 0.05,
                       width: size.width * 0.1,
-                      child: Icon(
+                      child: const Icon(
                         Icons.image_outlined,
                         size: 35,
                       ),

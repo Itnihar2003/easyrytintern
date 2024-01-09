@@ -1,19 +1,15 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:fast_color_picker/fast_color_picker.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:todoaiapp/pages/homepage.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
 
 class notes extends StatefulWidget {
-  const notes({Key? key}) : super(key: key);
+  const notes({super.key});
 
   @override
   _notesState createState() => _notesState();
@@ -270,7 +266,7 @@ class _notesState extends State<notes> {
               writingController.clear();
               print(allnote.length);
             },
-            child: CircleAvatar(
+            child: const CircleAvatar(
               radius: 25,
               backgroundColor: Colors.black,
               child: Icon(
@@ -289,7 +285,7 @@ class _notesState extends State<notes> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: 82,
                     child: Row(
@@ -302,11 +298,11 @@ class _notesState extends State<notes> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                icon: Icon(Icons.arrow_back)),
+                                icon: const Icon(Icons.arrow_back)),
                             IconButton(
-                                onPressed: () {}, icon: Icon(Icons.undo)),
+                                onPressed: () {}, icon: const Icon(Icons.undo)),
                             IconButton(
-                                onPressed: () {}, icon: Icon(Icons.redo)),
+                                onPressed: () {}, icon: const Icon(Icons.redo)),
                           ],
                         ),
                         Padding(
@@ -314,10 +310,10 @@ class _notesState extends State<notes> {
                           child: Row(
                             children: [
                               IconButton(
-                                  onPressed: () {}, icon: Icon(Icons.share)),
+                                  onPressed: () {}, icon: const Icon(Icons.share)),
                               IconButton(
                                   onPressed: () {},
-                                  icon: Icon(Icons.list_outlined)),
+                                  icon: const Icon(Icons.list_outlined)),
                             ],
                           ),
                         )
@@ -325,7 +321,7 @@ class _notesState extends State<notes> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: TextFormField(
                       controller: titleController,
                       maxLines: 2,
@@ -334,7 +330,7 @@ class _notesState extends State<notes> {
                       decoration: InputDecoration(
                         hintText: 'Title',
                         hintStyle: GoogleFonts.poppins(
-                          color: Color(0xFFBFBFBF),
+                          color: const Color(0xFFBFBFBF),
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                         ),
@@ -346,13 +342,13 @@ class _notesState extends State<notes> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                         child: TextField(
                           controller: writingController,
                           // textAlign: isTextStart
@@ -364,7 +360,7 @@ class _notesState extends State<notes> {
                             hintText: 'Start Writing..',
                             border: InputBorder.none,
                             hintStyle: GoogleFonts.poppins(
-                              color: Color(0xFFBFBFBF),
+                              color: const Color(0xFFBFBFBF),
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                             ),

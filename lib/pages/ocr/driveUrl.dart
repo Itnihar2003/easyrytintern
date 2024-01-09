@@ -1,9 +1,7 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
 import 'package:page_transition/page_transition.dart';
-import 'package:http/http.dart' as http;
 import 'package:todoaiapp/pages/ocr/homePage.dart';
 import 'package:todoaiapp/pages/ocr/viewText.dart';
 
@@ -17,7 +15,7 @@ class DriveUrl extends StatefulWidget {
 class _DriveUrlState extends State<DriveUrl> {
   String? data;
   bool isLoading = true;
-  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController urlController = TextEditingController();
 
   String selectedLangCode = ''; // Store the selected language code
@@ -136,11 +134,11 @@ class _DriveUrlState extends State<DriveUrl> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: Text('Select Language'),
+              title: const Text('Select Language'),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       height: 90,
                       // width: 200,
                       child: TextField(
@@ -158,14 +156,14 @@ class _DriveUrlState extends State<DriveUrl> {
                                 .toList();
                           });
                         },
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Search Language',
                           hintText: 'Enter language name or code',
                         ),
                       ),
                     ),
-                    SizedBox(height: 16.0),
-                    Container(
+                    const SizedBox(height: 16.0),
+                    SizedBox(
                       // height: 300,
                       // color: Colors.blue,
                       width: MediaQuery.of(context).size.width * 0.7,
@@ -209,20 +207,20 @@ class _DriveUrlState extends State<DriveUrl> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text(" Please select the language code . "),
+          title: const Text('Error'),
+          content: const Text(" Please select the language code . "),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pushAndRemoveUntil(
                   context,
                   PageTransition(
-                    child: HomePage(),
+                    child: const HomePage(),
                     type: PageTransitionType.fade,
                     isIos: true,
-                    duration: Duration(milliseconds: 900),
+                    duration: const Duration(milliseconds: 900),
                   ),
                   (route) => false),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -235,14 +233,14 @@ class _DriveUrlState extends State<DriveUrl> {
     if (isLoading) {
       showDialog(
         context: context,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: CircularProgressIndicator(
             color: Colors.blue,
           ),
         ),
       );
     } else {
-      Text("");
+      const Text("");
     }
     // final String apiUrl = 'https://ocr-xj19.onrender.com/ocr/imageUrlText';
     // final String apiUrl = 'https://scannerimage-e52f6979766b.herokuapp.com';
@@ -358,7 +356,7 @@ class _DriveUrlState extends State<DriveUrl> {
         body: SingleChildScrollView(
           child: Container(
             height: size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
                   'assets/home/0 5.png',
@@ -375,14 +373,14 @@ class _DriveUrlState extends State<DriveUrl> {
                       Navigator.pushAndRemoveUntil(
                           context,
                           PageTransition(
-                            child: HomePage(),
+                            child: const HomePage(),
                             type: PageTransitionType.fade,
                             isIos: true,
-                            duration: Duration(milliseconds: 900),
+                            duration: const Duration(milliseconds: 900),
                           ),
                           (route) => false);
                     },
-                    child: Icon(Icons.arrow_back_ios),
+                    child: const Icon(Icons.arrow_back_ios),
                   ),
                   // title: Center(child: Text("Url to pdf")),
                 ),
@@ -405,7 +403,7 @@ class _DriveUrlState extends State<DriveUrl> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(17.0),
-                        child: Container(
+                        child: SizedBox(
                           // height: 19,
                           // width: 19,
                           height: size.height * 0.19,
@@ -417,10 +415,10 @@ class _DriveUrlState extends State<DriveUrl> {
                           ),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         // height: 30,
                         height: size.height * 0.04,
-                        child: VerticalDivider(
+                        child: const VerticalDivider(
                           width: 3,
                           thickness: 2,
                           color: Colors.black26,
@@ -428,7 +426,7 @@ class _DriveUrlState extends State<DriveUrl> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: Container(
+                        child: SizedBox(
                           // height: 50,
                           // width: 250,
                           height: size.height * 0.06,
@@ -436,10 +434,10 @@ class _DriveUrlState extends State<DriveUrl> {
                           child: TextFormField(
                             controller: urlController,
                             maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 color: Colors.black),
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Enter Url',
                               border: InputBorder.none,
                               hintStyle: TextStyle(
@@ -477,7 +475,7 @@ class _DriveUrlState extends State<DriveUrl> {
                         borderRadius: BorderRadius.circular(6),
                         color: Colors.black,
                         border: Border.all(width: 0.2)),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Search",
                         style: TextStyle(
@@ -491,7 +489,7 @@ class _DriveUrlState extends State<DriveUrl> {
                 SizedBox(
                   height: size.height * 0.15,
                 ),
-                Container(
+                SizedBox(
                   height: size.height * 0.4,
                   width: size.width * 0.8,
                   // color: Colors.pink,
@@ -523,10 +521,10 @@ class _DriveUrlState extends State<DriveUrl> {
                       //   ),
                       // ),
                       Align(
-                        alignment: Alignment(-0.5, 0),
+                        alignment: const Alignment(-0.5, 0),
                         // top: size.height * 0.15,
                         // left: size.width * 0.1,
-                        child: Container(
+                        child: SizedBox(
                           // color: Colors.red,
                           height: size.height * 0.07,
                           width: size.width * 0.6,
@@ -537,8 +535,8 @@ class _DriveUrlState extends State<DriveUrl> {
                         ),
                       ),
                       Align(
-                        alignment: Alignment(-0.14, 0),
-                        child: Container(
+                        alignment: const Alignment(-0.14, 0),
+                        child: SizedBox(
                           // height: 264,
                           // width: 264,
                           height: size.height * 0.92,

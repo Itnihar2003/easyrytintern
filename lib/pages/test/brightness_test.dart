@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screen_wake/flutter_screen_wake.dart';
 
 class MyAppp extends StatefulWidget {
+  const MyAppp({super.key});
+
   @override
   _MyApppState createState() => _MyApppState();
 }
@@ -95,24 +97,24 @@ class _MyApppState extends State<MyAppp> {
         ),
         body: Center(
             child: Container(
-          decoration: BoxDecoration(color: Colors.black38),
+          decoration: const BoxDecoration(color: Colors.black38),
           child: Column(
             children: [
               AnimatedCrossFade(
-                firstChild: Icon(
+                firstChild: const Icon(
                   Icons.brightness_7,
                   size: 50,
                 ),
-                secondChild: Icon(
+                secondChild: const Icon(
                   Icons.brightness_3,
                   size: 50,
                 ),
                 crossFadeState: _keepOn
                     ? CrossFadeState.showSecond
                     : CrossFadeState.showFirst,
-                duration: Duration(seconds: 2),
+                duration: const Duration(seconds: 2),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Slider(
@@ -125,36 +127,36 @@ class _MyApppState extends State<MyAppp> {
                   }),
               Text('Keep ON: $_keepOn\n'),
               InkWell(
+                  onTap: changeKeep,
                   child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(color: Colors.blue),
-                    child: Text('Change Wake'),
-                  ),
-                  onTap: changeKeep),
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(color: Colors.blue),
+                    child: const Text('Change Wake'),
+                  )),
 
               ///
               ///
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text('Brightness: $_brightness\n'),
               InkWell(
+                  onTap: changeBrightnessMax,
                   child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(color: Colors.blue),
-                    child: Text('Max brightness'),
-                  ),
-                  onTap: changeBrightnessMax),
-              SizedBox(
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(color: Colors.blue),
+                    child: const Text('Max brightness'),
+                  )),
+              const SizedBox(
                 height: 20,
               ),
               InkWell(
+                  onTap: changeBrightnessMin,
                   child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(color: Colors.blue),
-                    child: Text('Min brightness'),
-                  ),
-                  onTap: changeBrightnessMin)
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(color: Colors.blue),
+                    child: const Text('Min brightness'),
+                  ))
             ],
           ),
         )),

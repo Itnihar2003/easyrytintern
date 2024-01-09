@@ -17,7 +17,7 @@ class ImageUrlscreen extends StatefulWidget {
 class _ImageUrlscreenState extends State<ImageUrlscreen> {
   String? data;
   bool isLoading = true;
-  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   TextEditingController urlController = TextEditingController();
 
   String selectedLangCode = ''; // Store the selected language code
@@ -136,11 +136,11 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: Text('Select Language'),
+              title: const Text('Select Language'),
               content: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       height: 90,
                       // width: 200,
                       child: TextField(
@@ -158,14 +158,14 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
                                 .toList();
                           });
                         },
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Search Language',
                           hintText: 'Enter language name or code',
                         ),
                       ),
                     ),
-                    SizedBox(height: 16.0),
-                    Container(
+                    const SizedBox(height: 16.0),
+                    SizedBox(
                       // height: 300,
                       // color: Colors.blue,
                       width: MediaQuery.of(context).size.width * 0.7,
@@ -209,20 +209,20 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text(" Please select the language code . "),
+          title: const Text('Error'),
+          content: const Text(" Please select the language code . "),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pushAndRemoveUntil(
                   context,
                   PageTransition(
-                    child: HomePage(),
+                    child: const HomePage(),
                     type: PageTransitionType.fade,
                     isIos: true,
-                    duration: Duration(milliseconds: 900),
+                    duration: const Duration(milliseconds: 900),
                   ),
                   (route) => false),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -235,26 +235,26 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
     if (isLoading) {
       showDialog(
         context: context,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: CircularProgressIndicator(
             color: Colors.blue,
           ),
         ),
       );
     } else {
-      Text("");
+      const Text("");
     }
     // final String apiUrl = 'https://ocr-xj19.onrender.com/ocr/imageUrlText';
     // final String apiUrl = 'https://scannerimage-e52f6979766b.herokuapp.com';
-    final String apiUrl =
+    const String apiUrl =
         'https://scannerimage-e52f6979766b.herokuapp.com/ocr/imageUrlText';
 
     try {
-      var _header = {
+      var header = {
         'Content-Type': 'application/json',
       };
 
-      var _body = {
+      var body = {
         // 'url':
         //     'https://d2jaiao3zdxbzm.cloudfront.net/wp-content/uploads/figure-65.png',
         'url': urlController.text.trim(),
@@ -262,8 +262,8 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
       };
       final http.Response response = await http.post(
         Uri.parse(apiUrl),
-        body: json.encode(_body),
-        headers: _header,
+        body: json.encode(body),
+        headers: header,
       );
       var value = jsonDecode(response.body);
 
@@ -285,7 +285,7 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
               ),
               type: PageTransitionType.fade,
               isIos: true,
-              duration: Duration(milliseconds: 900),
+              duration: const Duration(milliseconds: 900),
             ),
           );
           isLoading = false;
@@ -296,20 +296,20 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Error'),
+            title: const Text('Error'),
             content: Text('Error: ${response.statusCode}'),
             actions: <Widget>[
               TextButton(
                 onPressed: () => Navigator.pushAndRemoveUntil(
                     context,
                     PageTransition(
-                      child: HomePage(),
+                      child: const HomePage(),
                       type: PageTransitionType.fade,
                       isIos: true,
-                      duration: Duration(milliseconds: 900),
+                      duration: const Duration(milliseconds: 900),
                     ),
                     (route) => false),
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           ),
@@ -321,20 +321,20 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Exception'),
+          title: const Text('Exception'),
           content: Text('Exception: $e'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pushAndRemoveUntil(
                   context,
                   PageTransition(
-                    child: HomePage(),
+                    child: const HomePage(),
                     type: PageTransitionType.fade,
                     isIos: true,
-                    duration: Duration(milliseconds: 900),
+                    duration: const Duration(milliseconds: 900),
                   ),
                   (route) => false),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -352,7 +352,7 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
         body: SingleChildScrollView(
           child: Container(
             height: size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
                     'assets/home/0 5.png'), // Replace with your image asset path
@@ -368,14 +368,14 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
                       Navigator.pushAndRemoveUntil(
                           context,
                           PageTransition(
-                            child: HomePage(),
+                            child: const HomePage(),
                             type: PageTransitionType.fade,
                             isIos: true,
-                            duration: Duration(milliseconds: 900),
+                            duration: const Duration(milliseconds: 900),
                           ),
                           (route) => false);
                     },
-                    child: Icon(Icons.arrow_back_ios),
+                    child: const Icon(Icons.arrow_back_ios),
                   ),
                   // title: Center(child: Text("Url to pdf")),
                 ),
@@ -398,7 +398,7 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(17.0),
-                        child: Container(
+                        child: SizedBox(
                           // color: Colors.red,
                           height: size.height * 0.19,
                           width: size.width * 0.05,
@@ -411,9 +411,9 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
                           ),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: size.height * 0.04,
-                        child: VerticalDivider(
+                        child: const VerticalDivider(
                           width: 3,
                           thickness: 2,
                           color: Colors.black26,
@@ -421,7 +421,7 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: Container(
+                        child: SizedBox(
                           // height: 50,
                           // width: 250,
                           height: size.height * 0.06,
@@ -430,10 +430,10 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
                           child: TextFormField(
                             controller: urlController,
                             maxLines: 1,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 color: Colors.black),
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Enter Url',
                               border: InputBorder.none,
                               hintStyle: TextStyle(
@@ -463,7 +463,7 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
                         borderRadius: BorderRadius.circular(6),
                         color: Colors.black,
                         border: Border.all(width: 0.2)),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Search",
                         style: TextStyle(
@@ -477,17 +477,17 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
                 SizedBox(
                   height: size.height * 0.15,
                 ),
-                Container(
+                SizedBox(
                   // color: Colors.pink,
                   height: size.height * 0.4,
                   width: size.width * 0.8,
                   child: Stack(
                     children: [
                       Align(
-                        alignment: Alignment(-0.5, 0),
+                        alignment: const Alignment(-0.5, 0),
                         // top: size.height * 0.15,
                         // left: size.width * 0.1,
-                        child: Container(
+                        child: SizedBox(
                           // color: Colors.red,
                           height: size.height * 0.07,
                           width: size.width * 0.6,
@@ -498,8 +498,8 @@ class _ImageUrlscreenState extends State<ImageUrlscreen> {
                         ),
                       ),
                       Align(
-                        alignment: Alignment(-0.14, 0),
-                        child: Container(
+                        alignment: const Alignment(-0.14, 0),
+                        child: SizedBox(
                           // height: 264,
                           // width: 264,
                           height: size.height * 0.92,

@@ -8,7 +8,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:page_transition/page_transition.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import 'package:todoaiapp/main.dart';
@@ -19,17 +18,17 @@ class TextViewer extends StatefulWidget {
   var data;
   var langCode;
   TextViewer({
-    Key? key,
+    super.key,
     required this.data,
     required this.langCode,
-  }) : super(key: key);
+  });
 
   @override
   State<TextViewer> createState() => _TextViewerState();
 }
 
 class _TextViewerState extends State<TextViewer> {
-  TextEditingController _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -65,7 +64,7 @@ class _TextViewerState extends State<TextViewer> {
         body: SingleChildScrollView(
           child: Container(
             height: size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
                     'assets/home/0 5.png'), // Replace with your image asset path
@@ -79,7 +78,7 @@ class _TextViewerState extends State<TextViewer> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
-                  child: Container(
+                  child: SizedBox(
                     // height: 55,
                     height: size.height * 0.055,
                     // color: Color.fromARGB(255, 223, 14, 14),
@@ -91,16 +90,16 @@ class _TextViewerState extends State<TextViewer> {
                             Navigator.push(
                               context,
                               PageTransition(
-                                child: HomePage(),
+                                child: const HomePage(),
                                 type: PageTransitionType.fade,
                                 isIos: true,
-                                duration: Duration(milliseconds: 900),
+                                duration: const Duration(milliseconds: 900),
                               ),
                             );
                           },
                           child: Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.arrow_back_ios,
                                 color: Colors.black,
                               ),
@@ -117,7 +116,7 @@ class _TextViewerState extends State<TextViewer> {
                                   ),
                                   // color: Colors.white,
                                 ),
-                                child: Center(
+                                child: const Center(
                                   child: Text(
                                     "Back",
                                     style: TextStyle(
@@ -185,7 +184,7 @@ class _TextViewerState extends State<TextViewer> {
 
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text("${_textController.text.toString()}"),
+                              child: Text(_textController.text.toString()),
                             ),
                           ),
                 SizedBox(
@@ -201,7 +200,7 @@ class _TextViewerState extends State<TextViewer> {
                     // ),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                         image: AssetImage(
                           'assets/images/black.png',
                         ),
@@ -232,7 +231,7 @@ class _TextViewerState extends State<TextViewer> {
                             });
                           },
                           child: AnimatedContainer(
-                            duration: Duration(milliseconds: 800),
+                            duration: const Duration(milliseconds: 800),
                             // height: 27,
                             // width: 27,
                             height: size.height * 0.04,
@@ -266,7 +265,7 @@ class _TextViewerState extends State<TextViewer> {
                             });
                           },
                           child: AnimatedContainer(
-                            duration: Duration(milliseconds: 800),
+                            duration: const Duration(milliseconds: 800),
                             // height: 27,
                             // width: 27,
                             height: size.height * 0.04,
@@ -347,7 +346,7 @@ class _TextViewerState extends State<TextViewer> {
                             );
                           },
                           child: AnimatedContainer(
-                            duration: Duration(milliseconds: 800),
+                            duration: const Duration(milliseconds: 800),
                             // height: 27,
                             // width: 27,
                             height: size.height * 0.04,
@@ -383,10 +382,10 @@ class MyDialog extends StatefulWidget {
   String textcontroller;
   var langcode;
   MyDialog({
-    Key? key,
+    super.key,
     required this.textcontroller,
     required this.langcode,
-  }) : super(key: key);
+  });
 
   @override
   State<MyDialog> createState() => _MyDialogState();
@@ -434,14 +433,14 @@ class _MyDialogState extends State<MyDialog> {
     if (isLoading) {
       showDialog(
         context: context,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: CircularProgressIndicator(
             color: Colors.blue,
           ),
         ),
       );
     } else {
-      Text("");
+      const Text("");
     }
     String text = widget.textcontroller.toString();
 
@@ -474,26 +473,26 @@ class _MyDialogState extends State<MyDialog> {
           // await OpenFile.open(filePath);
           showNotification(
               'PDF Conversion Successful', 'Successfully converted to PDF');
-          Future.delayed(Duration(seconds: 5), () {
+          Future.delayed(const Duration(seconds: 5), () {
             Navigator.of(context).pop();
 
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('Success'),
-                content: Text('Successfully converted to pdf '),
+                title: const Text('Success'),
+                content: const Text('Successfully converted to pdf '),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                         context,
                         PageTransition(
-                          child: HomePage(),
+                          child: const HomePage(),
                           type: PageTransitionType.fade,
                           isIos: true,
-                          duration: Duration(milliseconds: 900),
+                          duration: const Duration(milliseconds: 900),
                         ),
                         (route) => false),
-                    child: Text('OK'),
+                    child: const Text('OK'),
                   ),
                 ],
               ),
@@ -512,12 +511,12 @@ class _MyDialogState extends State<MyDialog> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Error'),
+              title: const Text('Error'),
               content: Text('Failed to convert to pdf ${response.statusCode}'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             ),
@@ -535,12 +534,12 @@ class _MyDialogState extends State<MyDialog> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to convert to pdf'),
+          title: const Text('Error'),
+          content: const Text('Failed to convert to pdf'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -552,14 +551,14 @@ class _MyDialogState extends State<MyDialog> {
     if (isLoading) {
       showDialog(
         context: context,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: CircularProgressIndicator(
             color: Colors.blue,
           ),
         ),
       );
     } else {
-      Text("");
+      const Text("");
     }
     String text = widget.textcontroller.toString();
     print("docx conversion started");
@@ -589,25 +588,25 @@ class _MyDialogState extends State<MyDialog> {
               'DOC Conversion Successful', 'Successfully converted to Doc');
 
           // await OpenFile.open(filePath);
-          Future.delayed(Duration(seconds: 5), () async {
+          Future.delayed(const Duration(seconds: 5), () async {
             Navigator.of(context).pop();
             await showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('Success'),
-                content: Text('Successfully converted to Doc '),
+                title: const Text('Success'),
+                content: const Text('Successfully converted to Doc '),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                         context,
                         PageTransition(
-                          child: HomePage(),
+                          child: const HomePage(),
                           type: PageTransitionType.fade,
                           isIos: true,
-                          duration: Duration(milliseconds: 900),
+                          duration: const Duration(milliseconds: 900),
                         ),
                         (route) => false),
-                    child: Text('OK'),
+                    child: const Text('OK'),
                   ),
                 ],
               ),
@@ -620,12 +619,12 @@ class _MyDialogState extends State<MyDialog> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Error'),
+              title: const Text('Error'),
               content: Text('Failed to convert to DOCX ${response.statusCode}'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             ),
@@ -644,12 +643,12 @@ class _MyDialogState extends State<MyDialog> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to convert to DOCX'),
+          title: const Text('Error'),
+          content: const Text('Failed to convert to DOCX'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -661,14 +660,14 @@ class _MyDialogState extends State<MyDialog> {
     if (isLoading) {
       showDialog(
         context: context,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: CircularProgressIndicator(
             color: Colors.blue,
           ),
         ),
       );
     } else {
-      Text("");
+      const Text("");
     }
     print("text conversion started");
     String text = widget.textcontroller;
@@ -698,27 +697,27 @@ class _MyDialogState extends State<MyDialog> {
               'TXT Conversion Successful', 'Successfully converted to txt');
 
           // await OpenFile.open(filePath);
-          Future.delayed(Duration(seconds: 2), () {
+          Future.delayed(const Duration(seconds: 2), () {
             Navigator.of(context).pop();
             // Close the dialog
 
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('Success'),
-                content: Text('Successfully converted to txt '),
+                title: const Text('Success'),
+                content: const Text('Successfully converted to txt '),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                         context,
                         PageTransition(
-                          child: HomePage(),
+                          child: const HomePage(),
                           type: PageTransitionType.fade,
                           isIos: true,
-                          duration: Duration(milliseconds: 900),
+                          duration: const Duration(milliseconds: 900),
                         ),
                         (route) => false),
-                    child: Text('OK'),
+                    child: const Text('OK'),
                   ),
                 ],
               ),
@@ -735,12 +734,12 @@ class _MyDialogState extends State<MyDialog> {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Error'),
+              title: const Text('Error'),
               content: Text('Failed to convert to TXT ${response.statusCode}'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             ),
@@ -758,12 +757,12 @@ class _MyDialogState extends State<MyDialog> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to convert to TXT'),
+          title: const Text('Error'),
+          content: const Text('Failed to convert to TXT'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -785,7 +784,7 @@ class _MyDialogState extends State<MyDialog> {
         width: size.width * 0.4,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          image: DecorationImage(
+          image: const DecorationImage(
             image: AssetImage(
                 'assets/images/DRIVE BOX.png'), // Replace with your image asset path
             fit: BoxFit.cover,
@@ -833,7 +832,7 @@ class _MyDialogState extends State<MyDialog> {
                       ),
                     ),
                   ),
-                  Center(
+                  const Center(
                     child: Text(
                       'Word',
                       style: TextStyle(
@@ -887,7 +886,7 @@ class _MyDialogState extends State<MyDialog> {
                         ),
                       ),
                     ),
-                    Center(
+                    const Center(
                       child: Text(
                         'Text',
                         style: TextStyle(
@@ -941,7 +940,7 @@ class _MyDialogState extends State<MyDialog> {
                         ),
                       ),
                     ),
-                    Center(
+                    const Center(
                       child: Text(
                         'Pdf',
                         style: TextStyle(
@@ -971,7 +970,7 @@ class _MyDialogState extends State<MyDialog> {
                 decoration: BoxDecoration(
                   // color: Colors.red,
                   borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage(
                         'assets/images/DRIVE BOX.png'), // Replace with your image asset path
                     fit: BoxFit.cover,
@@ -981,7 +980,7 @@ class _MyDialogState extends State<MyDialog> {
                 //   borderRadius: BorderRadius.circular(12),
                 //   color: Colors.white,
                 // ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Cancel',
                     style: TextStyle(
@@ -992,7 +991,7 @@ class _MyDialogState extends State<MyDialog> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 19,
             ),
             InkWell(
@@ -1017,7 +1016,7 @@ class _MyDialogState extends State<MyDialog> {
                 width: size.width * 0.26,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     image: AssetImage(
                         'assets/images/DRIVE BOX.png'), // Replace with your image asset path
                     fit: BoxFit.cover,
@@ -1027,7 +1026,7 @@ class _MyDialogState extends State<MyDialog> {
                 //   borderRadius: BorderRadius.circular(12),
                 //   color: Colors.white,
                 // ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Save',
                     style: TextStyle(

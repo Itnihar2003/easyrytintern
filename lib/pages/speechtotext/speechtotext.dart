@@ -1,11 +1,12 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class SpeechScreen extends StatefulWidget {
+  const SpeechScreen({super.key});
+
   @override
   _SpeechScreenState createState() => _SpeechScreenState();
 }
@@ -32,7 +33,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("speech to text converter"),
+        title: const Text("speech to text converter"),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
@@ -51,7 +52,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
                 setState(() => _isListening = true);
                 _speech.listen(onResult: (val) {
                   setState(() {
-                    finaltext = finaltext + " " + _text;
+                    finaltext = "$finaltext $_text";
                     controler.text = finaltext;
                   });
                   
@@ -70,7 +71,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
             setState(() => _isListening = false);
             _speech.stop();
           },
-          child: CircleAvatar(
+          child: const CircleAvatar(
             radius: 30,
             backgroundColor: Colors.black,
             child: Icon(
@@ -96,27 +97,27 @@ class _SpeechScreenState extends State<SpeechScreen> {
                     child: TextField(
                       maxLength: 1000,
                       maxLines: 30,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: 'Press the button and start speaking',
                           border: OutlineInputBorder()),
                       controller: controler,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text(
+                  const Text(
                     "press mic and speak and again press to send text",
                     style: TextStyle(fontSize: 10, color: Colors.grey),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
                     child: Center(
                       child: Text(
                         'Confidence: ${(_confidence * 100.0).toStringAsFixed(1)}%',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -125,7 +126,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
                       onPressed: () {
                         FlutterClipboard.copy(controler.text);
                       },
-                      child: Text("copy"))
+                      child: const Text("copy"))
                 ],
               ),
             ),

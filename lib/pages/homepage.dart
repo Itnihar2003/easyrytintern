@@ -17,7 +17,6 @@ import 'package:todoaiapp/pages/Aipage.dart';
 import 'package:todoaiapp/pages/notes/editnotes.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
 import 'package:todoaiapp/pages/notes/notes.dart';
-import 'package:todoaiapp/pages/ocr/homePage.dart';
 
 import 'package:todoaiapp/pages/speechtotext/speechtotext.dart';
 import 'package:http/http.dart' as http;
@@ -89,14 +88,14 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     if (isLoading) {
       showDialog(
         context: context,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: CircularProgressIndicator(
             color: Colors.blue,
           ),
         ),
       );
     } else {
-      Text("");
+      const Text("");
     }
 
     print("docx conversion started");
@@ -128,25 +127,25 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
               'DOC Conversion Successful', 'Successfully converted to Doc');
 
           // await OpenFile.open(filePath);
-          Future.delayed(Duration(seconds: 5), () async {
+          Future.delayed(const Duration(seconds: 5), () async {
             Navigator.of(context).pop();
             await showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('Success'),
-                content: Text('Successfully converted to Doc '),
+                title: const Text('Success'),
+                content: const Text('Successfully converted to Doc '),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                         context,
                         PageTransition(
-                          child: home(datas: []),
+                          child: home(datas: const []),
                           type: PageTransitionType.fade,
                           isIos: true,
-                          duration: Duration(milliseconds: 900),
+                          duration: const Duration(milliseconds: 900),
                         ),
                         (route) => false),
-                    child: Text('OK'),
+                    child: const Text('OK'),
                   ),
                 ],
               ),
@@ -159,12 +158,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Error'),
+              title: const Text('Error'),
               content: Text('Failed to convert to DOCX ${response.statusCode}'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             ),
@@ -183,12 +182,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to convert to DOCX'),
+          title: const Text('Error'),
+          content: const Text('Failed to convert to DOCX'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -202,14 +201,14 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     if (isLoading) {
       showDialog(
         context: context,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: CircularProgressIndicator(
             color: Colors.blue,
           ),
         ),
       );
     } else {
-      Text("");
+      const Text("");
     }
     print("text conversion started");
 
@@ -239,27 +238,27 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
               'TXT Conversion Successful', 'Successfully converted to txt');
 
           // await OpenFile.open(filePath);
-          Future.delayed(Duration(seconds: 2), () {
+          Future.delayed(const Duration(seconds: 2), () {
             Navigator.of(context).pop();
             // Close the dialog
 
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('Success'),
-                content: Text('Successfully converted to txt '),
+                title: const Text('Success'),
+                content: const Text('Successfully converted to txt '),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                         context,
                         PageTransition(
-                          child: home(datas: []),
+                          child: home(datas: const []),
                           type: PageTransitionType.fade,
                           isIos: true,
-                          duration: Duration(milliseconds: 900),
+                          duration: const Duration(milliseconds: 900),
                         ),
                         (route) => false),
-                    child: Text('OK'),
+                    child: const Text('OK'),
                   ),
                 ],
               ),
@@ -276,12 +275,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Error'),
+              title: const Text('Error'),
               content: Text('Failed to convert to TXT ${response.statusCode}'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             ),
@@ -299,12 +298,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to convert to TXT'),
+          title: const Text('Error'),
+          content: const Text('Failed to convert to TXT'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -317,14 +316,14 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     if (isLoading) {
       showDialog(
         context: context,
-        builder: (context) => Center(
+        builder: (context) => const Center(
           child: CircularProgressIndicator(
             color: Colors.blue,
           ),
         ),
       );
     } else {
-      Text("");
+      const Text("");
     }
 
     print("pdf conversion started");
@@ -356,26 +355,26 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
           // await OpenFile.open(filePath);
           showNotification(
               'PDF Conversion Successful', 'Successfully converted to PDF');
-          Future.delayed(Duration(seconds: 5), () {
+          Future.delayed(const Duration(seconds: 5), () {
             Navigator.of(context).pop();
 
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('Success'),
-                content: Text('Successfully converted to pdf '),
+                title: const Text('Success'),
+                content: const Text('Successfully converted to pdf '),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.pushAndRemoveUntil(
                         context,
                         PageTransition(
-                          child: home(datas: []),
+                          child: home(datas: const []),
                           type: PageTransitionType.fade,
                           isIos: true,
-                          duration: Duration(milliseconds: 900),
+                          duration: const Duration(milliseconds: 900),
                         ),
                         (route) => false),
-                    child: Text('OK'),
+                    child: const Text('OK'),
                   ),
                 ],
               ),
@@ -394,12 +393,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Error'),
+              title: const Text('Error'),
               content: Text('Failed to convert to pdf ${response.statusCode}'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             ),
@@ -417,12 +416,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Failed to convert to pdf'),
+          title: const Text('Error'),
+          content: const Text('Failed to convert to pdf'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -456,8 +455,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     });
   }
 
-  late AnimationController _controller =
-      AnimationController(vsync: this, duration: Duration(seconds: 10))
+  late final AnimationController _controller =
+      AnimationController(vsync: this, duration: const Duration(seconds: 10))
         ..repeat();
   @override
   void dispose() {
@@ -483,7 +482,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                     children: [
                       Container(
                         height: AppBar().preferredSize.height,
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
@@ -494,7 +493,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                   Container(
                                     height: 50,
                                     width: 250,
-                                    padding: EdgeInsets.only(right: 2),
+                                    padding: const EdgeInsets.only(right: 2),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       border: Border.all(color: Colors.white),
@@ -517,18 +516,18 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                 ],
                               ),
                               IconButton(
-                                  onPressed: () {}, icon: Icon(Icons.settings))
+                                  onPressed: () {}, icon: const Icon(Icons.settings))
                             ],
                           ),
                         ),
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Container(
                           height: 150,
                           width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(horizontal: 5),
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             color: Colors.white,
@@ -544,11 +543,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                         ),
                       ),
                       // Quick Tools
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             "Quick Tools",
                             style: GoogleFonts.poppins(
@@ -559,31 +558,31 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             quickTools("assets/notes.png", "Notes", 1),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             quickTools("assets/todo.png", "To-do", 2),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             quickTools(
                                 "assets/diary.png", "speech\nto text", 3),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             quickTools("assets/confetti.png", "OCR", 4),
                           ],
                         ),
                       ),
                       // Recents
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             "Recents",
                             style: GoogleFonts.poppins(
@@ -594,12 +593,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Container(
                         height: (widget.datas.length % 2 == 0)
                             ? (widget.datas.length / 2) * 207
                             : widget.datas.length * 180,
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: GridView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
@@ -647,7 +646,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                     children: [
                                       Container(
                                         height: 50,
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 2),
                                         width: double.infinity,
                                         child: Row(
@@ -655,10 +654,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              "Quick Note" +
-                                                  "(" +
-                                                  index1.toString() +
-                                                  ")",
+                                              "Quick Note($index1)",
                                               style: GoogleFonts.poppins(
                                                 color: Colors.black,
                                                 fontSize: 13,
@@ -670,7 +666,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                   showModalBottomSheet(
                                                     context: context,
                                                     builder: (context) =>
-                                                        Container(
+                                                        SizedBox(
                                                       height: 400,
                                                       child: Column(
                                                         mainAxisAlignment:
@@ -678,12 +674,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                 .start,
                                                         children: [
                                                           Container(
-                                                            padding: EdgeInsets
+                                                            padding: const EdgeInsets
                                                                 .symmetric(
                                                                     horizontal:
                                                                         5),
                                                             decoration:
-                                                                BoxDecoration(
+                                                                const BoxDecoration(
                                                               color:
                                                                   Colors.black,
                                                               borderRadius:
@@ -704,7 +700,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                               children: [
                                                                 Row(
                                                                   children: [
-                                                                    SizedBox(
+                                                                    const SizedBox(
                                                                         height:
                                                                             60,
                                                                         width:
@@ -763,10 +759,10 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                   SingleChildScrollView(
                                                                 child: Column(
                                                                   children: [
-                                                                    SizedBox(
+                                                                    const SizedBox(
                                                                         height:
                                                                             2.5),
-                                                                    Padding(
+                                                                    const Padding(
                                                                       padding:
                                                                           EdgeInsets
                                                                               .symmetric(
@@ -779,31 +775,26 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                     TextButton(
                                                                         onPressed:
                                                                             () {
-                                                                          FlutterClipboard.copy(widget.datas[index].tittle1.toString() +
-                                                                              "\n" +
-                                                                              widget.datas[index].content1);
+                                                                          FlutterClipboard.copy("${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
                                                                           Get.snackbar(
                                                                               "copied",
-                                                                              widget.datas[index].tittle1.toString() + "\n" + widget.datas[index].content1);
+                                                                              "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
                                                                           Navigator.pop(
                                                                               context);
                                                                         },
                                                                         child: ListTile(
                                                                             leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
-                                                                            title: Text(
+                                                                            title: const Text(
                                                                               "copy to clipboard",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
                                                                           if (await _request_per(Permission.storage) ==
                                                                               true) {
-                                                                            convertToPDF(widget.datas[index].tittle1 +
-                                                                                "\n" +
-                                                                                "\n" +
-                                                                                widget.datas[index].content1);
+                                                                            convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
                                                                           } else {
                                                                             print("permission not granted");
@@ -811,20 +802,17 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                         },
                                                                         child: ListTile(
                                                                             leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
-                                                                            title: Text(
+                                                                            title: const Text(
                                                                               "PDF",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
                                                                           if (await _request_per(Permission.storage) ==
                                                                               true) {
-                                                                            convertToDocx(widget.datas[index].tittle1 +
-                                                                                "\n" +
-                                                                                "\n" +
-                                                                                widget.datas[index].content1);
+                                                                            convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
                                                                           } else {
                                                                             print("permission not granted");
@@ -832,20 +820,17 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                         },
                                                                         child: ListTile(
                                                                             leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
-                                                                            title: Text(
+                                                                            title: const Text(
                                                                               "Word",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
                                                                           if (await _request_per(Permission.storage) ==
                                                                               true) {
-                                                                            downloadTxt(widget.datas[index].tittle1 +
-                                                                                "\n" +
-                                                                                "\n" +
-                                                                                widget.datas[index].content1);
+                                                                            downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
                                                                           } else {
                                                                             print("permission not granted");
@@ -853,41 +838,41 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                         },
                                                                         child: ListTile(
                                                                             leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
-                                                                            title: Text(
+                                                                            title: const Text(
                                                                               "Txt",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () {},
                                                                         child: ListTile(
                                                                             leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/rename.png")),
-                                                                            title: Text(
+                                                                            title: const Text(
                                                                               "Rename",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () {},
                                                                         child: ListTile(
                                                                             leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/email.png")),
-                                                                            title: Text(
+                                                                            title: const Text(
                                                                               "Send as Email",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () {},
                                                                         child: ListTile(
                                                                             leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
-                                                                            title: Text(
+                                                                            title: const Text(
                                                                               "Share More",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () {
@@ -906,11 +891,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               color: Colors.white,
                                                                               child: Image.asset("assets/delete.png"),
                                                                             ),
-                                                                            title: Text(
+                                                                            title: const Text(
                                                                               "Delete",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
                                                                   ],
                                                                 ),
                                                               ),
@@ -921,7 +906,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                     ),
                                                   );
                                                 },
-                                                icon: Container(
+                                                icon: SizedBox(
                                                   width: 15,
                                                   height: 15,
                                                   child: Image.asset(
@@ -939,7 +924,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8),
-                                        child: Container(
+                                        child: SizedBox(
                                             height: 80,
                                             child: SingleChildScrollView(
                                                 child: Text(widget
@@ -970,12 +955,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => aiask(),
+                    builder: (context) => const aiask(),
                   ));
             },
             child: AnimatedBuilder(
               animation: _controller,
-              child: Container(
+              child: const SizedBox(
                 width: 130,
                 child: Image(
                   image: AssetImage("assets/ai.png"),
@@ -1005,9 +990,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
           } else if (index == 2) {
             Get.to(() => const detail());
           } else if (index == 3) {
-            Get.to(() => SpeechScreen());
+            Get.to(() => const SpeechScreen());
           } else if (index == 4) {
-            Get.to(() => App());
+            Get.to(() => const App());
           }
         },
         child: Column(
@@ -1038,7 +1023,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                 ),
               ),
             ),
-            SizedBox(height: 2.5),
+            const SizedBox(height: 2.5),
             Text(
               title,
               style: GoogleFonts.poppins(

@@ -6,13 +6,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 import 'package:share_plus/share_plus.dart';
 import 'package:todoaiapp/main.dart';
 
 class FileListWidget extends StatefulWidget {
+  const FileListWidget({super.key});
+
   @override
   _FileListWidgetState createState() => _FileListWidgetState();
 }
@@ -31,20 +31,20 @@ class _FileListWidgetState extends State<FileListWidget> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
                 'assets/home/0 5.png'), // Replace with your image asset path
             fit: BoxFit.cover,
           ),
         ),
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AppBar(
               backgroundColor: Colors.transparent,
-              title: Text('Files'),
+              title: const Text('Files'),
             ),
             // ElevatedButton(
             //   onPressed: () async {
@@ -89,10 +89,10 @@ class _FileListWidgetState extends State<FileListWidget> {
                             },
                             child: Text(
                               filesData[index].fileName,
-                              style: TextStyle(fontSize: 13.0),
+                              style: const TextStyle(fontSize: 13.0),
                             ),
                           ),
-                          trailing: Container(
+                          trailing: SizedBox(
                             // color: Colors.red,
                             width: 50,
                             child: Row(
@@ -104,20 +104,20 @@ class _FileListWidgetState extends State<FileListWidget> {
                                         'Successfully converted to File',
                                         filesData[index].filePath);
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.download,
                                     size: 20,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    shareFiles('${filesData[index].filePath}',
-                                        '${filesData[index].fileName}');
+                                    shareFiles(filesData[index].filePath,
+                                        filesData[index].fileName);
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.share,
                                     size: 20,
                                   ),
@@ -129,7 +129,7 @@ class _FileListWidgetState extends State<FileListWidget> {
                       },
                     )
                   : Container(
-                      child: Center(
+                      child: const Center(
                           child: Text(
                         "No File Found",
                         style: TextStyle(color: Colors.black, fontSize: 15),

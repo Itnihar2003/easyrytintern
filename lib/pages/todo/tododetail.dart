@@ -8,8 +8,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todoaiapp/pages/homepage.dart';
-import 'package:todoaiapp/pages/notes/notedata.dart';
 import 'package:todoaiapp/pages/todo/data.dart';
 import 'package:todoaiapp/pages/todo/notification.dart';
 
@@ -119,7 +117,7 @@ class _detailState extends State<detail> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-            insetPadding: EdgeInsets.all(10),
+            insetPadding: const EdgeInsets.all(10),
             backgroundColor: Colors.white,
             content: SizedBox(
               width: MediaQuery.of(context).size.width,
@@ -128,7 +126,7 @@ class _detailState extends State<detail> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Tittle",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.black),
@@ -140,10 +138,10 @@ class _detailState extends State<detail> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12))),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text(
+                    const Text(
                       "Description",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.black),
@@ -156,10 +154,10 @@ class _detailState extends State<detail> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12))),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text(
+                    const Text(
                       "Priority",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.black),
@@ -178,10 +176,10 @@ class _detailState extends State<detail> {
                             items: country,
                           ),
                         ]),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text(
+                    const Text(
                       "DueDate",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.black),
@@ -197,7 +195,7 @@ class _detailState extends State<detail> {
                                 showCupertinoModalPopup(
                                   context: context,
                                   builder: (context) {
-                                    return Container(
+                                    return SizedBox(
                                       height: 100,
                                       width: 300,
                                       child: CupertinoDatePicker(
@@ -223,12 +221,12 @@ class _detailState extends State<detail> {
                                   },
                                 );
                               },
-                              icon: Icon(Icons.calendar_month))),
+                              icon: const Icon(Icons.calendar_month))),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text(
+                    const Text(
                       "Reminder",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.black),
@@ -246,7 +244,7 @@ class _detailState extends State<detail> {
                                     showCupertinoModalPopup(
                                       context: context,
                                       builder: (context) {
-                                        return Container(
+                                        return SizedBox(
                                           height: 100,
                                           width: 300,
                                           child: CupertinoDatePicker(
@@ -273,7 +271,7 @@ class _detailState extends State<detail> {
                                       },
                                     );
                                   },
-                                  icon: Icon(Icons.calendar_month))),
+                                  icon: const Icon(Icons.calendar_month))),
                         ),
                         Row(
                           children: [
@@ -282,12 +280,12 @@ class _detailState extends State<detail> {
                                   notificationservice.scheduleminute(
                                       "hello", "hii", duetime);
                                 },
-                                child: Text("everyminite"))
+                                child: const Text("everyminite"))
                           ],
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     ElevatedButton(
@@ -305,7 +303,7 @@ class _detailState extends State<detail> {
                           priority.clear();
                           date1.clear();
                         },
-                        child: Container(
+                        child: const SizedBox(
                           width: 250,
                           height: 50,
                           child: Center(
@@ -327,12 +325,12 @@ class _detailState extends State<detail> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back,
                       size: 30,
                       color: Colors.black,
                     )),
-                Text(
+                const Text(
                   "Create Task",
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.bold),
@@ -402,7 +400,7 @@ class _detailState extends State<detail> {
                             ),
                           ],
                           borderRadius: BorderRadius.circular(15),
-                          color: Color.fromARGB(255, 244, 242, 242)),
+                          color: const Color.fromARGB(255, 244, 242, 242)),
                       child: InkWell(
                         onTap: () {
                           Navigator.push(
@@ -459,7 +457,7 @@ class _detailState extends State<detail> {
                                   Column(
                                     children: [
                                       Text(
-                                        "${data1s[index].tittle}",
+                                        data1s[index].tittle,
                                         style: const TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold,
@@ -512,7 +510,7 @@ class updatetime1 extends State<updatetime> {
 
   @override
   void initState() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         formatedtime = DateFormat().format(DateTime.now());
       });
