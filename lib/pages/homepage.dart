@@ -18,6 +18,7 @@ import 'package:todoaiapp/pages/notes/editnotes.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
 import 'package:todoaiapp/pages/notes/notes.dart';
 import 'package:todoaiapp/pages/ocr/homePage.dart';
+
 import 'package:todoaiapp/pages/speechtotext/speechtotext.dart';
 import 'package:http/http.dart' as http;
 import 'package:todoaiapp/pages/todo/tododetail.dart';
@@ -62,6 +63,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       payload: 'item x',
     );
   }
+
 //permission for internal storage acess
   Future<bool> _request_per(Permission permission) async {
     AndroidDeviceInfo build = await DeviceInfoPlugin().androidInfo;
@@ -818,7 +820,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                             () async {
                                                                           if (await _request_per(Permission.storage) ==
                                                                               true) {
-                                                                            convertToPDF(widget.datas[index].tittle1 +
+                                                                            convertToDocx(widget.datas[index].tittle1 +
                                                                                 "\n" +
                                                                                 "\n" +
                                                                                 widget.datas[index].content1);
@@ -839,7 +841,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                             () async {
                                                                           if (await _request_per(Permission.storage) ==
                                                                               true) {
-                                                                            convertToPDF(widget.datas[index].tittle1 +
+                                                                            downloadTxt(widget.datas[index].tittle1 +
                                                                                 "\n" +
                                                                                 "\n" +
                                                                                 widget.datas[index].content1);
@@ -936,8 +938,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8),
-                                        child:
-                                            Text(widget.datas[index].content1),
+                                        child: Container(
+                                            height: 80,
+                                            child: SingleChildScrollView(
+                                                child: Text(widget
+                                                    .datas[index].content1))),
                                       )
                                     ],
                                   ),

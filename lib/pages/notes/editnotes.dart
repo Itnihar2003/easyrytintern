@@ -360,8 +360,8 @@ class _editnotesState extends State<editnotes> {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: Container(
-                      width: 345,
-                      height: 96,
+                         width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
                       decoration: BoxDecoration(),
                       child: Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
