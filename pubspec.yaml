@@ -30,9 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   google_fonts: ^6.1.0
   speech_to_text: ^6.5.1
@@ -41,7 +38,6 @@ dependencies:
   shared_preferences: ^2.2.2
   dropdownfield2: ^1.0.7
   get: ^4.6.6
-  # flutter_datetime_picker: ^1.5.1
   flutter_local_notifications: ^13.0.0
   intl: ^0.19.0
   text_editor: ^0.7.0
@@ -52,17 +48,14 @@ dependencies:
   emoji_picker_flutter: ^1.6.2
   audioplayers: ^5.2.0
   flutter_sound: ^9.1.9
-  permission_handler: ^11.0.1
   assets_audio_player: ^3.1.1
   firebase_core: ^2.24.2
   firebase_database: ^10.3.8
   flutter_dotenv: ^5.1.0
   http: ^1.1.2
   clipboard: ^0.1.3
-  google_mlkit_text_recognition: ^0.11.0
   image_cropper: ^5.0.1
   page_transition: ^2.0.9
-  camera: ^0.10.5+5
   path_provider: ^2.1.1
   pdf: ^3.10.6
   file_picker: ^6.1.1
@@ -72,8 +65,11 @@ dependencies:
   flutter_screen_wake: ^1.0.2
   open_file_plus: ^3.4.1
   device_info_plus: ^9.1.1
-  # google_ml_kit: ^0.7.3
-  
+  #OCR
+  camera: ^0.10.0+4
+  google_mlkit_text_recognition: ^0.4.0
+  permission_handler: ^10.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -21,6 +21,7 @@ import 'package:todoaiapp/pages/ocr/homePage.dart';
 
 import 'package:todoaiapp/pages/speechtotext/speechtotext.dart';
 import 'package:http/http.dart' as http;
+import 'package:todoaiapp/pages/texttoimage.dart';
 import 'package:todoaiapp/pages/todo/tododetail.dart';
 
 class home extends StatefulWidget {
@@ -1006,7 +1007,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
           } else if (index == 3) {
             Get.to(() => SpeechScreen());
           } else if (index == 4) {
-            Get.to(() => HomePage());
+            Get.to(() => App());
           }
         },
         child: Column(
