@@ -6,13 +6,20 @@ import 'package:todoaiapp/pages/notes/firebase_options.dart';
 
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:todoaiapp/pages/welcomepage.dart';
+
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 void main(List<String> args) async {
-    WidgetsFlutterBinding.ensureInitialized();
-    tz.initializeTimeZones();
+  WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
-  runApp(const GetMaterialApp(debugShowCheckedModeBanner: false, home: welcome()));
+  );
+  runApp(
+    const GetMaterialApp(
+      title: 'Palm - AI, Gpt, Notes, AI Chat',
+      debugShowCheckedModeBanner: false,
+      home: welcome(),
+    ),
+  );
 }

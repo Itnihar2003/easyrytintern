@@ -1,6 +1,7 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
@@ -33,6 +34,9 @@ class _SpeechScreenState extends State<SpeechScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [IconButton(onPressed: ()async{
+          await  Share.share(controler.text);
+        }, icon: Icon(Icons.share,size: 20,color: Colors.black,))],
         title: const Text("speech to text converter"),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

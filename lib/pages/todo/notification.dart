@@ -28,7 +28,7 @@ class Notificationservice {
   }
 
   Future scheduleNotification(
-      {int id = 0,
+      {required int id,
       String? title,
       String? body,
       String? payLoad,

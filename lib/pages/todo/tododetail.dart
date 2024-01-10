@@ -113,6 +113,7 @@ class _detailState extends State<detail> {
   String finaldate = "";
   String b = "";
   String finaltime = "";
+  int finalid = 0;
   show() {
     showDialog(
         context: context,
@@ -264,7 +265,8 @@ class _detailState extends State<detail> {
                                                           'complete your task',
                                                       body: '$scheduleTime',
                                                       scheduledNotificationDateTime:
-                                                          scheduleTime);
+                                                          scheduleTime,
+                                                      id: finalid);
                                             },
                                           ),
                                         );
@@ -273,16 +275,6 @@ class _detailState extends State<detail> {
                                   },
                                   icon: const Icon(Icons.calendar_month))),
                         ),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  notificationservice.scheduleminute(
-                                      "hello", "hii", duetime);
-                                },
-                                child: const Text("everyminite"))
-                          ],
-                        )
                       ],
                     ),
                     const SizedBox(
@@ -290,6 +282,7 @@ class _detailState extends State<detail> {
                     ),
                     ElevatedButton(
                         onPressed: () {
+                          finalid++;
                           for (int i = 0; i <= 16; i++) {
                             val = val + datetime.toString()[i];
                           }
@@ -302,6 +295,7 @@ class _detailState extends State<detail> {
                           pop1.clear();
                           priority.clear();
                           date1.clear();
+                          datetimecontroler.clear();
                         },
                         child: const SizedBox(
                           width: 250,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:todoaiapp/pages/homepage.dart';
@@ -310,10 +311,12 @@ class _notesState extends State<notes> {
                           child: Row(
                             children: [
                               IconButton(
-                                  onPressed: () {}, icon: const Icon(Icons.share)),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.list_outlined)),
+                                  onPressed: () async {
+                                    await Share.share(titleController.text +
+                                        "\n" +
+                                        writingController.text);
+                                  },
+                                  icon: const Icon(Icons.share)),
                             ],
                           ),
                         )
@@ -345,10 +348,11 @@ class _notesState extends State<notes> {
                     padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
+                      height: MediaQuery.of(context).size.height,
                       decoration: const BoxDecoration(),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                         child: TextField(
                           controller: writingController,
                           // textAlign: isTextStart

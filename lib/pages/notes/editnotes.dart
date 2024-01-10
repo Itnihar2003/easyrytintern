@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -248,16 +248,16 @@ class _editnotesState extends State<editnotes> {
                   setdata1();
                 });
               } else if (finalcontent == "" && finalvalue != "") {
-                   setState(() {
+                setState(() {
                   selectedindex = widget.id;
                   widget.edit[widget.id].tittle1 = finalvalue;
                   widget.edit[widget.id].content1 = con;
                   setdata1();
                 });
               } else {
-                  setState(() {
+                setState(() {
                   selectedindex = widget.id;
-                  widget.edit[widget.id].tittle1 =tit;
+                  widget.edit[widget.id].tittle1 = tit;
                   widget.edit[widget.id].content1 = con;
                   setdata1();
                 });
@@ -314,10 +314,18 @@ class _editnotesState extends State<editnotes> {
                           child: Row(
                             children: [
                               IconButton(
-                                  onPressed: () {}, icon: const Icon(Icons.share)),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.list_outlined)),
+                                  onPressed: () async {
+                                    if(finalvalue!=""&&finalcontent!=""){
+                                         await Share.share(
+                                        finalvalue + "\n" + finalcontent);
+                                    }
+                                    else{
+                                      await Share.share(
+                                        widget.tittle + "\n" + widget.content);
+                                    }
+                                   
+                                  },
+                                  icon: const Icon(Icons.share)),
                             ],
                           ),
                         )
@@ -358,11 +366,12 @@ class _editnotesState extends State<editnotes> {
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: Container(
-                         width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
                       decoration: const BoxDecoration(),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                         child: TextFormField(
                           initialValue: con,
                           onChanged: (value1) {

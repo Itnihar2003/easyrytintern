@@ -4,12 +4,14 @@ import 'dart:io';
 import 'package:clipboard/clipboard.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/main.dart';
 
@@ -516,7 +518,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                 ],
                               ),
                               IconButton(
-                                  onPressed: () {}, icon: const Icon(Icons.settings))
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.settings))
                             ],
                           ),
                         ),
@@ -653,12 +656,19 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              "Quick Note($index1)",
-                                              style: GoogleFonts.poppins(
-                                                color: Colors.black,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.bold,
+                                            SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Container(
+                                                width: 100,
+                                                height: 22,
+                                                child: Text(
+                                                  widget.datas[index].tittle1,
+                                                  style: GoogleFonts.poppins(
+                                                    color: Colors.black,
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             IconButton(
@@ -674,8 +684,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                 .start,
                                                         children: [
                                                           Container(
-                                                            padding: const EdgeInsets
-                                                                .symmetric(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .symmetric(
                                                                     horizontal:
                                                                         5),
                                                             decoration:
@@ -775,7 +786,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                     TextButton(
                                                                         onPressed:
                                                                             () {
-                                                                          FlutterClipboard.copy("${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                                                                          FlutterClipboard.copy(
+                                                                              "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
                                                                           Get.snackbar(
                                                                               "copied",
                                                                               "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
@@ -843,33 +855,37 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
                                                                             trailing: const Icon(Icons.arrow_forward_ios))),
+                                                                    // TextButton(
+                                                                    //     onPressed:
+                                                                    //         () {},
+                                                                    //     child: ListTile(
+                                                                    //         leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/rename.png")),
+                                                                    //         title: const Text(
+                                                                    //           "Rename",
+                                                                    //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                    //         ),
+                                                                    //         trailing: const Icon(Icons.arrow_forward_ios))),
+                                                                    // TextButton(
+                                                                    //     onPressed:
+                                                                    //         () {},
+                                                                    //     child: ListTile(
+                                                                    //         leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/email.png")),
+                                                                    //         title: const Text(
+                                                                    //           "Send as Email",
+                                                                    //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                    //         ),
+                                                                    //         trailing: const Icon(Icons.arrow_forward_ios))),
                                                                     TextButton(
                                                                         onPressed:
-                                                                            () {},
-                                                                        child: ListTile(
-                                                                            leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/rename.png")),
-                                                                            title: const Text(
-                                                                              "Rename",
-                                                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                                                            ),
-                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () {},
-                                                                        child: ListTile(
-                                                                            leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/email.png")),
-                                                                            title: const Text(
-                                                                              "Send as Email",
-                                                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                                                            ),
-                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () {},
+                                                                            () async {
+                                                                          await Share.share(widget.datas[index].tittle1 +
+                                                                              "\n" +
+                                                                              widget.datas[index].content1);
+                                                                        },
                                                                         child: ListTile(
                                                                             leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
                                                                             title: const Text(
-                                                                              "Share More",
+                                                                              "Share",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
                                                                             trailing: const Icon(Icons.arrow_forward_ios))),
@@ -915,12 +931,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                           ],
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child:
-                                            Text(widget.datas[index].tittle1),
-                                      ),
+                                    
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8),

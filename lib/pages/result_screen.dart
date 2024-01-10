@@ -1,6 +1,7 @@
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:todoaiapp/pages/homepage.dart';
 
 class ResultScreen extends StatelessWidget {
@@ -11,6 +12,9 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          actions: [IconButton(onPressed: (){
+            Share.share(text);
+          }, icon: Icon(Icons.share,color: Colors.black,size: 20,))],
           title: const Text('Result'),
         ),
         body: Container(
