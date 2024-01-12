@@ -1,4 +1,4 @@
-package com.example.todoaiapp
+package com.easyrytAiNotes
 
 import io.flutter.embedding.android.FlutterActivity
 

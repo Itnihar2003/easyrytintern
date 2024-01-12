@@ -84,6 +84,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       }
     }
   }
+
+  //filter operation
+  final searchfielter = TextEditingController();
   //convert to docoment
 
   Future<void> convertToDocx(String doc) async {
@@ -466,6 +469,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  int num = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -493,15 +498,19 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                               Row(
                                 children: [
                                   Container(
-                                    height: 50,
-                                    width: 250,
+                                    height: 55,
+                                    width: 220,
                                     padding: const EdgeInsets.only(right: 2),
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: Color.fromARGB(255, 244, 243, 243),
                                       border: Border.all(color: Colors.white),
                                       borderRadius: BorderRadius.circular(20),
                                     ),
-                                    child: TextFormField(
+                                    child: TextField(
+                                      onChanged: (String value) {
+                                        setState(() {});
+                                      },
+                                      controller: searchfielter,
                                       cursorColor: Colors.black,
                                       style: GoogleFonts.poppins(fontSize: 16),
                                       decoration: const InputDecoration(
@@ -517,9 +526,238 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                   ),
                                 ],
                               ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.settings))
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.amber),
+                                      onPressed: () {
+                                        num++;
+                                        setState(() {});
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Text(num.toString()),
+                                          Container(
+                                              height: 45,
+                                              width: 30,
+                                              child: Image.asset(
+                                                  "assets/popw.png")),
+                                        ],
+                                      )),
+                                  IconButton(
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => SizedBox(
+                                            height: 350,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(horizontal: 5),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: Colors.black,
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(6),
+                                                      topRight:
+                                                          Radius.circular(6),
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          const SizedBox(
+                                                              height: 60,
+                                                              width: 10),
+                                                          Text(
+                                                            "Quick Note",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 17,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  right: 40),
+                                                          child: ElevatedButton(
+                                                            style: ElevatedButton
+                                                                .styleFrom(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .black),
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                              "X",
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                            ),
+                                                          )),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      color: Color(0xFFF6F6F6),
+                                                    ),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      child: Column(
+                                                        children: [
+                                                          const SizedBox(
+                                                              height: 2.5),
+                                                          const Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                              horizontal: 5,
+                                                              vertical: 2.5,
+                                                            ),
+                                                          ),
+                                                          TextButton(
+                                                              onPressed: () {},
+                                                              child: ListTile(
+                                                                  leading: Container(
+                                                                      height:
+                                                                          30,
+                                                                      width: 30,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      child: Image
+                                                                          .asset(
+                                                                              "assets/1.png")),
+                                                                  title:
+                                                                      const Text(
+                                                                    "share the App",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                  trailing:
+                                                                      const Icon(
+                                                                          Icons
+                                                                              .arrow_forward_ios))),
+                                                          TextButton(
+                                                              onPressed: () {},
+                                                              child: ListTile(
+                                                                  leading: Container(
+                                                                      height:
+                                                                          30,
+                                                                      width: 30,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      child: Image
+                                                                          .asset(
+                                                                              "assets/2.png")),
+                                                                  title:
+                                                                      const Text(
+                                                                    "Rate us",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                  trailing:
+                                                                      const Icon(
+                                                                          Icons
+                                                                              .arrow_forward_ios))),
+                                                          TextButton(
+                                                              onPressed: () {},
+                                                              child: ListTile(
+                                                                  leading: Container(
+                                                                      height:
+                                                                          30,
+                                                                      width: 30,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      child: Image
+                                                                          .asset(
+                                                                              "assets/3.png")),
+                                                                  title:
+                                                                      const Text(
+                                                                    "Terms of Use",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                  trailing:
+                                                                      const Icon(
+                                                                          Icons
+                                                                              .arrow_forward_ios))),
+                                                          TextButton(
+                                                              onPressed: () {},
+                                                              child: ListTile(
+                                                                  leading: Container(
+                                                                      height:
+                                                                          30,
+                                                                      width: 30,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      child: Image
+                                                                          .asset(
+                                                                              "assets/4.png")),
+                                                                  title:
+                                                                      const Text(
+                                                                    "Privacy Policy",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
+                                                                  trailing:
+                                                                      const Icon(
+                                                                          Icons
+                                                                              .arrow_forward_ios))),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      icon: const Icon(Icons.settings)),
+                                ],
+                              )
                             ],
                           ),
                         ),
@@ -613,7 +851,6 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           itemCount:
                               widget.datas.length, // Total number of containers
                           itemBuilder: (BuildContext context, int index) {
-                            int index1 = index + 1;
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: InkWell(
@@ -731,31 +968,34 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                   ],
                                                                 ),
                                                                 Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          right:
-                                                                              40),
-                                                                  child:
-                                                                      InkWell(
-                                                                    onTap: () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: Text(
-                                                                      "x",
-                                                                      style: GoogleFonts
-                                                                          .poppins(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            20,
-                                                                        fontWeight:
-                                                                            FontWeight.w500,
+                                                                    padding: const EdgeInsets
+                                                                        .only(
+                                                                        right:
+                                                                            40),
+                                                                    child:
+                                                                        ElevatedButton(
+                                                                      style: ElevatedButton.styleFrom(
+                                                                          backgroundColor:
+                                                                              Colors.black),
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      child:
+                                                                          Text(
+                                                                        "X",
+                                                                        style: GoogleFonts
+                                                                            .poppins(
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontSize:
+                                                                              20,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                        ),
                                                                       ),
-                                                                    ),
-                                                                  ),
-                                                                ),
+                                                                    )),
                                                               ],
                                                             ),
                                                           ),
@@ -804,13 +1044,13 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
-                                                                          if (await _request_per(Permission.storage) ==
-                                                                              true) {
+                                                                          // if (await _request_per(Permission.storage) ==
+                                                                          //     true) {
                                                                             convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
-                                                                          } else {
-                                                                            print("permission not granted");
-                                                                          }
+                                                                          // } else {
+                                                                          //   print("permission not granted");
+                                                                          // }
                                                                         },
                                                                         child: ListTile(
                                                                             leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
@@ -822,13 +1062,13 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
-                                                                          if (await _request_per(Permission.storage) ==
-                                                                              true) {
+                                                                          // if (await _request_per(Permission.storage) ==
+                                                                          //     true) {
                                                                             convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
-                                                                          } else {
-                                                                            print("permission not granted");
-                                                                          }
+                                                                          // } else {
+                                                                          //   print("permission not granted");
+                                                                          // }
                                                                         },
                                                                         child: ListTile(
                                                                             leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
@@ -840,13 +1080,13 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
-                                                                          if (await _request_per(Permission.storage) ==
-                                                                              true) {
+                                                                          // if (await _request_per(Permission.storage) ==
+                                                                          //     true) {
                                                                             downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
-                                                                          } else {
-                                                                            print("permission not granted");
-                                                                          }
+                                                                          // } else {
+                                                                          //   print("permission not granted");
+                                                                          // }
                                                                         },
                                                                         child: ListTile(
                                                                             leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
@@ -931,7 +1171,6 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                           ],
                                         ),
                                       ),
-                                    
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8),
@@ -957,36 +1196,31 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const aiask(),
-                  ));
-            },
-            child: AnimatedBuilder(
-              animation: _controller,
-              child: const SizedBox(
-                width: 130,
-                child: Image(
-                  image: AssetImage("assets/ai.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              builder: (context, child) {
-                return Transform.rotate(
-                  angle: _controller.value * 2 * 3.141,
-                  child: child,
-                );
-              },
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ai(),
+              ));
+        },
+        child: AnimatedBuilder(
+          animation: _controller,
+          child: const SizedBox(
+            width: 130,
+            child: Image(
+              image: AssetImage("assets/ai.png"),
+              fit: BoxFit.cover,
             ),
           ),
-        ],
+          builder: (context, child) {
+            return Transform.rotate(
+              angle: _controller.value * 2 * 3.141,
+              child: child,
+            );
+          },
+        ),
       ),
     );
   }
