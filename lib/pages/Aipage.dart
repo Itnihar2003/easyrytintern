@@ -738,8 +738,10 @@ class _aiState extends State<ai> {
     });
   }
 
+  String all = "";
   String data = "";
   String editdata = "";
+  List messages = [];
   Future<String> sendMessageToChatGpt(String message) async {
     final userData = {"userPrompt": message};
 
@@ -754,6 +756,7 @@ class _aiState extends State<ai> {
 
     print(response.body);
     data = reply;
+    messages.add(reply);
     return reply;
   }
 
@@ -763,8 +766,10 @@ class _aiState extends State<ai> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
         child: Column(
-          crossAxisAlignment:
-              message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          // crossAxisAlignment:
+          //     message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               message.isMe ? 'You' : 'GPT',
@@ -1226,7 +1231,51 @@ class _aiState extends State<ai> {
                                       ),
                                       TextButton(
                                           onPressed: () {
-                                            FlutterClipboard.copy(data);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => home(
+                                                    datas: allnote,
+                                                  ),
+                                                ));
+                                            int a = messages.length;
+                                            for (int i = 0; i < a; i++) {
+                                              all = all +
+                                                  "\n" +
+                                                  "\n" +
+                                                  messages[i];
+                                            }
+                                            save1(all);
+                                          },
+                                          child: ListTile(
+                                              leading: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  color: Colors.white,
+                                                  child: Icon(
+                                                    Icons.save,
+                                                    size: 30,
+                                                  )),
+                                              title: const Text(
+                                                "save",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              trailing: const Icon(
+                                                  Icons.arrow_forward_ios))),
+                                      TextButton(
+                                          onPressed: () {
+                                            int a = messages.length;
+                                            for (int i = 0; i < a; i++) {
+                                              all = all +
+                                                  "\n" +
+                                                  "\n" +
+                                                  messages[i];
+                                            }
+
+                                            FlutterClipboard.copy(all);
                                             Get.snackbar("copied", "");
                                             Navigator.pop(context);
                                           },
@@ -1250,7 +1299,15 @@ class _aiState extends State<ai> {
                                           onPressed: () async {
                                             // if (await _request_per(Permission.storage) ==
                                             //     true) {
-                                            convertToPDF(data);
+                                            int a = messages.length;
+                                            for (int i = 0; i < a; i++) {
+                                              all = all +
+                                                  "\n" +
+                                                  "\n" +
+                                                  messages[i];
+                                            }
+
+                                            convertToPDF(all);
                                             print("permission granted");
                                             // } else {
                                             //   print("permission not granted");
@@ -1276,7 +1333,15 @@ class _aiState extends State<ai> {
                                           onPressed: () async {
                                             // if (await _request_per(Permission.storage) ==
                                             //     true) {
-                                            convertToDocx(data);
+                                            int a = messages.length;
+                                            for (int i = 0; i < a; i++) {
+                                              all = all +
+                                                  "\n" +
+                                                  "\n" +
+                                                  messages[i];
+                                            }
+                                            save1(all);
+                                            convertToDocx(all);
                                             print("permission granted");
                                             // } else {
                                             //   print("permission not granted");
@@ -1302,7 +1367,15 @@ class _aiState extends State<ai> {
                                           onPressed: () async {
                                             // if (await _request_per(Permission.storage) ==
                                             //     true) {
-                                            downloadTxt(data);
+                                            int a = messages.length;
+                                            for (int i = 0; i < a; i++) {
+                                              all = all +
+                                                  "\n" +
+                                                  "\n" +
+                                                  messages[i];
+                                            }
+
+                                            downloadTxt(all);
                                             print("permission granted");
                                             // } else {
                                             //   print("permission not granted");
@@ -1326,7 +1399,15 @@ class _aiState extends State<ai> {
                                                   Icons.arrow_forward_ios))),
                                       TextButton(
                                           onPressed: () async {
-                                            await Share.share(data);
+                                            int a = messages.length;
+                                            for (int i = 0; i < a; i++) {
+                                              all = all +
+                                                  "\n" +
+                                                  "\n" +
+                                                  messages[i];
+                                            }
+
+                                            await Share.share(all);
                                           },
                                           child: ListTile(
                                               leading: Container(
@@ -1364,6 +1445,11 @@ class _aiState extends State<ai> {
         ],
         leading: IconButton(
             onPressed: () {
+              int a = messages.length;
+              for (int i = 0; i < a; i++) {
+                all = all + "\n" + "\n" + messages[i];
+              }
+              save1(all);
               Navigator.push(
                   context,
                   MaterialPageRoute(
