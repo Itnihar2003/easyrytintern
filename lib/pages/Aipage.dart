@@ -279,8 +279,10 @@
 // }
 
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -324,7 +326,13 @@ class _aiState extends State<ai> {
   @override
   void initState() {
     update();
+    _scrollController = ScrollController();
     super.initState();
+  }
+
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   update() async {
@@ -348,6 +356,7 @@ class _aiState extends State<ai> {
     }
   }
 
+  late ScrollController _scrollController;
   bool isLoading = true;
   String baseUrl = 'https://scannerimage-e52f6979766b.herokuapp.com';
   void showNotification(String title, String body) async {
@@ -717,7 +726,7 @@ class _aiState extends State<ai> {
   }
 
   final List<Message> _messages = [];
-
+  bool _isLoading = true;
   final TextEditingController _textEditingController = TextEditingController();
   final TextEditingController edittext = TextEditingController();
   void onSendMessage() async {
@@ -738,6 +747,11 @@ class _aiState extends State<ai> {
     });
   }
 
+  void scrolltoend() {
+    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+        duration: Duration(seconds: 2), curve: Curves.easeInOutCubic);
+  }
+
   String all = "";
   String data = "";
   String editdata = "";
@@ -756,7 +770,13 @@ class _aiState extends State<ai> {
 
     print(response.body);
     data = reply;
+    messages.add(message);
     messages.add(reply);
+    print(response.statusCode);
+    setState(() {
+      scrolltoend();
+    });
+
     return reply;
   }
 
@@ -771,86 +791,91 @@ class _aiState extends State<ai> {
           // crossAxisAlignment:
           //     message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              message.isMe ? 'You' : 'GPT',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: message.isMe ? Colors.green : Colors.red,
-              ),
+            Row(
+              children: [
+                message.isMe
+                    ? Container(
+                        width: 15, child: Image.asset("assets/person.png"))
+                    : Container(
+                        width: 20, child: Image.asset("assets/gpt.png")),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  message.isMe ? 'You' : 'GPT',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black),
+                ),
+              ],
             ),
             SizedBox(
               height: 6,
             ),
             Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: message.isMe
-                      ? Colors.white
-                      : const Color.fromARGB(255, 238, 237, 236),
-                  border: Border.all()),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      message.text,
-                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    child: Container(
+                      child: AnimatedTextKit(
+                          repeatForever: false,
+                          isRepeatingAnimation: false,
+                          animatedTexts: [
+                            TypewriterAnimatedText(message.text)
+                          ]),
                     ),
                   ),
                   message.isMe
-                      ? Container(
-                          width: 150,
-                          height: 30,
-                          child: Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        actions: [
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                if (editdata == "") {
-                                                  _textEditingController.text =
-                                                      message.text;
-                                                  onSendMessage();
-                                                } else {
-                                                  _textEditingController.text =
-                                                      editdata;
-                                                  onSendMessage();
-                                                }
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text("send"))
-                                        ],
-                                        title: Text("Edit"),
-                                        content: Container(
-                                          height: 500,
-                                          child: TextFormField(
-                                            decoration: InputDecoration(
-                                                border: OutlineInputBorder()),
-                                            maxLines: 100,
-                                            initialValue: message.text,
-                                            onChanged: (value) {
-                                              editdata = value;
-                                              _textEditingController.text =
-                                                  value;
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  icon: Icon(
-                                    Icons.edit,
-                                    size: 15,
-                                  )),
-                            ],
-                          ),
+                      ? Row(
+                          children: [
+                            // IconButton(
+                            //     onPressed: () {
+                            //       showDialog(
+                            //         context: context,
+                            //         builder: (context) => AlertDialog(
+                            //           actions: [
+                            //             ElevatedButton(
+                            //                 onPressed: () {
+                            //                   if (editdata == "") {
+                            //                     _textEditingController.text =
+                            //                         message.text;
+                            //                     onSendMessage();
+                            //                   } else {
+                            //                     _textEditingController.text =
+                            //                         editdata;
+                            //                     onSendMessage();
+                            //                   }
+                            //                   Navigator.pop(context);
+                            //                 },
+                            //                 child: Text("send"))
+                            //           ],
+                            //           title: Text("Edit"),
+                            //           content: Container(
+                            //             height: 500,
+                            //             child: TextFormField(
+                            //               decoration: InputDecoration(
+                            //                   border: OutlineInputBorder()),
+                            //               maxLines: 100,
+                            //               initialValue: message.text,
+                            //               onChanged: (value) {
+                            //                 editdata = value;
+                            //                 _textEditingController.text =
+                            //                     value;
+                            //               },
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       );
+                            //     },
+                            //     icon: Icon(
+                            //       Icons.edit,
+                            //       size: 15,
+                            //     )),
+                          ],
                         )
                       : Container(
                           width: 150,
@@ -865,275 +890,275 @@ class _aiState extends State<ai> {
                                     Icons.copy,
                                     size: 15,
                                   )),
-                              IconButton(
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) => SizedBox(
-                                        height: 400,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 5),
-                                              decoration: const BoxDecoration(
-                                                color: Colors.black,
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(6),
-                                                  topRight: Radius.circular(6),
-                                                ),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      const SizedBox(
-                                                          height: 60,
-                                                          width: 10),
-                                                      Text(
-                                                        "Quick Note",
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                          color: Colors.white,
-                                                          fontSize: 17,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 40),
-                                                      child: ElevatedButton(
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .black),
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text(
-                                                          "X",
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                            color: Colors.white,
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                        ),
-                                                      )),
-                                                ],
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Color(0xFFF6F6F6),
-                                                ),
-                                                child: SingleChildScrollView(
-                                                  child: Column(
-                                                    children: [
-                                                      const SizedBox(
-                                                          height: 2.5),
-                                                      const Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                          horizontal: 5,
-                                                          vertical: 2.5,
-                                                        ),
-                                                      ),
-                                                      TextButton(
-                                                          onPressed: () {
-                                                            Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          home(
-                                                                    datas:
-                                                                        allnote,
-                                                                  ),
-                                                                ));
-                                                            save1(message.text);
-                                                          },
-                                                          child: ListTile(
-                                                              leading:
-                                                                  Container(
-                                                                      height:
-                                                                          30,
-                                                                      width: 30,
-                                                                      color: Colors
-                                                                          .white,
-                                                                      child:
-                                                                          Icon(
-                                                                        Icons
-                                                                            .save,
-                                                                        size:
-                                                                            30,
-                                                                      )),
-                                                              title: const Text(
-                                                                "save",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        18,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                              trailing:
-                                                                  const Icon(Icons
-                                                                      .arrow_forward_ios))),
-                                                      TextButton(
-                                                          onPressed: () async {
-                                                            // if (await _request_per(Permission.storage) ==
-                                                            //     true) {
-                                                            convertToPDF(
-                                                                message.text);
-                                                            print(
-                                                                "permission granted");
-                                                            // } else {
-                                                            //   print("permission not granted");
-                                                            // }
-                                                          },
-                                                          child: ListTile(
-                                                              leading: Container(
-                                                                  height: 30,
-                                                                  width: 30,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  child: Image
-                                                                      .asset(
-                                                                          "assets/pop.png")),
-                                                              title: const Text(
-                                                                "PDF",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                              trailing:
-                                                                  const Icon(Icons
-                                                                      .arrow_forward_ios))),
-                                                      TextButton(
-                                                          onPressed: () async {
-                                                            // if (await _request_per(Permission.storage) ==
-                                                            //     true) {
-                                                            convertToDocx(
-                                                                message.text);
-                                                            print(
-                                                                "permission granted");
-                                                            // } else {
-                                                            //   print("permission not granted");
-                                                            // }
-                                                          },
-                                                          child: ListTile(
-                                                              leading: Container(
-                                                                  height: 30,
-                                                                  width: 30,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  child: Image
-                                                                      .asset(
-                                                                          "assets/word.png")),
-                                                              title: const Text(
-                                                                "Word",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                              trailing:
-                                                                  const Icon(Icons
-                                                                      .arrow_forward_ios))),
-                                                      TextButton(
-                                                          onPressed: () async {
-                                                            // if (await _request_per(Permission.storage) ==
-                                                            //     true) {
-                                                            downloadTxt(
-                                                                message.text);
-                                                            print(
-                                                                "permission granted");
-                                                            // } else {
-                                                            //   print("permission not granted");
-                                                            // }
-                                                          },
-                                                          child: ListTile(
-                                                              leading: Container(
-                                                                  height: 30,
-                                                                  width: 30,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  child: Image
-                                                                      .asset(
-                                                                          "assets/text.png")),
-                                                              title: const Text(
-                                                                "Txt",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                              trailing:
-                                                                  const Icon(Icons
-                                                                      .arrow_forward_ios))),
-                                                      TextButton(
-                                                          onPressed: () async {
-                                                            await Share.share(
-                                                                message.text);
-                                                          },
-                                                          child: ListTile(
-                                                              leading: Container(
-                                                                  height: 30,
-                                                                  width: 30,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  child: Image
-                                                                      .asset(
-                                                                          "assets/share.png")),
-                                                              title: const Text(
-                                                                "Share",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold),
-                                                              ),
-                                                              trailing:
-                                                                  const Icon(Icons
-                                                                      .arrow_forward_ios))),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  icon: SizedBox(
-                                    width: 12,
-                                    height: 13,
-                                    child: Image.asset("assets/dot.png"),
-                                  ))
+                              // IconButton(
+                              //     onPressed: () {
+                              //       showModalBottomSheet(
+                              //         context: context,
+                              //         builder: (context) => SizedBox(
+                              //           height: 400,
+                              //           child: Column(
+                              //             mainAxisAlignment:
+                              //                 MainAxisAlignment.start,
+                              //             children: [
+                              //               Container(
+                              //                 padding:
+                              //                     const EdgeInsets.symmetric(
+                              //                         horizontal: 5),
+                              //                 decoration: const BoxDecoration(
+                              //                   color: Colors.black,
+                              //                   borderRadius: BorderRadius.only(
+                              //                     topLeft: Radius.circular(6),
+                              //                     topRight: Radius.circular(6),
+                              //                   ),
+                              //                 ),
+                              //                 child: Row(
+                              //                   mainAxisAlignment:
+                              //                       MainAxisAlignment
+                              //                           .spaceBetween,
+                              //                   children: [
+                              //                     Row(
+                              //                       children: [
+                              //                         const SizedBox(
+                              //                             height: 60,
+                              //                             width: 10),
+                              //                         Text(
+                              //                           "Quick Note",
+                              //                           style:
+                              //                               GoogleFonts.poppins(
+                              //                             color: Colors.white,
+                              //                             fontSize: 17,
+                              //                             fontWeight:
+                              //                                 FontWeight.w400,
+                              //                           ),
+                              //                         ),
+                              //                       ],
+                              //                     ),
+                              //                     Padding(
+                              //                         padding:
+                              //                             const EdgeInsets.only(
+                              //                                 right: 40),
+                              //                         child: ElevatedButton(
+                              //                           style: ElevatedButton
+                              //                               .styleFrom(
+                              //                                   backgroundColor:
+                              //                                       Colors
+                              //                                           .black),
+                              //                           onPressed: () {
+                              //                             Navigator.pop(
+                              //                                 context);
+                              //                           },
+                              //                           child: Text(
+                              //                             "X",
+                              //                             style: GoogleFonts
+                              //                                 .poppins(
+                              //                               color: Colors.white,
+                              //                               fontSize: 20,
+                              //                               fontWeight:
+                              //                                   FontWeight.w500,
+                              //                             ),
+                              //                           ),
+                              //                         )),
+                              //                   ],
+                              //                 ),
+                              //               ),
+                              //               Expanded(
+                              //                 child: Container(
+                              //                   decoration: const BoxDecoration(
+                              //                     color: Color(0xFFF6F6F6),
+                              //                   ),
+                              //                   child: SingleChildScrollView(
+                              //                     child: Column(
+                              //                       children: [
+                              //                         const SizedBox(
+                              //                             height: 2.5),
+                              //                         const Padding(
+                              //                           padding: EdgeInsets
+                              //                               .symmetric(
+                              //                             horizontal: 5,
+                              //                             vertical: 2.5,
+                              //                           ),
+                              //                         ),
+                              //                         TextButton(
+                              //                             onPressed: () {
+                              //                               Navigator.push(
+                              //                                   context,
+                              //                                   MaterialPageRoute(
+                              //                                     builder:
+                              //                                         (context) =>
+                              //                                             home(
+                              //                                       datas:
+                              //                                           allnote,
+                              //                                     ),
+                              //                                   ));
+                              //                               save1(message.text);
+                              //                             },
+                              //                             child: ListTile(
+                              //                                 leading:
+                              //                                     Container(
+                              //                                         height:
+                              //                                             30,
+                              //                                         width: 30,
+                              //                                         color: Colors
+                              //                                             .white,
+                              //                                         child:
+                              //                                             Icon(
+                              //                                           Icons
+                              //                                               .save,
+                              //                                           size:
+                              //                                               30,
+                              //                                         )),
+                              //                                 title: const Text(
+                              //                                   "save",
+                              //                                   style: TextStyle(
+                              //                                       fontSize:
+                              //                                           18,
+                              //                                       fontWeight:
+                              //                                           FontWeight
+                              //                                               .bold),
+                              //                                 ),
+                              //                                 trailing:
+                              //                                     const Icon(Icons
+                              //                                         .arrow_forward_ios))),
+                              //                         TextButton(
+                              //                             onPressed: () async {
+                              //                               // if (await _request_per(Permission.storage) ==
+                              //                               //     true) {
+                              //                               convertToPDF(
+                              //                                   message.text);
+                              //                               print(
+                              //                                   "permission granted");
+                              //                               // } else {
+                              //                               //   print("permission not granted");
+                              //                               // }
+                              //                             },
+                              //                             child: ListTile(
+                              //                                 leading: Container(
+                              //                                     height: 30,
+                              //                                     width: 30,
+                              //                                     color: Colors
+                              //                                         .white,
+                              //                                     child: Image
+                              //                                         .asset(
+                              //                                             "assets/pop.png")),
+                              //                                 title: const Text(
+                              //                                   "PDF",
+                              //                                   style: TextStyle(
+                              //                                       fontSize:
+                              //                                           15,
+                              //                                       fontWeight:
+                              //                                           FontWeight
+                              //                                               .bold),
+                              //                                 ),
+                              //                                 trailing:
+                              //                                     const Icon(Icons
+                              //                                         .arrow_forward_ios))),
+                              //                         TextButton(
+                              //                             onPressed: () async {
+                              //                               // if (await _request_per(Permission.storage) ==
+                              //                               //     true) {
+                              //                               convertToDocx(
+                              //                                   message.text);
+                              //                               print(
+                              //                                   "permission granted");
+                              //                               // } else {
+                              //                               //   print("permission not granted");
+                              //                               // }
+                              //                             },
+                              //                             child: ListTile(
+                              //                                 leading: Container(
+                              //                                     height: 30,
+                              //                                     width: 30,
+                              //                                     color: Colors
+                              //                                         .white,
+                              //                                     child: Image
+                              //                                         .asset(
+                              //                                             "assets/word.png")),
+                              //                                 title: const Text(
+                              //                                   "Word",
+                              //                                   style: TextStyle(
+                              //                                       fontSize:
+                              //                                           15,
+                              //                                       fontWeight:
+                              //                                           FontWeight
+                              //                                               .bold),
+                              //                                 ),
+                              //                                 trailing:
+                              //                                     const Icon(Icons
+                              //                                         .arrow_forward_ios))),
+                              //                         TextButton(
+                              //                             onPressed: () async {
+                              //                               // if (await _request_per(Permission.storage) ==
+                              //                               //     true) {
+                              //                               downloadTxt(
+                              //                                   message.text);
+                              //                               print(
+                              //                                   "permission granted");
+                              //                               // } else {
+                              //                               //   print("permission not granted");
+                              //                               // }
+                              //                             },
+                              //                             child: ListTile(
+                              //                                 leading: Container(
+                              //                                     height: 30,
+                              //                                     width: 30,
+                              //                                     color: Colors
+                              //                                         .white,
+                              //                                     child: Image
+                              //                                         .asset(
+                              //                                             "assets/text.png")),
+                              //                                 title: const Text(
+                              //                                   "Txt",
+                              //                                   style: TextStyle(
+                              //                                       fontSize:
+                              //                                           15,
+                              //                                       fontWeight:
+                              //                                           FontWeight
+                              //                                               .bold),
+                              //                                 ),
+                              //                                 trailing:
+                              //                                     const Icon(Icons
+                              //                                         .arrow_forward_ios))),
+                              //                         TextButton(
+                              //                             onPressed: () async {
+                              //                               await Share.share(
+                              //                                   message.text);
+                              //                             },
+                              //                             child: ListTile(
+                              //                                 leading: Container(
+                              //                                     height: 30,
+                              //                                     width: 30,
+                              //                                     color: Colors
+                              //                                         .white,
+                              //                                     child: Image
+                              //                                         .asset(
+                              //                                             "assets/share.png")),
+                              //                                 title: const Text(
+                              //                                   "Share",
+                              //                                   style: TextStyle(
+                              //                                       fontSize:
+                              //                                           15,
+                              //                                       fontWeight:
+                              //                                           FontWeight
+                              //                                               .bold),
+                              //                                 ),
+                              //                                 trailing:
+                              //                                     const Icon(Icons
+                              //                                         .arrow_forward_ios))),
+                              //                       ],
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               )
+                              //             ],
+                              //           ),
+                              //         ),
+                              //       );
+                              //     },
+                              //     icon: SizedBox(
+                              //       width: 12,
+                              //       height: 13,
+                              //       child: Image.asset("assets/dot.png"),
+                              //     ))
                             ],
                           ),
                         ),
@@ -1447,7 +1472,7 @@ class _aiState extends State<ai> {
             onPressed: () {
               int a = messages.length;
               for (int i = 0; i < a; i++) {
-                all = all + "\n" + "\n" + messages[i];
+                all = all + "\n" + messages[i];
               }
               save1(all);
               Navigator.push(
@@ -1466,10 +1491,11 @@ class _aiState extends State<ai> {
         children: <Widget>[
           Expanded(
             child: ListView.builder(
-              reverse: true,
+              controller: _scrollController,
               itemCount: _messages.length,
               itemBuilder: (BuildContext context, int index) {
-                return _buildMessage(_messages[index]);
+                int reversedIndex = _messages.length - 1 - index;
+                return _buildMessage(_messages[reversedIndex]);
               },
             ),
           ),
@@ -1481,26 +1507,37 @@ class _aiState extends State<ai> {
                   child: TextField(
                     controller: _textEditingController,
                     decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 218, 218, 218),
                       contentPadding: EdgeInsets.all(15.0),
                       hintText: 'Type a message...',
+                      hintStyle: TextStyle(color: Colors.black),
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                          borderSide: BorderSide(color: Colors.white),
+                          borderRadius: BorderRadius.circular(25)),
                     ),
                   ),
                 ),
                 SizedBox(
-                  width: 15,
+                  width: 10,
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all()),
+                    color: const Color.fromARGB(255, 218, 218, 218),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
                   child: IconButton(
                     icon: Icon(
                       Icons.send,
                       color: Colors.black,
                     ),
-                    onPressed: onSendMessage,
+                    onPressed: () {
+                      onSendMessage();
+                      FocusScopeNode focus = FocusScope.of(context);
+                      if (!focus.hasPrimaryFocus) {
+                        focus.unfocus();
+                      }
+                    },
                   ),
                 ),
               ],
