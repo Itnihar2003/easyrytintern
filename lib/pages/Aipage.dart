@@ -289,6 +289,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -346,7 +347,10 @@ class _aiState extends State<ai> {
     if (aimessage != "") {
       setState(() {
         allnote.add(data1(
-            tittle1: "Ai" + "(" + DateTime.now().toString() + ")",
+            tittle1: messages[0].toString() +
+                "(" +
+                DateFormat.yMMMMEEEEd().format(DateTime.now()) +
+                ")",
             content1: aimessage));
       });
       setdata1();
@@ -781,771 +785,806 @@ class _aiState extends State<ai> {
   }
 
   Widget _buildMessage(Message message) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          // crossAxisAlignment:
-          //     message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: [
-                message.isMe
-                    ? Container(
-                        width: 15, child: Image.asset("assets/person.png"))
-                    : Container(
-                        width: 20, child: Image.asset("assets/gpt.png")),
-                SizedBox(
-                  width: 10,
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 10.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // crossAxisAlignment:
+              //     message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  children: [
+                    message.isMe
+                        ? Container(
+                            width: 15, child: Image.asset("assets/person.png"))
+                        : Container(
+                            width: 20, child: Image.asset("assets/gpt.png")),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      message.isMe ? 'You' : 'GPT',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black),
+                    ),
+                  ],
                 ),
-                Text(
-                  message.isMe ? 'You' : 'GPT',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.black),
+                SizedBox(
+                  height: 6,
+                ),
+                Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          child: AnimatedTextKit(
+                              repeatForever: false,
+                              isRepeatingAnimation: false,
+                              animatedTexts: [
+                                TypewriterAnimatedText(message.text)
+                              ]),
+                        ),
+                      ),
+                      message.isMe
+                          ? Row(
+                              children: [
+                                // IconButton(
+                                //     onPressed: () {
+                                //       showDialog(
+                                //         context: context,
+                                //         builder: (context) => AlertDialog(
+                                //           actions: [
+                                //             ElevatedButton(
+                                //                 onPressed: () {
+                                //                   if (editdata == "") {
+                                //                     _textEditingController.text =
+                                //                         message.text;
+                                //                     onSendMessage();
+                                //                   } else {
+                                //                     _textEditingController.text =
+                                //                         editdata;
+                                //                     onSendMessage();
+                                //                   }
+                                //                   Navigator.pop(context);
+                                //                 },
+                                //                 child: Text("send"))
+                                //           ],
+                                //           title: Text("Edit"),
+                                //           content: Container(
+                                //             height: 500,
+                                //             child: TextFormField(
+                                //               decoration: InputDecoration(
+                                //                   border: OutlineInputBorder()),
+                                //               maxLines: 100,
+                                //               initialValue: message.text,
+                                //               onChanged: (value) {
+                                //                 editdata = value;
+                                //                 _textEditingController.text =
+                                //                     value;
+                                //               },
+                                //             ),
+                                //           ),
+                                //         ),
+                                //       );
+                                //     },
+                                //     icon: Icon(
+                                //       Icons.edit,
+                                //       size: 15,
+                                //     )),
+                              ],
+                            )
+                          : Container(
+                              width: 150,
+                              height: 30,
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        FlutterClipboard.copy(message.text);
+                                      },
+                                      icon: Icon(
+                                        Icons.copy,
+                                        size: 15,
+                                      )),
+                                  // IconButton(
+                                  //     onPressed: () {
+                                  //       showModalBottomSheet(
+                                  //         context: context,
+                                  //         builder: (context) => SizedBox(
+                                  //           height: 400,
+                                  //           child: Column(
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment.start,
+                                  //             children: [
+                                  //               Container(
+                                  //                 padding:
+                                  //                     const EdgeInsets.symmetric(
+                                  //                         horizontal: 5),
+                                  //                 decoration: const BoxDecoration(
+                                  //                   color: Colors.black,
+                                  //                   borderRadius: BorderRadius.only(
+                                  //                     topLeft: Radius.circular(6),
+                                  //                     topRight: Radius.circular(6),
+                                  //                   ),
+                                  //                 ),
+                                  //                 child: Row(
+                                  //                   mainAxisAlignment:
+                                  //                       MainAxisAlignment
+                                  //                           .spaceBetween,
+                                  //                   children: [
+                                  //                     Row(
+                                  //                       children: [
+                                  //                         const SizedBox(
+                                  //                             height: 60,
+                                  //                             width: 10),
+                                  //                         Text(
+                                  //                           "Quick Note",
+                                  //                           style:
+                                  //                               GoogleFonts.poppins(
+                                  //                             color: Colors.white,
+                                  //                             fontSize: 17,
+                                  //                             fontWeight:
+                                  //                                 FontWeight.w400,
+                                  //                           ),
+                                  //                         ),
+                                  //                       ],
+                                  //                     ),
+                                  //                     Padding(
+                                  //                         padding:
+                                  //                             const EdgeInsets.only(
+                                  //                                 right: 40),
+                                  //                         child: ElevatedButton(
+                                  //                           style: ElevatedButton
+                                  //                               .styleFrom(
+                                  //                                   backgroundColor:
+                                  //                                       Colors
+                                  //                                           .black),
+                                  //                           onPressed: () {
+                                  //                             Navigator.pop(
+                                  //                                 context);
+                                  //                           },
+                                  //                           child: Text(
+                                  //                             "X",
+                                  //                             style: GoogleFonts
+                                  //                                 .poppins(
+                                  //                               color: Colors.white,
+                                  //                               fontSize: 20,
+                                  //                               fontWeight:
+                                  //                                   FontWeight.w500,
+                                  //                             ),
+                                  //                           ),
+                                  //                         )),
+                                  //                   ],
+                                  //                 ),
+                                  //               ),
+                                  //               Expanded(
+                                  //                 child: Container(
+                                  //                   decoration: const BoxDecoration(
+                                  //                     color: Color(0xFFF6F6F6),
+                                  //                   ),
+                                  //                   child: SingleChildScrollView(
+                                  //                     child: Column(
+                                  //                       children: [
+                                  //                         const SizedBox(
+                                  //                             height: 2.5),
+                                  //                         const Padding(
+                                  //                           padding: EdgeInsets
+                                  //                               .symmetric(
+                                  //                             horizontal: 5,
+                                  //                             vertical: 2.5,
+                                  //                           ),
+                                  //                         ),
+                                  //                         TextButton(
+                                  //                             onPressed: () {
+                                  //                               Navigator.push(
+                                  //                                   context,
+                                  //                                   MaterialPageRoute(
+                                  //                                     builder:
+                                  //                                         (context) =>
+                                  //                                             home(
+                                  //                                       datas:
+                                  //                                           allnote,
+                                  //                                     ),
+                                  //                                   ));
+                                  //                               save1(message.text);
+                                  //                             },
+                                  //                             child: ListTile(
+                                  //                                 leading:
+                                  //                                     Container(
+                                  //                                         height:
+                                  //                                             30,
+                                  //                                         width: 30,
+                                  //                                         color: Colors
+                                  //                                             .white,
+                                  //                                         child:
+                                  //                                             Icon(
+                                  //                                           Icons
+                                  //                                               .save,
+                                  //                                           size:
+                                  //                                               30,
+                                  //                                         )),
+                                  //                                 title: const Text(
+                                  //                                   "save",
+                                  //                                   style: TextStyle(
+                                  //                                       fontSize:
+                                  //                                           18,
+                                  //                                       fontWeight:
+                                  //                                           FontWeight
+                                  //                                               .bold),
+                                  //                                 ),
+                                  //                                 trailing:
+                                  //                                     const Icon(Icons
+                                  //                                         .arrow_forward_ios))),
+                                  //                         TextButton(
+                                  //                             onPressed: () async {
+                                  //                               // if (await _request_per(Permission.storage) ==
+                                  //                               //     true) {
+                                  //                               convertToPDF(
+                                  //                                   message.text);
+                                  //                               print(
+                                  //                                   "permission granted");
+                                  //                               // } else {
+                                  //                               //   print("permission not granted");
+                                  //                               // }
+                                  //                             },
+                                  //                             child: ListTile(
+                                  //                                 leading: Container(
+                                  //                                     height: 30,
+                                  //                                     width: 30,
+                                  //                                     color: Colors
+                                  //                                         .white,
+                                  //                                     child: Image
+                                  //                                         .asset(
+                                  //                                             "assets/pop.png")),
+                                  //                                 title: const Text(
+                                  //                                   "PDF",
+                                  //                                   style: TextStyle(
+                                  //                                       fontSize:
+                                  //                                           15,
+                                  //                                       fontWeight:
+                                  //                                           FontWeight
+                                  //                                               .bold),
+                                  //                                 ),
+                                  //                                 trailing:
+                                  //                                     const Icon(Icons
+                                  //                                         .arrow_forward_ios))),
+                                  //                         TextButton(
+                                  //                             onPressed: () async {
+                                  //                               // if (await _request_per(Permission.storage) ==
+                                  //                               //     true) {
+                                  //                               convertToDocx(
+                                  //                                   message.text);
+                                  //                               print(
+                                  //                                   "permission granted");
+                                  //                               // } else {
+                                  //                               //   print("permission not granted");
+                                  //                               // }
+                                  //                             },
+                                  //                             child: ListTile(
+                                  //                                 leading: Container(
+                                  //                                     height: 30,
+                                  //                                     width: 30,
+                                  //                                     color: Colors
+                                  //                                         .white,
+                                  //                                     child: Image
+                                  //                                         .asset(
+                                  //                                             "assets/word.png")),
+                                  //                                 title: const Text(
+                                  //                                   "Word",
+                                  //                                   style: TextStyle(
+                                  //                                       fontSize:
+                                  //                                           15,
+                                  //                                       fontWeight:
+                                  //                                           FontWeight
+                                  //                                               .bold),
+                                  //                                 ),
+                                  //                                 trailing:
+                                  //                                     const Icon(Icons
+                                  //                                         .arrow_forward_ios))),
+                                  //                         TextButton(
+                                  //                             onPressed: () async {
+                                  //                               // if (await _request_per(Permission.storage) ==
+                                  //                               //     true) {
+                                  //                               downloadTxt(
+                                  //                                   message.text);
+                                  //                               print(
+                                  //                                   "permission granted");
+                                  //                               // } else {
+                                  //                               //   print("permission not granted");
+                                  //                               // }
+                                  //                             },
+                                  //                             child: ListTile(
+                                  //                                 leading: Container(
+                                  //                                     height: 30,
+                                  //                                     width: 30,
+                                  //                                     color: Colors
+                                  //                                         .white,
+                                  //                                     child: Image
+                                  //                                         .asset(
+                                  //                                             "assets/text.png")),
+                                  //                                 title: const Text(
+                                  //                                   "Txt",
+                                  //                                   style: TextStyle(
+                                  //                                       fontSize:
+                                  //                                           15,
+                                  //                                       fontWeight:
+                                  //                                           FontWeight
+                                  //                                               .bold),
+                                  //                                 ),
+                                  //                                 trailing:
+                                  //                                     const Icon(Icons
+                                  //                                         .arrow_forward_ios))),
+                                  //                         TextButton(
+                                  //                             onPressed: () async {
+                                  //                               await Share.share(
+                                  //                                   message.text);
+                                  //                             },
+                                  //                             child: ListTile(
+                                  //                                 leading: Container(
+                                  //                                     height: 30,
+                                  //                                     width: 30,
+                                  //                                     color: Colors
+                                  //                                         .white,
+                                  //                                     child: Image
+                                  //                                         .asset(
+                                  //                                             "assets/share.png")),
+                                  //                                 title: const Text(
+                                  //                                   "Share",
+                                  //                                   style: TextStyle(
+                                  //                                       fontSize:
+                                  //                                           15,
+                                  //                                       fontWeight:
+                                  //                                           FontWeight
+                                  //                                               .bold),
+                                  //                                 ),
+                                  //                                 trailing:
+                                  //                                     const Icon(Icons
+                                  //                                         .arrow_forward_ios))),
+                                  //                       ],
+                                  //                     ),
+                                  //                   ),
+                                  //                 ),
+                                  //               )
+                                  //             ],
+                                  //           ),
+                                  //         ),
+                                  //       );
+                                  //     },
+                                  //     icon: SizedBox(
+                                  //       width: 12,
+                                  //       height: 13,
+                                  //       child: Image.asset("assets/dot.png"),
+                                  //     ))
+                                ],
+                              ),
+                            ),
+                    ],
+                  ),
                 ),
               ],
             ),
-            SizedBox(
-              height: 6,
-            ),
-            Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: AnimatedTextKit(
-                          repeatForever: false,
-                          isRepeatingAnimation: false,
-                          animatedTexts: [
-                            TypewriterAnimatedText(message.text)
-                          ]),
-                    ),
-                  ),
-                  message.isMe
-                      ? Row(
-                          children: [
-                            // IconButton(
-                            //     onPressed: () {
-                            //       showDialog(
-                            //         context: context,
-                            //         builder: (context) => AlertDialog(
-                            //           actions: [
-                            //             ElevatedButton(
-                            //                 onPressed: () {
-                            //                   if (editdata == "") {
-                            //                     _textEditingController.text =
-                            //                         message.text;
-                            //                     onSendMessage();
-                            //                   } else {
-                            //                     _textEditingController.text =
-                            //                         editdata;
-                            //                     onSendMessage();
-                            //                   }
-                            //                   Navigator.pop(context);
-                            //                 },
-                            //                 child: Text("send"))
-                            //           ],
-                            //           title: Text("Edit"),
-                            //           content: Container(
-                            //             height: 500,
-                            //             child: TextFormField(
-                            //               decoration: InputDecoration(
-                            //                   border: OutlineInputBorder()),
-                            //               maxLines: 100,
-                            //               initialValue: message.text,
-                            //               onChanged: (value) {
-                            //                 editdata = value;
-                            //                 _textEditingController.text =
-                            //                     value;
-                            //               },
-                            //             ),
-                            //           ),
-                            //         ),
-                            //       );
-                            //     },
-                            //     icon: Icon(
-                            //       Icons.edit,
-                            //       size: 15,
-                            //     )),
-                          ],
-                        )
-                      : Container(
-                          width: 150,
-                          height: 30,
-                          child: Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    FlutterClipboard.copy(message.text);
-                                  },
-                                  icon: Icon(
-                                    Icons.copy,
-                                    size: 15,
-                                  )),
-                              // IconButton(
-                              //     onPressed: () {
-                              //       showModalBottomSheet(
-                              //         context: context,
-                              //         builder: (context) => SizedBox(
-                              //           height: 400,
-                              //           child: Column(
-                              //             mainAxisAlignment:
-                              //                 MainAxisAlignment.start,
-                              //             children: [
-                              //               Container(
-                              //                 padding:
-                              //                     const EdgeInsets.symmetric(
-                              //                         horizontal: 5),
-                              //                 decoration: const BoxDecoration(
-                              //                   color: Colors.black,
-                              //                   borderRadius: BorderRadius.only(
-                              //                     topLeft: Radius.circular(6),
-                              //                     topRight: Radius.circular(6),
-                              //                   ),
-                              //                 ),
-                              //                 child: Row(
-                              //                   mainAxisAlignment:
-                              //                       MainAxisAlignment
-                              //                           .spaceBetween,
-                              //                   children: [
-                              //                     Row(
-                              //                       children: [
-                              //                         const SizedBox(
-                              //                             height: 60,
-                              //                             width: 10),
-                              //                         Text(
-                              //                           "Quick Note",
-                              //                           style:
-                              //                               GoogleFonts.poppins(
-                              //                             color: Colors.white,
-                              //                             fontSize: 17,
-                              //                             fontWeight:
-                              //                                 FontWeight.w400,
-                              //                           ),
-                              //                         ),
-                              //                       ],
-                              //                     ),
-                              //                     Padding(
-                              //                         padding:
-                              //                             const EdgeInsets.only(
-                              //                                 right: 40),
-                              //                         child: ElevatedButton(
-                              //                           style: ElevatedButton
-                              //                               .styleFrom(
-                              //                                   backgroundColor:
-                              //                                       Colors
-                              //                                           .black),
-                              //                           onPressed: () {
-                              //                             Navigator.pop(
-                              //                                 context);
-                              //                           },
-                              //                           child: Text(
-                              //                             "X",
-                              //                             style: GoogleFonts
-                              //                                 .poppins(
-                              //                               color: Colors.white,
-                              //                               fontSize: 20,
-                              //                               fontWeight:
-                              //                                   FontWeight.w500,
-                              //                             ),
-                              //                           ),
-                              //                         )),
-                              //                   ],
-                              //                 ),
-                              //               ),
-                              //               Expanded(
-                              //                 child: Container(
-                              //                   decoration: const BoxDecoration(
-                              //                     color: Color(0xFFF6F6F6),
-                              //                   ),
-                              //                   child: SingleChildScrollView(
-                              //                     child: Column(
-                              //                       children: [
-                              //                         const SizedBox(
-                              //                             height: 2.5),
-                              //                         const Padding(
-                              //                           padding: EdgeInsets
-                              //                               .symmetric(
-                              //                             horizontal: 5,
-                              //                             vertical: 2.5,
-                              //                           ),
-                              //                         ),
-                              //                         TextButton(
-                              //                             onPressed: () {
-                              //                               Navigator.push(
-                              //                                   context,
-                              //                                   MaterialPageRoute(
-                              //                                     builder:
-                              //                                         (context) =>
-                              //                                             home(
-                              //                                       datas:
-                              //                                           allnote,
-                              //                                     ),
-                              //                                   ));
-                              //                               save1(message.text);
-                              //                             },
-                              //                             child: ListTile(
-                              //                                 leading:
-                              //                                     Container(
-                              //                                         height:
-                              //                                             30,
-                              //                                         width: 30,
-                              //                                         color: Colors
-                              //                                             .white,
-                              //                                         child:
-                              //                                             Icon(
-                              //                                           Icons
-                              //                                               .save,
-                              //                                           size:
-                              //                                               30,
-                              //                                         )),
-                              //                                 title: const Text(
-                              //                                   "save",
-                              //                                   style: TextStyle(
-                              //                                       fontSize:
-                              //                                           18,
-                              //                                       fontWeight:
-                              //                                           FontWeight
-                              //                                               .bold),
-                              //                                 ),
-                              //                                 trailing:
-                              //                                     const Icon(Icons
-                              //                                         .arrow_forward_ios))),
-                              //                         TextButton(
-                              //                             onPressed: () async {
-                              //                               // if (await _request_per(Permission.storage) ==
-                              //                               //     true) {
-                              //                               convertToPDF(
-                              //                                   message.text);
-                              //                               print(
-                              //                                   "permission granted");
-                              //                               // } else {
-                              //                               //   print("permission not granted");
-                              //                               // }
-                              //                             },
-                              //                             child: ListTile(
-                              //                                 leading: Container(
-                              //                                     height: 30,
-                              //                                     width: 30,
-                              //                                     color: Colors
-                              //                                         .white,
-                              //                                     child: Image
-                              //                                         .asset(
-                              //                                             "assets/pop.png")),
-                              //                                 title: const Text(
-                              //                                   "PDF",
-                              //                                   style: TextStyle(
-                              //                                       fontSize:
-                              //                                           15,
-                              //                                       fontWeight:
-                              //                                           FontWeight
-                              //                                               .bold),
-                              //                                 ),
-                              //                                 trailing:
-                              //                                     const Icon(Icons
-                              //                                         .arrow_forward_ios))),
-                              //                         TextButton(
-                              //                             onPressed: () async {
-                              //                               // if (await _request_per(Permission.storage) ==
-                              //                               //     true) {
-                              //                               convertToDocx(
-                              //                                   message.text);
-                              //                               print(
-                              //                                   "permission granted");
-                              //                               // } else {
-                              //                               //   print("permission not granted");
-                              //                               // }
-                              //                             },
-                              //                             child: ListTile(
-                              //                                 leading: Container(
-                              //                                     height: 30,
-                              //                                     width: 30,
-                              //                                     color: Colors
-                              //                                         .white,
-                              //                                     child: Image
-                              //                                         .asset(
-                              //                                             "assets/word.png")),
-                              //                                 title: const Text(
-                              //                                   "Word",
-                              //                                   style: TextStyle(
-                              //                                       fontSize:
-                              //                                           15,
-                              //                                       fontWeight:
-                              //                                           FontWeight
-                              //                                               .bold),
-                              //                                 ),
-                              //                                 trailing:
-                              //                                     const Icon(Icons
-                              //                                         .arrow_forward_ios))),
-                              //                         TextButton(
-                              //                             onPressed: () async {
-                              //                               // if (await _request_per(Permission.storage) ==
-                              //                               //     true) {
-                              //                               downloadTxt(
-                              //                                   message.text);
-                              //                               print(
-                              //                                   "permission granted");
-                              //                               // } else {
-                              //                               //   print("permission not granted");
-                              //                               // }
-                              //                             },
-                              //                             child: ListTile(
-                              //                                 leading: Container(
-                              //                                     height: 30,
-                              //                                     width: 30,
-                              //                                     color: Colors
-                              //                                         .white,
-                              //                                     child: Image
-                              //                                         .asset(
-                              //                                             "assets/text.png")),
-                              //                                 title: const Text(
-                              //                                   "Txt",
-                              //                                   style: TextStyle(
-                              //                                       fontSize:
-                              //                                           15,
-                              //                                       fontWeight:
-                              //                                           FontWeight
-                              //                                               .bold),
-                              //                                 ),
-                              //                                 trailing:
-                              //                                     const Icon(Icons
-                              //                                         .arrow_forward_ios))),
-                              //                         TextButton(
-                              //                             onPressed: () async {
-                              //                               await Share.share(
-                              //                                   message.text);
-                              //                             },
-                              //                             child: ListTile(
-                              //                                 leading: Container(
-                              //                                     height: 30,
-                              //                                     width: 30,
-                              //                                     color: Colors
-                              //                                         .white,
-                              //                                     child: Image
-                              //                                         .asset(
-                              //                                             "assets/share.png")),
-                              //                                 title: const Text(
-                              //                                   "Share",
-                              //                                   style: TextStyle(
-                              //                                       fontSize:
-                              //                                           15,
-                              //                                       fontWeight:
-                              //                                           FontWeight
-                              //                                               .bold),
-                              //                                 ),
-                              //                                 trailing:
-                              //                                     const Icon(Icons
-                              //                                         .arrow_forward_ios))),
-                              //                       ],
-                              //                     ),
-                              //                   ),
-                              //                 ),
-                              //               )
-                              //             ],
-                              //           ),
-                              //         ),
-                              //       );
-                              //     },
-                              //     icon: SizedBox(
-                              //       width: 12,
-                              //       height: 13,
-                              //       child: Image.asset("assets/dot.png"),
-                              //     ))
-                            ],
-                          ),
-                        ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "AI BOT",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          Row(
-            children: [
-              SizedBox(width: 10),
-              IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) => SizedBox(
-                        height: 400,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                              decoration: const BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(6),
-                                  topRight: Radius.circular(6),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const SizedBox(height: 60, width: 10),
-                                      Text(
-                                        "Quick Note",
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.white,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ],
+        appBar: AppBar(
+          actions: [
+            Row(
+              children: [
+                SizedBox(width: 10),
+                IconButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) => SizedBox(
+                          height: 400,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                decoration: const BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(6),
+                                    topRight: Radius.circular(6),
                                   ),
-                                  Padding(
-                                      padding: const EdgeInsets.only(right: 40),
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.black),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "X",
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const SizedBox(height: 50, width: 10),
+                                        Text(
+                                          "Quick Note",
                                           style: GoogleFonts.poppins(
                                             color: Colors.white,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w500,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w400,
                                           ),
                                         ),
-                                      )),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFF6F6F6),
-                                ),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(height: 2.5),
-                                      const Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 5,
-                                          vertical: 2.5,
-                                        ),
-                                      ),
-                                      TextButton(
+                                      ],
+                                    ),
+                                    Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.black),
                                           onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => home(
-                                                    datas: allnote,
-                                                  ),
-                                                ));
-                                            int a = messages.length;
-                                            for (int i = 0; i < a; i++) {
-                                              all = all +
-                                                  "\n" +
-                                                  "\n" +
-                                                  messages[i];
-                                            }
-                                            save1(all);
-                                          },
-                                          child: ListTile(
-                                              leading: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  color: Colors.white,
-                                                  child: Icon(
-                                                    Icons.save,
-                                                    size: 30,
-                                                  )),
-                                              title: const Text(
-                                                "save",
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              trailing: const Icon(
-                                                  Icons.arrow_forward_ios))),
-                                      TextButton(
-                                          onPressed: () {
-                                            int a = messages.length;
-                                            for (int i = 0; i < a; i++) {
-                                              all = all +
-                                                  "\n" +
-                                                  "\n" +
-                                                  messages[i];
-                                            }
-
-                                            FlutterClipboard.copy(all);
-                                            Get.snackbar("copied", "");
                                             Navigator.pop(context);
                                           },
-                                          child: ListTile(
-                                              leading: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  color: Colors.white,
-                                                  child: Image.asset(
-                                                      "assets/copy.png")),
-                                              title: const Text(
-                                                "copy to clipboard",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              trailing: const Icon(
-                                                  Icons.arrow_forward_ios))),
-                                      TextButton(
-                                          onPressed: () async {
-                                            // if (await _request_per(Permission.storage) ==
-                                            //     true) {
-                                            int a = messages.length;
-                                            for (int i = 0; i < a; i++) {
-                                              all = all +
-                                                  "\n" +
-                                                  "\n" +
-                                                  messages[i];
-                                            }
-
-                                            convertToPDF(all);
-                                            print("permission granted");
-                                            // } else {
-                                            //   print("permission not granted");
-                                            // }
-                                          },
-                                          child: ListTile(
-                                              leading: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  color: Colors.white,
-                                                  child: Image.asset(
-                                                      "assets/pop.png")),
-                                              title: const Text(
-                                                "PDF",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              trailing: const Icon(
-                                                  Icons.arrow_forward_ios))),
-                                      TextButton(
-                                          onPressed: () async {
-                                            // if (await _request_per(Permission.storage) ==
-                                            //     true) {
-                                            int a = messages.length;
-                                            for (int i = 0; i < a; i++) {
-                                              all = all +
-                                                  "\n" +
-                                                  "\n" +
-                                                  messages[i];
-                                            }
-                                            save1(all);
-                                            convertToDocx(all);
-                                            print("permission granted");
-                                            // } else {
-                                            //   print("permission not granted");
-                                            // }
-                                          },
-                                          child: ListTile(
-                                              leading: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  color: Colors.white,
-                                                  child: Image.asset(
-                                                      "assets/word.png")),
-                                              title: const Text(
-                                                "Word",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              trailing: const Icon(
-                                                  Icons.arrow_forward_ios))),
-                                      TextButton(
-                                          onPressed: () async {
-                                            // if (await _request_per(Permission.storage) ==
-                                            //     true) {
-                                            int a = messages.length;
-                                            for (int i = 0; i < a; i++) {
-                                              all = all +
-                                                  "\n" +
-                                                  "\n" +
-                                                  messages[i];
-                                            }
-
-                                            downloadTxt(all);
-                                            print("permission granted");
-                                            // } else {
-                                            //   print("permission not granted");
-                                            // }
-                                          },
-                                          child: ListTile(
-                                              leading: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  color: Colors.white,
-                                                  child: Image.asset(
-                                                      "assets/text.png")),
-                                              title: const Text(
-                                                "Txt",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              trailing: const Icon(
-                                                  Icons.arrow_forward_ios))),
-                                      TextButton(
-                                          onPressed: () async {
-                                            int a = messages.length;
-                                            for (int i = 0; i < a; i++) {
-                                              all = all +
-                                                  "\n" +
-                                                  "\n" +
-                                                  messages[i];
-                                            }
-
-                                            await Share.share(all);
-                                          },
-                                          child: ListTile(
-                                              leading: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  color: Colors.white,
-                                                  child: Image.asset(
-                                                      "assets/share.png")),
-                                              title: const Text(
-                                                "Share",
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              trailing: const Icon(
-                                                  Icons.arrow_forward_ios))),
-                                    ],
-                                  ),
+                                          child: Text(
+                                            "close",
+                                            style: GoogleFonts.poppins(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        )),
+                                  ],
                                 ),
                               ),
-                            )
-                          ],
+                              Expanded(
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFF6F6F6),
+                                  ),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(height: 2.5),
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 5,
+                                            vertical: 2.5,
+                                          ),
+                                        ),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => home(
+                                                      datas: allnote,
+                                                    ),
+                                                  ));
+                                              int a = messages.length;
+                                              for (int i = 0; i < a; i++) {
+                                                all = all +
+                                                    "\n" +
+                                                    "\n" +
+                                                    messages[i];
+                                              }
+                                              save1(all);
+                                            },
+                                            child: ListTile(
+                                                leading: Container(
+                                                    height: 20,
+                                                    width: 30,
+                                                    color: Colors.white,
+                                                    child: Icon(
+                                                      Icons.save,
+                                                      size: 30,
+                                                    )),
+                                                title: const Text(
+                                                  "save",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                trailing: const Icon(
+                                                    Icons.arrow_forward_ios,size: 20,))),
+                                        TextButton(
+                                            onPressed: () {
+                                              int a = messages.length;
+                                              for (int i = 0; i < a; i++) {
+                                                all = all +
+                                                    "\n" +
+                                                    "\n" +
+                                                    messages[i];
+                                              }
+
+                                              FlutterClipboard.copy(all);
+                                              Get.snackbar("copied", "");
+                                              Navigator.pop(context);
+                                            },
+                                            child: ListTile(
+                                                leading: Container(
+                                                    height: 20,
+                                                    width: 30,
+                                                    color: Colors.white,
+                                                    child: Image.asset(
+                                                        "assets/copy.png")),
+                                                title: const Text(
+                                                  "copy to clipboard",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                trailing: const Icon(
+                                                    Icons.arrow_forward_ios,size: 20,))),
+                                        TextButton(
+                                            onPressed: () async {
+                                              // if (await _request_per(Permission.storage) ==
+                                              //     true) {
+                                              int a = messages.length;
+                                              for (int i = 0; i < a; i++) {
+                                                all = all +
+                                                    "\n" +
+                                                    "\n" +
+                                                    messages[i];
+                                              }
+
+                                              convertToPDF(all);
+                                              print("permission granted");
+                                              // } else {
+                                              //   print("permission not granted");
+                                              // }
+                                            },
+                                            child: ListTile(
+                                                leading: Container(
+                                                    height: 20,
+                                                    width: 30,
+                                                    color: Colors.white,
+                                                    child: Image.asset(
+                                                        "assets/pop.png")),
+                                                title: const Text(
+                                                  "PDF",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                trailing: const Icon(
+                                                    Icons.arrow_forward_ios,size: 20,))),
+                                        TextButton(
+                                            onPressed: () async {
+                                              // if (await _request_per(Permission.storage) ==
+                                              //     true) {
+                                              int a = messages.length;
+                                              for (int i = 0; i < a; i++) {
+                                                all = all +
+                                                    "\n" +
+                                                    "\n" +
+                                                    messages[i];
+                                              }
+                                              save1(all);
+                                              convertToDocx(all);
+                                              print("permission granted");
+                                              // } else {
+                                              //   print("permission not granted");
+                                              // }
+                                            },
+                                            child: ListTile(
+                                                leading: Container(
+                                                    height: 20,
+                                                    width: 30,
+                                                    color: Colors.white,
+                                                    child: Image.asset(
+                                                        "assets/word.png")),
+                                                title: const Text(
+                                                  "Word",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                trailing: const Icon(
+                                                    Icons.arrow_forward_ios,size: 20,))),
+                                        TextButton(
+                                            onPressed: () async {
+                                              // if (await _request_per(Permission.storage) ==
+                                              //     true) {
+                                              int a = messages.length;
+                                              for (int i = 0; i < a; i++) {
+                                                all = all +
+                                                    "\n" +
+                                                    "\n" +
+                                                    messages[i];
+                                              }
+
+                                              downloadTxt(all);
+                                              print("permission granted");
+                                              // } else {
+                                              //   print("permission not granted");
+                                              // }
+                                            },
+                                            child: ListTile(
+                                                leading: Container(
+                                                    height: 20,
+                                                    width: 30,
+                                                    color: Colors.white,
+                                                    child: Image.asset(
+                                                        "assets/text.png")),
+                                                title: const Text(
+                                                  "Txt",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                trailing: const Icon(
+                                                    Icons.arrow_forward_ios,size: 20,))),
+                                        TextButton(
+                                            onPressed: () async {
+                                              int a = messages.length;
+                                              for (int i = 0; i < a; i++) {
+                                                all = all +
+                                                    "\n" +
+                                                    "\n" +
+                                                    messages[i];
+                                              }
+
+                                              await Share.share(all);
+                                            },
+                                            child: ListTile(
+                                                leading: Container(
+                                                    height: 20,
+                                                    width: 30,
+                                                    color: Colors.white,
+                                                    child: Image.asset(
+                                                        "assets/share.png")),
+                                                title: const Text(
+                                                  "Share",
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                trailing: const Icon(
+                                                    Icons.arrow_forward_ios,size: 20
+                                                    ,))),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  icon: SizedBox(
-                    width: 15,
-                    height: 15,
-                    child: Image.asset("assets/dot.png"),
-                  ))
-            ],
-          ),
-        ],
-        leading: IconButton(
-            onPressed: () {
-              int a = messages.length;
-              for (int i = 0; i < a; i++) {
-                all = all + "\n" + messages[i];
-              }
-              save1(all);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => home(datas: []),
-                  ));
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              size: 30,
-              color: Colors.black,
-            )),
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-              controller: _scrollController,
-              itemCount: _messages.length,
-              itemBuilder: (BuildContext context, int index) {
-                int reversedIndex = _messages.length - 1 - index;
-                return _buildMessage(_messages[reversedIndex]);
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _textEditingController,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: const Color.fromARGB(255, 218, 218, 218),
-                      contentPadding: EdgeInsets.all(15.0),
-                      hintText: 'Type a message...',
-                      hintStyle: TextStyle(color: Colors.black),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                          borderRadius: BorderRadius.circular(25)),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 218, 218, 218),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.send,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      onSendMessage();
-                      FocusScopeNode focus = FocusScope.of(context);
-                      if (!focus.hasPrimaryFocus) {
-                        focus.unfocus();
-                      }
+                      );
                     },
-                  ),
-                ),
+                    icon: SizedBox(
+                      width: 15,
+                      height: 15,
+                      child: Image.asset("assets/dot.png"),
+                    ))
               ],
             ),
+          ],
+          leading: IconButton(
+              onPressed: () {
+                int a = messages.length;
+                for (int i = 0; i < a; i++) {
+                  all = all + "\n" + messages[i];
+                }
+                save1(all);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => home(datas: []),
+                    ));
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                size: 30,
+                color: Colors.black,
+              )),
+        ),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                controller: _scrollController,
+                itemCount: _messages.length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  if (index == _messages.length) {
+                    return Container(
+                      height: 250,
+                    );
+                  }
+                  int reversedIndex = _messages.length - 1 - index;
+                  return _buildMessage(_messages[reversedIndex]);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _textEditingController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: const Color.fromARGB(255, 218, 218, 218),
+                        contentPadding: EdgeInsets.all(15.0),
+                        hintText: 'Type a message...',
+                        hintStyle: TextStyle(color: Colors.black),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                            borderRadius: BorderRadius.circular(25)),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 218, 218, 218),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.send,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        onSendMessage();
+                        FocusScopeNode focus = FocusScope.of(context);
+                        if (!focus.hasPrimaryFocus) {
+                          focus.unfocus();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 50),
+          child: CircleAvatar(
+            radius: 25,
+            backgroundColor: const Color.fromARGB(255, 218, 218, 218),
+            child: IconButton(
+                onPressed: () {
+                  int a = messages.length;
+                  for (int i = 0; i < a; i++) {
+                    all = all + "\n" + messages[i];
+                  }
+                  save1(all);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => home(datas: []),
+                      ));
+                },
+                icon: Padding(
+                  padding: const EdgeInsets.only(bottom: 60),
+                  child: Icon(
+                    Icons.save_alt_outlined,
+                    size: 30,
+                    color: Colors.black,
+                  ),
+                )),
           ),
-        ],
-      ),
-    );
+        ));
   }
 }
 

@@ -1,14 +1,19 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
@@ -24,6 +29,7 @@ import 'package:todoaiapp/pages/speechtotext/speechtotext.dart';
 import 'package:http/http.dart' as http;
 import 'package:todoaiapp/pages/texttoimage.dart';
 import 'package:todoaiapp/pages/todo/tododetail.dart';
+import 'package:uuid/uuid.dart';
 
 class home extends StatefulWidget {
   List<data1> datas;
@@ -41,6 +47,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   void initState() {
     update();
     super.initState();
+    // generateDeviceIdentifier();
   }
 
   bool isLoading = true;
@@ -65,6 +72,14 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       payload: 'item x',
     );
   }
+
+  List text = [
+    "Article Writing",
+    "social media captions",
+    "virtual fitness",
+    "language translation",
+    "post ideas"
+  ];
 
 //permission for internal storage acess
   Future<bool> _request_per(Permission permission) async {
@@ -541,8 +556,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                         children: [
                                           Text(num.toString()),
                                           Container(
-                                              height: 45,
-                                              width: 30,
+                                              height: 25,
+                                              width: 22,
                                               child: Image.asset(
                                                   "assets/popw.png")),
                                         ],
@@ -579,7 +594,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                       Row(
                                                         children: [
                                                           const SizedBox(
-                                                              height: 60,
+                                                              height: 50,
                                                               width: 10),
                                                           Text(
                                                             "Quick Note",
@@ -599,7 +614,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                           padding:
                                                               const EdgeInsets
                                                                   .only(
-                                                                  right: 40),
+                                                                  right: 10),
                                                           child: ElevatedButton(
                                                             style: ElevatedButton
                                                                 .styleFrom(
@@ -611,7 +626,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                   context);
                                                             },
                                                             child: Text(
-                                                              "X",
+                                                              "close",
                                                               style: GoogleFonts
                                                                   .poppins(
                                                                 color: Colors
@@ -766,7 +781,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Container(
-                          height: 150,
+                          child: ImageChanger(),
+                          height: 140,
                           width: MediaQuery.of(context).size.width,
                           margin: const EdgeInsets.symmetric(horizontal: 5),
                           decoration: BoxDecoration(
@@ -784,7 +800,6 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                         ),
                       ),
                       // Quick Tools
-                      const SizedBox(height: 15),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -799,10 +814,10 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 15),
+
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -815,11 +830,46 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                 "assets/diary.png", "speech\nto text", 3),
                             const SizedBox(width: 10),
                             quickTools("assets/confetti.png", "OCR", 4),
+                            const SizedBox(width: 10),
+                            quickTools("assets/tool.png", "AI Tools", 5),
                           ],
                         ),
                       ),
+                      //
                       // Recents
-                      const SizedBox(height: 15),
+
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Text(
+                            "Suggested",
+                            style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontSize: 19,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      suggesion(text),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width,
+                          child: ElevatedButton(
+                              onPressed: () {},
+                              child: Text(
+                                "View All Task",
+                                style: TextStyle(color: Colors.black),
+                              )),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -834,7 +884,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
+
                       Container(
                         height: (widget.datas.length % 2 == 0)
                             ? (widget.datas.length / 2) * 207
@@ -950,7 +1000,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                   children: [
                                                                     const SizedBox(
                                                                         height:
-                                                                            60,
+                                                                            50,
                                                                         width:
                                                                             10),
                                                                     Text(
@@ -971,7 +1021,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                     padding: const EdgeInsets
                                                                         .only(
                                                                         right:
-                                                                            40),
+                                                                            10),
                                                                     child:
                                                                         ElevatedButton(
                                                                       style: ElevatedButton.styleFrom(
@@ -984,7 +1034,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       },
                                                                       child:
                                                                           Text(
-                                                                        "X",
+                                                                        "close",
                                                                         style: GoogleFonts
                                                                             .poppins(
                                                                           color:
@@ -1035,86 +1085,84 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               context);
                                                                         },
                                                                         child: ListTile(
-                                                                            leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
+                                                                            leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
                                                                             title: const Text(
                                                                               "copy to clipboard",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(
+                                                                              Icons.arrow_forward_ios,
+                                                                              size: 20,
+                                                                            ))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
                                                                           // if (await _request_per(Permission.storage) ==
                                                                           //     true) {
-                                                                            convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                            print("permission granted");
+                                                                          convertToPDF(
+                                                                              "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                          print(
+                                                                              "permission granted");
                                                                           // } else {
                                                                           //   print("permission not granted");
                                                                           // }
                                                                         },
                                                                         child: ListTile(
-                                                                            leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
+                                                                            leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
                                                                             title: const Text(
                                                                               "PDF",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(
+                                                                              Icons.arrow_forward_ios,
+                                                                              size: 20,
+                                                                            ))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
                                                                           // if (await _request_per(Permission.storage) ==
                                                                           //     true) {
-                                                                            convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                            print("permission granted");
+                                                                          convertToDocx(
+                                                                              "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                          print(
+                                                                              "permission granted");
                                                                           // } else {
                                                                           //   print("permission not granted");
                                                                           // }
                                                                         },
                                                                         child: ListTile(
-                                                                            leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
+                                                                            leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
                                                                             title: const Text(
                                                                               "Word",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(
+                                                                              Icons.arrow_forward_ios,
+                                                                              size: 20,
+                                                                            ))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
                                                                           // if (await _request_per(Permission.storage) ==
                                                                           //     true) {
-                                                                            downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                            print("permission granted");
+                                                                          downloadTxt(
+                                                                              "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                          print(
+                                                                              "permission granted");
                                                                           // } else {
                                                                           //   print("permission not granted");
                                                                           // }
                                                                         },
                                                                         child: ListTile(
-                                                                            leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
+                                                                            leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
                                                                             title: const Text(
                                                                               "Txt",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
-                                                                    // TextButton(
-                                                                    //     onPressed:
-                                                                    //         () {},
-                                                                    //     child: ListTile(
-                                                                    //         leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/rename.png")),
-                                                                    //         title: const Text(
-                                                                    //           "Rename",
-                                                                    //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                                                    //         ),
-                                                                    //         trailing: const Icon(Icons.arrow_forward_ios))),
-                                                                    // TextButton(
-                                                                    //     onPressed:
-                                                                    //         () {},
-                                                                    //     child: ListTile(
-                                                                    //         leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/email.png")),
-                                                                    //         title: const Text(
-                                                                    //           "Send as Email",
-                                                                    //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                                                    //         ),
-                                                                    //         trailing: const Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(
+                                                                              Icons.arrow_forward_ios,
+                                                                              size: 20,
+                                                                            ))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () async {
@@ -1123,12 +1171,15 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               widget.datas[index].content1);
                                                                         },
                                                                         child: ListTile(
-                                                                            leading: Container(height: 30, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
+                                                                            leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
                                                                             title: const Text(
                                                                               "Share",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(
+                                                                              Icons.arrow_forward_ios,
+                                                                              size: 20,
+                                                                            ))),
                                                                     TextButton(
                                                                         onPressed:
                                                                             () {
@@ -1142,7 +1193,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                         },
                                                                         child: ListTile(
                                                                             leading: Container(
-                                                                              height: 30,
+                                                                              height: 20,
                                                                               width: 30,
                                                                               color: Colors.white,
                                                                               child: Image.asset("assets/delete.png"),
@@ -1151,7 +1202,10 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               "Delete",
                                                                               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                                                                             ),
-                                                                            trailing: const Icon(Icons.arrow_forward_ios))),
+                                                                            trailing: const Icon(
+                                                                              Icons.arrow_forward_ios,
+                                                                              size: 20,
+                                                                            ))),
                                                                   ],
                                                                 ),
                                                               ),
@@ -1225,6 +1279,46 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     );
   }
 
+  Widget suggesion(List text) {
+    return Container(
+      height: 90,
+      child: GridView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3, mainAxisExtent: 45),
+        itemCount: text.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.09),
+                    blurRadius: 1,
+                    spreadRadius: 0,
+                    offset: Offset(-4, 4),
+                  ),
+                ],
+              ),
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  text[index].toString(),
+                  style: TextStyle(fontSize: 10),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget quickTools(String imageUrl, String title, int index) {
     return Expanded(
       child: InkWell(
@@ -1280,5 +1374,58 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+}
+
+class ImageChanger extends StatefulWidget {
+  const ImageChanger({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _ImageChangerState createState() => _ImageChangerState();
+}
+
+class _ImageChangerState extends State<ImageChanger> {
+  int _index = 0; // the current index of the image list
+  late Timer _timer; // the timer object
+  List images = [
+    "assets/all3.png",
+    "assets/g.png",
+    "assets/s.png",
+    "assets/speech.png",
+    "assets/to.png"
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    // initialize the timer with the given duration and a callback function
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+      // update the index and wrap around if necessary
+      setState(() {
+        _index = (_index + 1) % images.length;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // set the decoration property with the image at the current index
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(images[_index]),
+          fit: BoxFit.fill,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    // cancel the timer when the widget is disposed
+    _timer.cancel();
+    super.dispose();
   }
 }
