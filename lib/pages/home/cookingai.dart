@@ -1,283 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// import 'package:get/get.dart';
-// import 'package:google_fonts/google_fonts.dart';
-
-// import 'dart:convert';
-
-// import 'package:http/http.dart' as http;
-
-// class aiask extends StatefulWidget {
-//   const aiask({super.key});
-
-//   @override
-//   State<aiask> createState() => _AskAiScreenState();
-// }
-
-// class _AskAiScreenState extends State<aiask> {
-//     final List<Message> _messages = [];
-
-//   final TextEditingController _textEditingController = TextEditingController();
-
-//   void onSendMessage() async {
-//     Message message = Message(text: _textEditingController.text, isMe: true);
-
-//     _textEditingController.clear();
-
-//     setState(() {
-//       _messages.insert(0, message);
-//     });
-
-//     String response = await sendMessageToChatGpt(message.text);
-
-//     Message chatGpt = Message(text: response, isMe: false);
-
-//     setState(() {
-//       _messages.insert(0, chatGpt);
-//     });
-//   }
-
-//     Future<String> sendMessageToChatGpt(String message) async {
-//     final userData = {"userPrompt": message};
-
-//     http.Response response = await http.post(
-//       Uri.parse("https://chatgpt-xb9q.onrender.com/gpt"),
-//       headers: {'Content-Type': 'application/json'},
-//       body: jsonEncode(userData),
-//     );
-//     print(response.body);
-//     Map<String, dynamic> parsedresponce = json.decode(response.body);
-//     String reply = parsedresponce["data"];
-
-//     print(response.body);
-//     return reply;
-//   }
-//     Widget _buildMessage(Message message) {
-//     return Container(
-//       margin: EdgeInsets.symmetric(vertical: 10.0),
-//       child: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-//         child: Column(
-//           crossAxisAlignment:
-//               message.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-//           children: <Widget>[
-//             Text(
-//               message.isMe ? 'You' : 'GPT',
-//               style: TextStyle(fontWeight: FontWeight.bold),
-//             ),
-//             Text(message.text),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//   String chatReply =
-//       "d in your arms and be held as if I could break.I WISH TO REST INTO YOU my love possibly collapse and I know we mustn't fall for we must hold our selves before we hold each other's warm bodies in the night that bites where lovers lay but tonight my love I would like to collapse I would like to exhale and with it let go of all my fireall the do's I would like to be a child in your arms and be held as if I could break. I WISH TO REST INTO YOU my love possibly collapse and I know we mustn't fall for we must hold our selves before we hold each other's warm bodies in the night that bites where lovers lay but tonight my love I would like to collapse I would like to exhale and with it let go of all my fire all the do's. I would like to be a child in your arms and be held as if I could break.";
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SafeArea(
-//         child: Container(
-//           height: MediaQuery.of(context).size.height,
-//           width: MediaQuery.of(context).size.width,
-//           padding: const EdgeInsets.symmetric(horizontal: 5),
-//           child: Column(
-//             children: [
-//               appbar(),
-//               Expanded(
-//                 child: ListView.builder(
-//                     itemCount: 1,
-//                     itemBuilder: (context, index) {
-//                       return singleSenderChatTile();
-//                     }),
-//               ),
-//               const SizedBox(height: 2.5),
-//               Padding(
-//                 padding: const EdgeInsets.all(8.0),
-//                 child: Container(
-//                   // height: 60,
-//                   width: MediaQuery.of(context).size.width,
-//                   padding: const EdgeInsets.symmetric(vertical: 2.5),
-//                   child: Row(
-//                     crossAxisAlignment: CrossAxisAlignment.center,
-//                     children: [
-
-//                       Expanded(
-//                         child: Container(
-//                           padding: const EdgeInsets.symmetric(horizontal: 3),
-//                           decoration: BoxDecoration(
-//                             color: Colors.white,
-//                             borderRadius: BorderRadius.circular(10),
-//                             boxShadow: const [
-//                               BoxShadow(
-//                                 color: Color.fromRGBO(99, 99, 99, 0.2),
-//                                 blurRadius: 8,
-//                                 spreadRadius: 0,
-//                                 offset: Offset(0, 2),
-//                               ),
-//                             ],
-//                           ),
-
-//                           child: TextFormField(
-//                             maxLines: 1,
-//                             style: GoogleFonts.poppins(
-//                               color: Colors.grey,
-//                               fontSize: 16,
-//                             ),
-//                             cursorColor: Colors.black,
-//                             decoration: const InputDecoration(
-//                               enabledBorder: InputBorder.none,
-//                               focusedBorder: InputBorder.none,
-//                               focusedErrorBorder: InputBorder.none,
-//                               hintText: "Type message..",
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                       const SizedBox(width: 10),
-//                       Container(
-//                         height: 50,
-//                         width: 50,
-//                         decoration: BoxDecoration(
-//                           color: Colors.white,
-//                           borderRadius: BorderRadius.circular(10),
-//                           boxShadow: const [
-//                             BoxShadow(
-//                               color: Color.fromRGBO(99, 99, 99, 0.2),
-//                               blurRadius: 8,
-//                               spreadRadius: 0,
-//                               offset: Offset(0, 2),
-//                             ),
-//                           ],
-//                         ),
-//                         child: const Center(
-//                           child: Icon(
-//                             Icons.send_sharp,
-//                             size: 20,
-//                             color: Colors.black,
-//                           ),
-//                         ),
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(height: 2.5)
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget singleSenderChatTile() {
-//     return Column(
-//       children: [
-//         Row(
-//           children: [
-//             Container(
-//               height: 25,
-//               width: 25,
-//               decoration: const BoxDecoration(
-//                 shape: BoxShape.rectangle,
-//                 image: DecorationImage(
-//                   image: AssetImage("assets/notes.png"),
-//                   fit: BoxFit.contain,
-//                 ),
-//               ),
-//             ),
-//             const SizedBox(width: 2.5),
-//             Text(
-//               "You",
-//               style: GoogleFonts.poppins(
-//                 color: Colors.black,
-//                 fontSize: 14,
-//                 fontWeight: FontWeight.w600,
-//               ),
-//             ),
-//           ],
-//         ),
-//         Row(
-//           children: [
-//             const SizedBox(
-//               height: 25,
-//               width: 25,
-//             ),
-//             const SizedBox(width: 2.5),
-//             Text(
-//               "Write About AI",
-//               style: GoogleFonts.poppins(
-//                 color: Colors.black,
-//                 fontSize: 16,
-//                 fontWeight: FontWeight.w500,
-//               ),
-//             ),
-//           ],
-//         ),
-//         Row(
-//           children: [
-//             const SizedBox(
-//               height: 25,
-//               width: 25,
-//             ),
-//             const SizedBox(width: 2.5),
-//             Expanded(
-//               child: Text(
-//                 chatReply,
-//                 style: GoogleFonts.poppins(
-//                   color: Colors.black,
-//                   fontSize: 15,
-//                   fontWeight: FontWeight.w400,
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-
-//   Widget appbar() {
-//     return SizedBox(
-//       height: AppBar().preferredSize.height,
-//       width: MediaQuery.of(context).size.width,
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           InkWell(
-//             overlayColor: MaterialStateProperty.all(Colors.transparent),
-//             onTap: () {
-//               Get.back();
-//             },
-//             child: const Icon(
-//               Icons.arrow_back,
-//               color: Colors.black,
-//               size: 30,
-//             ),
-//           ),
-//           const Row(
-//             children: [
-//               Icon(
-//                 Icons.edit,
-//                 size: 30,
-//                 color: Colors.black,
-//               ),
-//               SizedBox(width: 10),
-//               Icon(
-//                 Icons.menu,
-//                 size: 30,
-//                 color: Colors.black,
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
@@ -297,12 +17,12 @@ import 'package:todoaiapp/main.dart';
 import 'package:todoaiapp/pages/home/homepage.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
 
-class ai extends StatefulWidget {
+class ai2 extends StatefulWidget {
   @override
   _aiState createState() => _aiState();
 }
 
-class _aiState extends State<ai> {
+class _aiState extends State<ai2> {
   List<data1> allnote = [];
 
   setdata1() async {
@@ -896,275 +616,6 @@ class _aiState extends State<ai> {
                                         Icons.copy,
                                         size: 15,
                                       )),
-                                  // IconButton(
-                                  //     onPressed: () {
-                                  //       showModalBottomSheet(
-                                  //         context: context,
-                                  //         builder: (context) => SizedBox(
-                                  //           height: 400,
-                                  //           child: Column(
-                                  //             mainAxisAlignment:
-                                  //                 MainAxisAlignment.start,
-                                  //             children: [
-                                  //               Container(
-                                  //                 padding:
-                                  //                     const EdgeInsets.symmetric(
-                                  //                         horizontal: 5),
-                                  //                 decoration: const BoxDecoration(
-                                  //                   color: Colors.black,
-                                  //                   borderRadius: BorderRadius.only(
-                                  //                     topLeft: Radius.circular(6),
-                                  //                     topRight: Radius.circular(6),
-                                  //                   ),
-                                  //                 ),
-                                  //                 child: Row(
-                                  //                   mainAxisAlignment:
-                                  //                       MainAxisAlignment
-                                  //                           .spaceBetween,
-                                  //                   children: [
-                                  //                     Row(
-                                  //                       children: [
-                                  //                         const SizedBox(
-                                  //                             height: 60,
-                                  //                             width: 10),
-                                  //                         Text(
-                                  //                           "Quick Note",
-                                  //                           style:
-                                  //                               GoogleFonts.poppins(
-                                  //                             color: Colors.white,
-                                  //                             fontSize: 17,
-                                  //                             fontWeight:
-                                  //                                 FontWeight.w400,
-                                  //                           ),
-                                  //                         ),
-                                  //                       ],
-                                  //                     ),
-                                  //                     Padding(
-                                  //                         padding:
-                                  //                             const EdgeInsets.only(
-                                  //                                 right: 40),
-                                  //                         child: ElevatedButton(
-                                  //                           style: ElevatedButton
-                                  //                               .styleFrom(
-                                  //                                   backgroundColor:
-                                  //                                       Colors
-                                  //                                           .black),
-                                  //                           onPressed: () {
-                                  //                             Navigator.pop(
-                                  //                                 context);
-                                  //                           },
-                                  //                           child: Text(
-                                  //                             "X",
-                                  //                             style: GoogleFonts
-                                  //                                 .poppins(
-                                  //                               color: Colors.white,
-                                  //                               fontSize: 20,
-                                  //                               fontWeight:
-                                  //                                   FontWeight.w500,
-                                  //                             ),
-                                  //                           ),
-                                  //                         )),
-                                  //                   ],
-                                  //                 ),
-                                  //               ),
-                                  //               Expanded(
-                                  //                 child: Container(
-                                  //                   decoration: const BoxDecoration(
-                                  //                     color: Color(0xFFF6F6F6),
-                                  //                   ),
-                                  //                   child: SingleChildScrollView(
-                                  //                     child: Column(
-                                  //                       children: [
-                                  //                         const SizedBox(
-                                  //                             height: 2.5),
-                                  //                         const Padding(
-                                  //                           padding: EdgeInsets
-                                  //                               .symmetric(
-                                  //                             horizontal: 5,
-                                  //                             vertical: 2.5,
-                                  //                           ),
-                                  //                         ),
-                                  //                         TextButton(
-                                  //                             onPressed: () {
-                                  //                               Navigator.push(
-                                  //                                   context,
-                                  //                                   MaterialPageRoute(
-                                  //                                     builder:
-                                  //                                         (context) =>
-                                  //                                             home(
-                                  //                                       datas:
-                                  //                                           allnote,
-                                  //                                     ),
-                                  //                                   ));
-                                  //                               save1(message.text);
-                                  //                             },
-                                  //                             child: ListTile(
-                                  //                                 leading:
-                                  //                                     Container(
-                                  //                                         height:
-                                  //                                             30,
-                                  //                                         width: 30,
-                                  //                                         color: Colors
-                                  //                                             .white,
-                                  //                                         child:
-                                  //                                             Icon(
-                                  //                                           Icons
-                                  //                                               .save,
-                                  //                                           size:
-                                  //                                               30,
-                                  //                                         )),
-                                  //                                 title: const Text(
-                                  //                                   "save",
-                                  //                                   style: TextStyle(
-                                  //                                       fontSize:
-                                  //                                           18,
-                                  //                                       fontWeight:
-                                  //                                           FontWeight
-                                  //                                               .bold),
-                                  //                                 ),
-                                  //                                 trailing:
-                                  //                                     const Icon(Icons
-                                  //                                         .arrow_forward_ios))),
-                                  //                         TextButton(
-                                  //                             onPressed: () async {
-                                  //                               // if (await _request_per(Permission.storage) ==
-                                  //                               //     true) {
-                                  //                               convertToPDF(
-                                  //                                   message.text);
-                                  //                               print(
-                                  //                                   "permission granted");
-                                  //                               // } else {
-                                  //                               //   print("permission not granted");
-                                  //                               // }
-                                  //                             },
-                                  //                             child: ListTile(
-                                  //                                 leading: Container(
-                                  //                                     height: 30,
-                                  //                                     width: 30,
-                                  //                                     color: Colors
-                                  //                                         .white,
-                                  //                                     child: Image
-                                  //                                         .asset(
-                                  //                                             "assets/pop.png")),
-                                  //                                 title: const Text(
-                                  //                                   "PDF",
-                                  //                                   style: TextStyle(
-                                  //                                       fontSize:
-                                  //                                           15,
-                                  //                                       fontWeight:
-                                  //                                           FontWeight
-                                  //                                               .bold),
-                                  //                                 ),
-                                  //                                 trailing:
-                                  //                                     const Icon(Icons
-                                  //                                         .arrow_forward_ios))),
-                                  //                         TextButton(
-                                  //                             onPressed: () async {
-                                  //                               // if (await _request_per(Permission.storage) ==
-                                  //                               //     true) {
-                                  //                               convertToDocx(
-                                  //                                   message.text);
-                                  //                               print(
-                                  //                                   "permission granted");
-                                  //                               // } else {
-                                  //                               //   print("permission not granted");
-                                  //                               // }
-                                  //                             },
-                                  //                             child: ListTile(
-                                  //                                 leading: Container(
-                                  //                                     height: 30,
-                                  //                                     width: 30,
-                                  //                                     color: Colors
-                                  //                                         .white,
-                                  //                                     child: Image
-                                  //                                         .asset(
-                                  //                                             "assets/word.png")),
-                                  //                                 title: const Text(
-                                  //                                   "Word",
-                                  //                                   style: TextStyle(
-                                  //                                       fontSize:
-                                  //                                           15,
-                                  //                                       fontWeight:
-                                  //                                           FontWeight
-                                  //                                               .bold),
-                                  //                                 ),
-                                  //                                 trailing:
-                                  //                                     const Icon(Icons
-                                  //                                         .arrow_forward_ios))),
-                                  //                         TextButton(
-                                  //                             onPressed: () async {
-                                  //                               // if (await _request_per(Permission.storage) ==
-                                  //                               //     true) {
-                                  //                               downloadTxt(
-                                  //                                   message.text);
-                                  //                               print(
-                                  //                                   "permission granted");
-                                  //                               // } else {
-                                  //                               //   print("permission not granted");
-                                  //                               // }
-                                  //                             },
-                                  //                             child: ListTile(
-                                  //                                 leading: Container(
-                                  //                                     height: 30,
-                                  //                                     width: 30,
-                                  //                                     color: Colors
-                                  //                                         .white,
-                                  //                                     child: Image
-                                  //                                         .asset(
-                                  //                                             "assets/text.png")),
-                                  //                                 title: const Text(
-                                  //                                   "Txt",
-                                  //                                   style: TextStyle(
-                                  //                                       fontSize:
-                                  //                                           15,
-                                  //                                       fontWeight:
-                                  //                                           FontWeight
-                                  //                                               .bold),
-                                  //                                 ),
-                                  //                                 trailing:
-                                  //                                     const Icon(Icons
-                                  //                                         .arrow_forward_ios))),
-                                  //                         TextButton(
-                                  //                             onPressed: () async {
-                                  //                               await Share.share(
-                                  //                                   message.text);
-                                  //                             },
-                                  //                             child: ListTile(
-                                  //                                 leading: Container(
-                                  //                                     height: 30,
-                                  //                                     width: 30,
-                                  //                                     color: Colors
-                                  //                                         .white,
-                                  //                                     child: Image
-                                  //                                         .asset(
-                                  //                                             "assets/share.png")),
-                                  //                                 title: const Text(
-                                  //                                   "Share",
-                                  //                                   style: TextStyle(
-                                  //                                       fontSize:
-                                  //                                           15,
-                                  //                                       fontWeight:
-                                  //                                           FontWeight
-                                  //                                               .bold),
-                                  //                                 ),
-                                  //                                 trailing:
-                                  //                                     const Icon(Icons
-                                  //                                         .arrow_forward_ios))),
-                                  //                       ],
-                                  //                     ),
-                                  //                   ),
-                                  //                 ),
-                                  //               )
-                                  //             ],
-                                  //           ),
-                                  //         ),
-                                  //       );
-                                  //     },
-                                  //     icon: SizedBox(
-                                  //       width: 12,
-                                  //       height: 13,
-                                  //       child: Image.asset("assets/dot.png"),
-                                  //     ))
                                 ],
                               ),
                             ),
@@ -1183,6 +634,7 @@ class _aiState extends State<ai> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          title: Text("cooking Spicy Delicacies"),
           actions: [
             Row(
               children: [
@@ -1505,7 +957,59 @@ class _aiState extends State<ai> {
               )),
         ),
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(left: 20, top: 10),
+              child: Text(
+                "Please Describe Your Needs",
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        maxLines: 5,
+                        controller: _textEditingController,
+                        decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(color: Colors.white)),
+                            filled: true,
+                            fillColor: Color.fromARGB(255, 248, 246, 246),
+                            contentPadding: EdgeInsets.all(15.0),
+                            hintText: 'Write your requirement here.',
+                            hintStyle: TextStyle(
+                                fontSize: 14,
+                                color:
+                                    const Color.fromARGB(255, 185, 185, 185))),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Center(
+              child: Text(
+                "taste creative cuisine at the spicy foods festival! create\n                                      culinary..",
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+            ),
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
@@ -1524,108 +1028,56 @@ class _aiState extends State<ai> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _textEditingController,
-                      decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25),
-                              borderSide: BorderSide(color: Colors.white)),
-                          filled: true,
-                          fillColor: const Color.fromARGB(255, 218, 218, 218),
-                          contentPadding: EdgeInsets.all(15.0),
-                          hintText: 'Type a message...',
-                          hintStyle: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 156, 156, 156))),
-                      // decoration: InputDecoration(
-                      //   filled: true,
-                      //   fillColor: const Color.fromARGB(255, 218, 218, 218),
-                      //   contentPadding: EdgeInsets.all(15.0),
-                      //   hintText: 'Type a message...',
-                      //   hintStyle: TextStyle(color: Colors.black),
-                      //   border: OutlineInputBorder(
-                      //       borderSide: BorderSide(color: Colors.white),
-                      //       borderRadius: BorderRadius.circular(25)),
-                      // ),
-                    ),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: ElevatedButton(
+                  child: Text(
+                    "Generate",
+                    style: TextStyle(color: Colors.black),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 218, 218, 218),
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.send,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          onSendMessage();
-                          FocusScopeNode focus = FocusScope.of(context);
-                          if (!focus.hasPrimaryFocus) {
-                            focus.unfocus();
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ],
+                  onPressed: () {
+                    onSendMessage();
+                    FocusScopeNode focus = FocusScope.of(context);
+                    if (!focus.hasPrimaryFocus) {
+                      focus.unfocus();
+                    }
+                  },
+                ),
               ),
             ),
           ],
-        ),
-        floatingActionButton: Padding(
-            padding: const EdgeInsets.only(bottom: 100, right: 5),
-            child: InkWell(
-              onTap: () {
-                int a = messages.length;
-                for (int i = 0; i < a; i++) {
-                  all = all + "\n" + messages[i];
-                }
-                save1(all);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => home(datas: []),
-                    ));
-              },
-              child: Container(
-                child: Image.asset(
-                  "assets/p32.png",
-                  width: 35,
-                ),
-              ),
-            )
-            // IconButton(
-            //     onPressed: () {
-            //       int a = messages.length;
-            //       for (int i = 0; i < a; i++) {
-            //         all = all + "\n" + messages[i];
-            //       }
-            //       save1(all);
-            //       Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //             builder: (context) => home(datas: []),
-            //           ));
-            //     },
-            //     icon: Padding(
-            //       padding: const EdgeInsets.only(bottom: 60),
-            //       child: Image.asset(
-            //         "assets/p32.png",
-            //         width: 20,
-            //       ),
-            //     )),
-
-            ));
+        ));
+    // floatingActionButton: Padding(
+    //   padding: const EdgeInsets.only(bottom: 50),
+    //   child: CircleAvatar(
+    //     radius: 25,
+    //     backgroundColor: const Color.fromARGB(255, 218, 218, 218),
+    //     child: IconButton(
+    //         onPressed: () {
+    //           int a = messages.length;
+    //           for (int i = 0; i < a; i++) {
+    //             all = all + "\n" + messages[i];
+    //           }
+    //           save1(all);
+    //           Navigator.push(
+    //               context,
+    //               MaterialPageRoute(
+    //                 builder: (context) => home(datas: []),
+    //               ));
+    //         },
+    //         icon: Padding(
+    //           padding: const EdgeInsets.only(bottom: 60),
+    //           child: Icon(
+    //             Icons.save_alt_outlined,
+    //             size: 30,
+    //             color: Colors.black,
+    //           ),
+    //         )),
+    //   ),
+    // ));
   }
 }
 

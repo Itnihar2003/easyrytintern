@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:todoaiapp/pages/homepage.dart';
+import 'package:todoaiapp/pages/home/homepage.dart';
 import 'package:todoaiapp/pages/diary/pen.dart';
 
 class diary extends StatefulWidget {

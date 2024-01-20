@@ -56,7 +56,7 @@ class _editState extends State<edit> {
           child: Container(
               child: AlertDialog(
                   insetPadding: const EdgeInsets.all(10),
-                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.transparent,
                   content: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: SingleChildScrollView(
@@ -151,19 +151,19 @@ class _editState extends State<edit> {
                           const SizedBox(
                             height: 20,
                           ),
-                          const Text(
-                            "Remiinder",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          TextField(
-                            controller: newpop1,
-                            decoration: InputDecoration(
-                                hintText: "Enter Content",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12))),
-                          ),
+                          // const Text(
+                          //   "Remiinder",
+                          //   style: TextStyle(
+                          //       fontWeight: FontWeight.bold,
+                          //       color: Colors.black),
+                          // ),
+                          // TextField(
+                          //   controller: newpop1,
+                          //   decoration: InputDecoration(
+                          //       hintText: "Enter Content",
+                          //       border: OutlineInputBorder(
+                          //           borderRadius: BorderRadius.circular(12))),
+                          // ),
                           const SizedBox(
                             height: 30,
                           ),

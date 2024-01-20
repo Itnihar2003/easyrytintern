@@ -21,12 +21,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/main.dart';
 
 import 'package:todoaiapp/pages/Aipage.dart';
+import 'package:todoaiapp/pages/home/cookingai.dart';
 import 'package:todoaiapp/pages/notes/editnotes.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
 import 'package:todoaiapp/pages/notes/notes.dart';
 
 import 'package:todoaiapp/pages/speechtotext/speechtotext.dart';
 import 'package:http/http.dart' as http;
+import 'package:todoaiapp/pages/home/suggestedpage.dart';
 import 'package:todoaiapp/pages/texttoimage.dart';
 import 'package:todoaiapp/pages/todo/tododetail.dart';
 import 'package:uuid/uuid.dart';
@@ -74,11 +76,14 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   }
 
   List text = [
-    "Article Writing",
-    "social media captions",
-    "virtual fitness",
-    "language translation",
-    "post ideas"
+    "cooking Spicy Delicacies",
+    "cooking Spicy Delicacies",
+    "cooking Spicy Delicacies",
+    "cooking Spicy Delicacies",
+    "cooking Spicy Delicacies",
+    "cooking Spicy Delicacies",
+    "cooking Spicy Delicacies",
+    "cooking Spicy Delicacies"
   ];
 
 //permission for internal storage acess
@@ -514,7 +519,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                 children: [
                                   Container(
                                     height: 55,
-                                    width: 220,
+                                    width: 200,
                                     padding: const EdgeInsets.only(right: 2),
                                     decoration: BoxDecoration(
                                       color: Color.fromARGB(255, 244, 243, 243),
@@ -527,7 +532,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                       },
                                       controller: searchfielter,
                                       cursorColor: Colors.black,
-                                      style: GoogleFonts.poppins(fontSize: 16),
+                                      style: GoogleFonts.poppins(fontSize: 12),
                                       decoration: const InputDecoration(
                                         prefixIcon: Icon(
                                           Icons.search,
@@ -545,23 +550,24 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.amber),
-                                      onPressed: () {
-                                        num++;
-                                        setState(() {});
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Text(num.toString()),
-                                          Container(
-                                              height: 25,
-                                              width: 22,
-                                              child: Image.asset(
-                                                  "assets/popw.png")),
-                                        ],
-                                      )),
+                                  // ElevatedButton(
+                                  //     style: ElevatedButton.styleFrom(
+                                  //         backgroundColor: Colors.amber),
+                                  //     onPressed: () {
+                                  //       num++;
+                                  //       setState(() {});
+                                  //     },
+                                  //     child: Row(
+                                  //       children: [
+                                  //         Text(num.toString()),
+                                  //         Container(
+                                  //             height: 25,
+                                  //             width: 22,
+                                  //             child: Image.asset(
+                                  //                 "assets/popw.png")),
+                                  //       ],
+                                  //     )),
+
                                   IconButton(
                                       onPressed: () {
                                         showModalBottomSheet(
@@ -777,29 +783,32 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 15),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Container(
-                          child: ImageChanger(),
-                          height: 140,
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color.fromRGBO(100, 100, 111, 0.1),
-                                blurRadius: 10,
-                                spreadRadius: 0,
-                                offset: Offset(0, 7),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // const SizedBox(height: 15),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(16.0),
+                      //   child: Container(
+                      //     child: ImageChanger(),
+                      //     height: 140,
+                      //     width: MediaQuery.of(context).size.width,
+                      //     margin: const EdgeInsets.symmetric(horizontal: 5),
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(12),
+                      //       color: Colors.white,
+                      //       boxShadow: const [
+                      //         BoxShadow(
+                      //           color: Color.fromRGBO(100, 100, 111, 0.1),
+                      //           blurRadius: 10,
+                      //           spreadRadius: 0,
+                      //           offset: Offset(0, 7),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       // Quick Tools
+                      SizedBox(
+                        height: 10,
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -808,13 +817,15 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                             "Quick Tools",
                             style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 19,
+                              fontSize: 15,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
                       ),
-
+                      SizedBox(
+                        height: 10,
+                      ),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -822,22 +833,24 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            quickTools("assets/notes.png", "Notes", 1),
+                            quickTools("assets/np.png", "Notes", 1),
                             const SizedBox(width: 10),
-                            quickTools("assets/todo.png", "To-do", 2),
+                            quickTools("assets/tp1.png", "To-do", 2),
+                            // const SizedBox(width: 10),
+                            // quickTools(
+                            //     "assets/diary.png", "speech\nto text", 3),
                             const SizedBox(width: 10),
-                            quickTools(
-                                "assets/diary.png", "speech\nto text", 3),
+                            quickTools("assets/confetti.png", "OCR", 3),
                             const SizedBox(width: 10),
-                            quickTools("assets/confetti.png", "OCR", 4),
-                            const SizedBox(width: 10),
-                            quickTools("assets/tool.png", "AI Tools", 5),
+                            quickTools("assets/l3.png", "AI Notes", 4),
                           ],
                         ),
                       ),
                       //
                       // Recents
-
+                      SizedBox(
+                        height: 10,
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -846,30 +859,23 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                             "Suggested",
                             style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 19,
+                              fontSize: 15,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
                       ),
-
-                      suggesion(text),
                       SizedBox(
-                        height: 3,
+                        height: 10,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width,
-                          child: ElevatedButton(
-                              onPressed: () {},
-                              child: Text(
-                                "View All Task",
-                                style: TextStyle(color: Colors.black),
-                              )),
-                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: suggesion(text),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -878,7 +884,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                             "Recents",
                             style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 19,
+                              fontSize: 15,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -894,6 +900,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
+                            mainAxisExtent: 200,
                             crossAxisCount: 2,
                             crossAxisSpacing: 10.0,
                             mainAxisSpacing: 10.0,
@@ -1229,7 +1236,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8),
                                         child: SizedBox(
-                                            height: 80,
+                                            height: 120,
                                             child: SingleChildScrollView(
                                                 child: Text(widget
                                                     .datas[index].content1))),
@@ -1251,8 +1258,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: InkWell(
-        onTap: () {
+      floatingActionButton: CupertinoButton(
+        onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -1280,40 +1287,84 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   }
 
   Widget suggesion(List text) {
-    return Container(
-      height: 90,
-      child: GridView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, mainAxisExtent: 45),
-        itemCount: text.length,
+    return SizedBox(
+      height: 135,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: text.length + 1,
         itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.white,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.09),
-                    blurRadius: 1,
-                    spreadRadius: 0,
-                    offset: Offset(-4, 4),
+          if (index == text.length) {
+            return Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(15)),
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => suggesiondetail(
+                            text1: text,
+                          ),
+                        ));
+                  },
+                  icon: Icon(Icons.send)),
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ai2(),
+                      ));
+                },
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Stack(
+                      children: [
+                        ListView(
+                          children: [
+                            Text(
+                              text[index],
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              "taste creative cuisine at the spicy foods festival! create culinary..",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 8),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  text[index].toString(),
-                  style: TextStyle(fontSize: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.18),
+                        blurRadius: 1,
+                        spreadRadius: 1,
+                        offset: Offset(-2, 2),
+                      ),
+                    ],
+                  ),
+                  height: 135,
+                  width: 121.59,
                 ),
               ),
-            ),
-          );
+            );
+          }
         },
       ),
     );
@@ -1329,45 +1380,53 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
           } else if (index == 2) {
             Get.to(() => const detail());
           } else if (index == 3) {
-            Get.to(() => const SpeechScreen());
+            Get.to(() => App());
           } else if (index == 4) {
-            Get.to(() => const App());
+            Get.to(() => ai());
           }
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: 70,
-              height: 70,
+              width: 57,
+              height: 57,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: const [
                   BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.09),
-                    blurRadius: 1,
-                    spreadRadius: 0,
-                    offset: Offset(-4, 4),
+                    color: Color.fromRGBO(0, 0, 0, 0.18),
+                    blurRadius: 2,
+                    spreadRadius: 0.6,
+                    offset: Offset(-2, 1.5),
                   ),
                 ],
               ),
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image(
-                    image: AssetImage(imageUrl),
-                    fit: BoxFit.cover,
-                  ),
+                  child: StreamBuilder<Object>(
+                      stream: null,
+                      builder: (context, snapshot) {
+                        return Container(
+                          height: 38,
+                          width: 38,
+                          child: Image(
+                            image: AssetImage(imageUrl),
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      }),
                 ),
               ),
             ),
-            const SizedBox(height: 2.5),
+            const SizedBox(height: 5),
             Text(
               title,
               style: GoogleFonts.poppins(
                 color: Colors.black,
-                fontSize: 15,
+                fontSize: 12,
               ),
             ),
           ],

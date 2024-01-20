@@ -2,7 +2,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:todoaiapp/pages/homepage.dart';
+import 'package:todoaiapp/pages/home/homepage.dart';
 
 class ResultScreen extends StatelessWidget {
   final String text;

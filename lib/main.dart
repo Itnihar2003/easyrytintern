@@ -9,6 +9,7 @@ import 'package:todoaiapp/pages/welcomepage.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
+
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();

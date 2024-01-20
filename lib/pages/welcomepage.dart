@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:todoaiapp/pages/homepage.dart';
+import 'package:todoaiapp/pages/home/homepage.dart';
 
 class welcome extends StatefulWidget {
   const welcome({super.key});
@@ -77,25 +77,41 @@ class _welcomeState extends State<welcome> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      // width: 70.w,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.black,
+                    child: InkWell(
+                      onTap: () async {
+                        if (await status.isGranted) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => home(
+                                  datas: const [],
+                                ),
+                              ));
+                        } else {
+                          Get.snackbar("error",
+                              "please allow notification for get notified");
+                        }
+                      },
+                      child: Container(
+                        // width: 70.w,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.black,
+                          ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            bottomLeft: Radius.circular(15),
+                          ),
                         ),
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          bottomLeft: Radius.circular(15),
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Next",
-                          style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
+                        child: Center(
+                          child: Text(
+                            "Next",
+                            style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                     ),

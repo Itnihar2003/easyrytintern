@@ -118,9 +118,10 @@ class _detailState extends State<detail> {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-            insetPadding: const EdgeInsets.all(10),
-            backgroundColor: Colors.white,
+            insetPadding: const EdgeInsets.all(7),
+            surfaceTintColor: Colors.transparent,
             content: SizedBox(
+              height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
                 child: Column(
