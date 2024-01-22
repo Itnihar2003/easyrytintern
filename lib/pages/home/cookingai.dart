@@ -634,7 +634,7 @@ class _aiState extends State<ai2> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("cooking Spicy Delicacies"),
+          title: Text("Suggestions"),
           actions: [
             Row(
               children: [

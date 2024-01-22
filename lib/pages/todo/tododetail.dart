@@ -4,11 +4,14 @@ import 'dart:convert';
 import 'package:dropdownfield2/dropdownfield2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todoaiapp/pages/home/homepage.dart';
 import 'package:todoaiapp/pages/todo/data.dart';
+import 'package:todoaiapp/pages/todo/deletedata.dart';
 import 'package:todoaiapp/pages/todo/notification.dart';
 
 import 'package:todoaiapp/pages/todo/todoedit.dart';
@@ -39,6 +42,7 @@ class _detailState extends State<detail> {
   Notificationservice notificationservice = Notificationservice();
   @override
   void initState() {
+    update1();
     update();
     super.initState();
     notificationservice.initialisenotification();
@@ -50,6 +54,7 @@ class _detailState extends State<detail> {
   TextEditingController datetimecontroler = TextEditingController();
   TextEditingController priority = TextEditingController();
   List<data> data1s = [];
+  List<data4> deletedata = [];
   int selectedindex = -1;
 
   setdata() async {
@@ -57,6 +62,13 @@ class _detailState extends State<detail> {
     List<String> data1List =
         data1s.map((data) => jsonEncode(data.toJson())).toList();
     pref.setStringList('myData', data1List);
+  }
+
+  setdata1() async {
+    SharedPreferences pref1 = await SharedPreferences.getInstance();
+    List<String> deleteList =
+        deletedata.map((data4) => jsonEncode(data4.toJson())).toList();
+    pref1.setStringList('myData1', deleteList);
   }
 
   DateTime datetime = DateTime.now();
@@ -74,6 +86,18 @@ class _detailState extends State<detail> {
     }
   }
 
+  getdata1() async {
+    SharedPreferences pref1 = await SharedPreferences.getInstance();
+    List<String>? deleteList = pref1.getStringList('myData1');
+    if (deleteList != null) {
+      List<data4> finaldata = deleteList
+          //here data and data1 are not same
+          .map((data3) => data4.fromJson(json.decode(data3)))
+          .toList();
+      return finaldata;
+    }
+  }
+
   update() async {
     List<data> sdata = await getdata();
     setState(() {
@@ -81,16 +105,31 @@ class _detailState extends State<detail> {
     });
   }
 
+  update1() async {
+    List<data4> delete = await getdata1();
+    setState(() {
+      deletedata = delete;
+    });
+  }
+
+  savedeleteitem(String data) {
+    setState(() {
+      deletedata.add(data4(tittle: data));
+    });
+
+    setdata1();
+  }
+
   save() {
     if (pop.text != "" &&
         pop1.text != "" &&
-        priority.text != "" &&
+        dropdownValue != "" &&
         date1.text != "") {
       setState(() {
         data1s.add(data(
           tittle: pop.text.trim(),
           content: pop1.text.trim(),
-          priority: priority.text.trim(),
+          priority: dropdownValue.toString(),
           duedate: date1.text.trim(),
           check: check,
         ));
@@ -103,17 +142,16 @@ class _detailState extends State<detail> {
   }
 
   String priorityid = "";
-  List<String> country = [
-    "Priority 1",
-    "Priority 2",
-    "Priority 3",
-    "Priority 4"
-  ];
+
   bool check = false;
   String finaldate = "";
   String b = "";
   String finaltime = "";
   int finalid = 0;
+  String? dropdownValue;
+  DateTime selectedDate = DateTime.now();
+
+  final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
   show() {
     showDialog(
         context: context,
@@ -167,16 +205,32 @@ class _detailState extends State<detail> {
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          DropDownField(
-                            controller: priority,
-                            onValueChanged: (dynamic value) {
-                              priorityid = value;
+                          DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.priority_high),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            hint: const Text('Choose a Priority'),
+                            value: dropdownValue,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                dropdownValue = newValue!;
+                              });
                             },
-                            value: priorityid,
-                            required: false,
-                            hintText: 'Choose a priority',
-                            items: country,
-                          ),
+                            items: <String>[
+                              "Priority 1",
+                              "Priority 2",
+                              "Priority 3",
+                              "Priority 4"
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          )
                         ]),
                     const SizedBox(
                       height: 20,
@@ -197,27 +251,46 @@ class _detailState extends State<detail> {
                                 showCupertinoModalPopup(
                                   context: context,
                                   builder: (context) {
-                                    return SizedBox(
-                                      height: 100,
-                                      width: 300,
-                                      child: CupertinoDatePicker(
-                                        backgroundColor: Colors.white,
-                                        onDateTimeChanged: (date) {
-                                          setState(() {
-                                            date1.text = date.toString();
-                                          });
-                                          duetime = date;
-                                          debugPrint(
-                                              'notification scheduked fir $scheduleTime');
-
-                                          // notificationservice
-                                          //     .scheduleNotification(
-                                          //         title:
-                                          //             'complete your task',
-                                          //         body: '$scheduleTime',
-                                          //         scheduledNotificationDateTime:
-                                          //             scheduleTime);
-                                        },
+                                    return Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: 300,
+                                            height: 150,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: CupertinoDatePicker(
+                                              maximumYear: DateTime.now().year,
+                                              backgroundColor: Colors.white,
+                                              onDateTimeChanged: (date) {
+                                                setState(() {
+                                                  date1.text = date.toString();
+                                                });
+                                                duetime = date;
+                                                debugPrint(
+                                                    'notification scheduked fir $scheduleTime');
+                                              },
+                                            ),
+                                          ),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Container(
+                                                width: 300,
+                                                color: Colors.white,
+                                                child: Center(
+                                                    child: Text(
+                                                  "OK",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 22),
+                                                )),
+                                              ))
+                                        ],
                                       ),
                                     );
                                   },
@@ -246,29 +319,56 @@ class _detailState extends State<detail> {
                                     showCupertinoModalPopup(
                                       context: context,
                                       builder: (context) {
-                                        return SizedBox(
-                                          height: 100,
-                                          width: 300,
-                                          child: CupertinoDatePicker(
-                                            backgroundColor: Colors.white,
-                                            onDateTimeChanged: (date) {
-                                              setState(() {
-                                                datetimecontroler.text =
-                                                    date.toString();
-                                              });
-                                              scheduleTime = date;
-                                              debugPrint(
-                                                  'notification scheduked fir $scheduleTime');
-
-                                              notificationservice
-                                                  .scheduleNotification(
-                                                      title:
-                                                          'complete your task',
-                                                      body: '$scheduleTime',
-                                                      scheduledNotificationDateTime:
-                                                          scheduleTime,
-                                                      id: finalid);
-                                            },
+                                        return Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                width: 300,
+                                                height: 150,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20)),
+                                                child: CupertinoDatePicker(
+                                                  maximumYear:
+                                                      DateTime.now().year,
+                                                  backgroundColor: Colors.white,
+                                                  onDateTimeChanged: (date) {
+                                                    setState(() {
+                                                      datetimecontroler.text =
+                                                          date.toString();
+                                                    });
+                                                    scheduleTime = date;
+                                                    debugPrint(
+                                                        'notification scheduked fir $scheduleTime');
+                                                    notificationservice.scheduleNotification(
+                                                        title:
+                                                            'complete your task',
+                                                        body: '$scheduleTime',
+                                                        scheduledNotificationDateTime:
+                                                            scheduleTime,
+                                                        id: finalid);
+                                                  },
+                                                ),
+                                              ),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Container(
+                                                    width: 300,
+                                                    color: Colors.white,
+                                                    child: Center(
+                                                        child: Text(
+                                                      "OK",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 22),
+                                                    )),
+                                                  ))
+                                            ],
                                           ),
                                         );
                                       },
@@ -294,7 +394,7 @@ class _detailState extends State<detail> {
                           Navigator.pop(context);
                           pop.clear();
                           pop1.clear();
-                          priority.clear();
+
                           date1.clear();
                           datetimecontroler.clear();
                         },
@@ -338,6 +438,18 @@ class _detailState extends State<detail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => home(datas: []),
+                  ));
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              size: 25,
+            )),
         automaticallyImplyLeading: false,
         actions: [
           Padding(
@@ -430,13 +542,6 @@ class _detailState extends State<detail> {
                                     size: 30,
                                     color: Colors.black,
                                   )),
-                              subtitle: Row(
-                                children: [
-                                  updatetime(
-                                    remindertime: data1s[index],
-                                  ),
-                                ],
-                              ),
                               title: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -445,7 +550,10 @@ class _detailState extends State<detail> {
                                     onChanged: (value) {
                                       setState(() {
                                         data1s[index].check = value!;
+                                        savedeleteitem(data1s[index].tittle);
                                       });
+                                      data1s.removeAt(index);
+                                      setdata1();
                                       setdata();
                                     },
                                   ),
@@ -468,6 +576,46 @@ class _detailState extends State<detail> {
               },
             ),
           )),
+          Text("Completed Tasks"),
+          Container(
+            child: ListView.builder(
+              itemCount: deletedata.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.09),
+                            blurRadius: 3,
+                            spreadRadius: 1,
+                            offset: Offset(-5, 5),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(15),
+                        color: const Color.fromARGB(255, 244, 242, 242)),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.add_task_rounded,
+                        color: Colors.green,
+                      ),
+                      trailing: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              deletedata.removeAt(index);
+                              setdata1();
+                            });
+                          },
+                          icon: Icon(Icons.delete)),
+                      title: Text(deletedata[index].tittle),
+                    ),
+                  ),
+                );
+              },
+            ),
+            height: 200,
+          )
         ],
       ),
       floatingActionButton: CircleAvatar(
@@ -519,3 +667,19 @@ class updatetime1 extends State<updatetime> {
     return Text(formatedtime);
   }
 }
+
+Future _selectTime(BuildContext context) {
+  final now = DateTime.now();
+
+  return showTimePicker(
+    context: context,
+    initialTime: TimeOfDay(hour: now.hour, minute: now.minute),
+  );
+}
+
+Future _selectDateTime(BuildContext context) => showDatePicker(
+      context: context,
+      initialDate: DateTime.now().add(Duration(seconds: 1)),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );

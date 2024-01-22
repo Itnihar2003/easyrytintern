@@ -76,14 +76,24 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   }
 
   List text = [
-    "cooking Spicy Delicacies",
-    "cooking Spicy Delicacies",
-    "cooking Spicy Delicacies",
-    "cooking Spicy Delicacies",
-    "cooking Spicy Delicacies",
-    "cooking Spicy Delicacies",
-    "cooking Spicy Delicacies",
-    "cooking Spicy Delicacies"
+    "Marketing Strategy Blueprint:",
+    "Resume Enhancement Studio:",
+    "Cover Letter Composer:",
+    "Speechcraft Navigator:",
+    "Content Summarization Tool:",
+    "Mail Mastery Assistant:",
+    "Weekly Planner Generator:",
+    "Stand-Up Comedy Companion:",
+  ];
+  List text4 = [
+    "Create impactful ad plans, targeting effectively. ",
+    "Optimize content, format, showcase achievements—elevate profile. ",
+    "Craft personalized, skill-focused cover letters. ",
+    "Master public speaking: key points, impact.",
+    " Condense details, maintain clarity—summarize effectively. ",
+    "Refine email communication: language, tone, structure. ",
+    "Prioritize tasks, set goals—boost productivity weekly. ",
+    "Craft hilarious punchlines, witty observations—laughter guaranteed. ",
   ];
 
 //permission for internal storage acess
@@ -870,7 +880,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: suggesion(text),
+                        child: suggesion(text, text4),
                       ),
                       SizedBox(
                         height: 10,
@@ -1286,7 +1296,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     );
   }
 
-  Widget suggesion(List text) {
+  Widget suggesion(List text, List text4) {
     return SizedBox(
       height: 135,
       child: ListView.builder(
@@ -1302,9 +1312,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => suggesiondetail(
-                            text1: text,
-                          ),
+                          builder: (context) => suggesiondetail(),
                         ));
                   },
                   icon: Icon(Icons.send)),
@@ -1331,16 +1339,16 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                               text[index],
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 13),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12),
                             ),
                             SizedBox(
                               height: 8,
                             ),
                             Text(
-                              "taste creative cuisine at the spicy foods festival! create culinary..",
+                              text4[index],
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 8),
+                                  TextStyle(color: Colors.black, fontSize: 9),
                             )
                           ],
                         ),

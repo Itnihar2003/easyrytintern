@@ -1,4 +1,5 @@
 import 'package:dropdownfield2/dropdownfield2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todoaiapp/pages/todo/tododetail.dart';
 
@@ -28,7 +29,7 @@ class _editState extends State<edit> {
     setState(() {
       newpop.text = widget.tittlevalue;
       newpop1.text = widget.contentvalue;
-      newpriority.text = widget.priorityvalue;
+      dropdownValue = widget.priorityvalue;
       newdate.text = widget.duedatevalue;
     });
     // TODO: implement initState
@@ -37,16 +38,12 @@ class _editState extends State<edit> {
 
   int selectedindex = -1;
   String priorityid = "";
-  List<String> country = [
-    "Priority 1",
-    "Priority 2",
-    "Priority 3",
-    "Priority 4"
-  ];
+  String? dropdownValue;
+  var duetime;
   TextEditingController newpop = TextEditingController();
   TextEditingController newpop1 = TextEditingController();
   TextEditingController newdate = TextEditingController();
-  TextEditingController newpriority = TextEditingController();
+  // TextEditingController newpriority = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,16 +103,35 @@ class _editState extends State<edit> {
                           Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
-                                DropDownField(
-                                  controller: newpriority,
-                                  onValueChanged: (dynamic value) {
-                                    priorityid = value;
+                                DropdownButtonFormField<String>(
+                                  decoration: InputDecoration(
+                                     prefixIcon: Icon(Icons.priority_high),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  hint:
+                                      const Text('Select your favourite fruit'),
+                                  value: dropdownValue,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      dropdownValue = newValue!;
+                                    });
                                   },
-                                  value: priorityid,
-                                  required: false,
-                                  hintText: 'Choose a priority',
-                                  items: country,
-                                ),
+                                  items: <String>[
+                                    "Priority 1",
+                                    "Priority 2",
+                                    "Priority 3",
+                                    "Priority 4"
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                )
+                              
                               ]),
                           const SizedBox(
                             height: 20,
@@ -134,17 +150,64 @@ class _editState extends State<edit> {
                                     borderRadius: BorderRadius.circular(12)),
                                 suffixIcon: IconButton(
                                     onPressed: () async {
-                                      DateTime? pickeddata =
-                                          await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(2000),
-                                              lastDate: DateTime(2101));
-                                      if (pickeddata != null) {
-                                        setState(() {
-                                          newdate.text = pickeddata.toString();
-                                        });
-                                      }
+                                                          
+                                showCupertinoModalPopup(
+                                  context: context,
+                                  builder: (context) {
+                                    return Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: 300,
+                                            height: 150,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: CupertinoDatePicker(
+                                              maximumYear: DateTime.now().year,
+                                              backgroundColor: Colors.white,
+                                              onDateTimeChanged: (date) {
+                                                setState(() {
+                                                  newdate.text= date.toString();
+                                                });
+                                                duetime = date;
+                                        
+                                              },
+                                            ),
+                                          ),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Container(
+                                                width: 300,
+                                                color: Colors.white,
+                                                child: Center(
+                                                    child: Text(
+                                                  "OK",
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 22),
+                                                )),
+                                              ))
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                                      // DateTime? pickeddata =
+                                      //     await showDatePicker(
+                                      //         context: context,
+                                      //         initialDate: DateTime.now(),
+                                      //         firstDate: DateTime(2000),
+                                      //         lastDate: DateTime(2101));
+                                      // if (pickeddata != null) {
+                                      //   setState(() {
+                                      //     newdate.text = pickeddata.toString();
+                                      //   });
+                                      // }
                                     },
                                     icon: const Icon(Icons.calendar_month))),
                           ),
@@ -177,7 +240,7 @@ class _editState extends State<edit> {
                                         finaltittle: newpop.text,
                                         finalcontent: newpop1.text,
                                         finalduedate: newdate.text,
-                                        finalpriority: newpriority.text,
+                                        finalpriority: dropdownValue,
                                       ),
                                     ));
                               },

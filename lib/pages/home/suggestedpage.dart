@@ -5,24 +5,14 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:todoaiapp/pages/home/cookingai.dart';
 
 class suggesiondetail extends StatefulWidget {
-  final List text1;
-  const suggesiondetail({super.key, required this.text1});
+
+  const suggesiondetail({super.key, });
 
   @override
   State<suggesiondetail> createState() => _suggesiondetailState();
 }
 
 class _suggesiondetailState extends State<suggesiondetail> {
-  List text = [
-    "All",
-    "Work Tools",
-    "Daily Tools",
-    "Comments/Guidelines",
-    "Language/Translation",
-    "Article/Story",
-    "Deep Thinking",
-  ];
-
   List images = [
     // "assets/testing background.png",
     "assets/Marketing Strategy Blueprint.png",
@@ -42,28 +32,29 @@ class _suggesiondetailState extends State<suggesiondetail> {
     "assets/Travel Guide Companion.png",
     "assets/Instagram Captions Guru.png",
     "assets/Tweet Generator.png",
-    "assets/YouTube Script Creator.png"
+    "assets/YouTube Script Creator.png",
+    "assets/Restaurant Reviews Companion.png",
+    "assets/Technology Insight Hub.png",
+    "assets/Life Guide Advisor.png",
+    "assets/English Enhancement Studio.png",
+    "assets/Language Recognition Navigator.png",
+    "assets/Chinese-English Translation Wizard.png",
+    "assets/Poetry Crafting Studio.png",
+    "assets/Article Extension Navigator.png",
+    "assets/Writing Materials Collection.png",
+    "assets/Writing Advisory Hub.png",
+    "assets/Writing Support System.png",
+    "assets/Storytelling Keywords Generator.png",
+    "assets/SEO-Optimized Article Wizard.png",
+    "assets/Book Summaries Companion.png",
+    "assets/Philosophical Pondering Aid.png",
+    "assets/Fallacy Detection System.png",
+    "assets/Debate Perspective Generator.png",
+    "assets/Theme Deconstruction Companion.png",
+    "assets/Think Tank Assistant.png",
+    "assets/Question Query Companion.png"
   ];
-  List colors = [
-    Colors.amber,
-    const Color.fromARGB(255, 149, 199, 240),
-    const Color.fromARGB(255, 177, 128, 111),
-    const Color.fromARGB(255, 149, 174, 186),
-    Colors.cyan,
-    Colors.deepOrange,
-    Colors.green,
-    Colors.lightBlue,
-    Colors.lime,
-    Colors.red,
-    Colors.purple,
-    Colors.pink,
-    Colors.amberAccent,
-    Colors.yellow,
-    Colors.redAccent,
-    Colors.red,
-    Colors.purple,
-    Colors.yellow,
-  ];
+
   List tittle = [
     "Marketing Strategy Blueprint:",
     "Resume Enhancement Studio:",
@@ -82,27 +73,68 @@ class _suggesiondetailState extends State<suggesiondetail> {
     "Travel Guide Companion:",
     "Instagram Captions Guru:",
     "Tweet Generator:",
-    "YouTube Script Creator:"
+    "YouTube Script Creator:",
+    "Restaurant Reviews Companion:",
+    "Technology Insight Hub:",
+    "Life Guide Advisor:",
+    "English Enhancement Studio:",
+    "Language Recognition Navigator:",
+    "Identify languages easily: notes on patterns, dialects, nuances.",
+    "Chinese-English Translation Wizard:",
+    "Poetry Crafting Studio:",
+    "Article Extension Navigator:",
+    "Writing Materials Collection:",
+    "Writing Advisory Hub :",
+    "Writing Support System",
+    "Storytelling Keywords Generator:",
+    "SEO-Optimized Article Wizard:",
+    "Book Summaries Companion:",
+    "Philosophical Pondering Aid:",
+    "Fallacy Detection System:",
+    "Debate Perspective Generator:",
+    "Theme Deconstruction Companion:",
+    "Think Tank Assistant:",
+    "Question Query Companion:"
   ];
   List content = [
-    "   Develop comprehensive advertising plans with notes on target audience analysis, brand positioning, and effective communication strategies, ensuring a strategic and impactful marketing approach.",
-    "   Elevate your professional profile with notes offering insights into optimizing content, formatting, and showcasing achievements, resulting in a polished and compelling resume.",
-    "Create compelling cover letters with the help of notes that guide you through personalization, showcasing skills, and aligning your qualifications with the job requirements.",
-    "Master public speaking engagements with notes providing key points, impactful language, and effective structure for engaging and memorable speeches.",
-    "Streamline information with the content summary generator, offering notes on condensing key details, maintaining clarity, and presenting a concise overview.",
-    "   Optimize your email communication with AI-generated notes suggesting language, tone, and structure, ensuring your messages are clear, professional, and effective.",
-    "Stay organized and focused with the weekly generator, providing notes on prioritizing tasks, setting goals, and managing your schedule for enhanced productivity.",
-    "Generate hilarious punchlines, witty observations, and comedic notes to fine-tune your stand-up routine and keep the laughs rolling.",
-    "Spread joy and warmth with personalized holiday wishes and greetings, as the app crafts heartfelt notes tailored to the occasion.",
-    "   Unravel the mysteries of your dreams with insightful notes to help you understand and interpret the symbolism behind your nightly adventures.",
-    "Keep the good times rolling with creative and enjoyable suggestions for activities, games, and leisure pursuits.",
-    "   Elevate your music playlist with personalized notes for song recommendations that match your mood and preferences.",
-    "   Get expert shopping advice and make informed decisions with notes on product reviews, trends, and comparisons.",
-    "   Become a kitchen maestro with improvisational notes to enhance and experiment with your culinary creations.",
-    "Plan your next adventure effortlessly with personalized travel notes for destinations, attractions, and insider tips.",
-    "   Boost your social media presence with catchy and engaging captions tailored to your photos and posts.",
-    "    Craft captivating tweets effortlessly with notes for quick-witted and attention-grabbing content.",
-    "Develop engaging and entertaining video scripts with notes and suggestions for creating compelling content on YouTube.",
+    "Create impactful ad plans, targeting effectively. ",
+    "Optimize content, format, showcase achievements—elevate profile. ",
+    "Craft personalized, skill-focused cover letters. ",
+    "Master public speaking: key points, impact.",
+    " Condense details, maintain clarity—summarize effectively. ",
+    "Refine email communication: language, tone, structure. ",
+    "Prioritize tasks, set goals—boost productivity weekly. ",
+    "Craft hilarious punchlines, witty observations—laughter guaranteed. ",
+    "Spread joy, warmth—personalized holiday wishes crafted. ",
+    "Understand dream symbolism—unravel nightly mysteries. ",
+    "Roll good times with creative leisure. ",
+    "Elevate playlist: personalized notes, mood-matching recommendations.",
+    "Make informed shopping decisions—expert reviews, trends, comparisons.",
+    "Kitchen maestro: enhance, experiment with culinary improvisation.",
+    "Effortless adventure planning: personalized travel notes, insider tips.",
+    "Elevate social media: catchy, engaging photo captions.",
+    "Create tweets: quick-witted, attention-grabbing content.",
+    "Create YouTube scripts: engage, entertain, compel.",
+    "Craft engaging restaurant reviews: ambiance, cuisine, experience.",
+    "Cutting-edge tech reviews: features, performance, user experience.",
+    "Navigate life's complexities: personalized notes, holistic guidance.",
+    "Expand English writing: grammar, vocabulary, structure refinement.",
+    "Identify languages easily: notes on patterns, dialects, nuances.",
+    "Translate Chinese to English seamlessly: context, culture.",
+    "Craft expressive poems: refine rhythm, imagery, devices.",
+    "Continue articles seamlessly: content, tone, structure continuity.",
+    "Curate diverse writing materials: genres, styles, themes.",
+    "Gain expert writing advice: technique, style, storytelling.",
+    "Assist at every writing stage: brainstorming, drafting, polishing.",
+    "Spark creativity: curated keywords inspire enriched narrative.",
+    "Optimize online presence with SEO articles.",
+    "Summarize books: key themes, characters, plot.",
+    "Deepen philosophy: key concepts, theories, perspectives notes.",
+    "Hone argumentative skills: fallacy finder notes, logical errors.",
+    " Craft compelling debate points: diverse viewpoints, enriched arguments.",
+    "Explore themes deeply: symbolism, motifs, underlying messages.",
+    "Innovate with think tank's collaborative notes.",
+    "Hone questioning skills: craft thoughtful, probing questions."
   ];
   @override
   Widget build(BuildContext context) {
@@ -117,34 +149,6 @@ class _suggesiondetailState extends State<suggesiondetail> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 40,
-            width: MediaQuery.of(context).size.width,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: text.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color.fromARGB(255, 232, 230, 230),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Center(
-                        child: Text(
-                          text[index],
-                          style: TextStyle(fontSize: 11, color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -157,10 +161,9 @@ class _suggesiondetailState extends State<suggesiondetail> {
               padding: const EdgeInsets.all(10.0),
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisExtent: 245,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10),
+                  crossAxisCount: 2,
+                  mainAxisExtent: 150,
+                ),
                 itemCount: images.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
@@ -174,230 +177,55 @@ class _suggesiondetailState extends State<suggesiondetail> {
                             ));
                       },
                       child: Container(
-                        child: Stack(
-                          children: [
-                            Center(
-                              child: Container(
-                                  width: 130,
-                                  child: Image.asset(images[index])),
-                            ),
-                            Positioned(
-                                child: Padding(
-                              padding: const EdgeInsets.only(left: 10, top: 10),
-                              child: Text(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 25,
+                                height: 23,
+                                child: Image.asset(
+                                  images[index],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
                                 tittle[index],
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
+                                    color: Colors.black,
+                                    fontSize: 13,
                                     fontWeight: FontWeight.bold),
                               ),
-                            )),
-                            Positioned(
-                                top: 60,
-                                left: 1,
-                                right: 1,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Center(
-                                      child: Text(
-                                    content[index],
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400),
-                                  )),
-                                ))
-                          ],
+                              Text(
+                                content[index],
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 10,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                         decoration: BoxDecoration(
-                            color: colors[index],
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(0, 0, 0, 0.18),
+                                blurRadius: 1,
+                                spreadRadius: 1,
+                                offset: Offset(-2, 2),
+                              ),
+                            ],
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(15)),
                       ),
                     ),
                   );
                 },
               ),
-              // child: GridView.custom(
-              //   gridDelegate: SliverWovenGridDelegate.count(
-              //     crossAxisCount: 2,
-              //     mainAxisSpacing: 2,
-              //     crossAxisSpacing: 2,
-              //     pattern: [
-              //       WovenGridTile(1),
-              //       WovenGridTile(
-              //         6 / 8,
-              //         crossAxisRatio: 0.9,
-              //         alignment: AlignmentDirectional.centerEnd,
-              //       ),
-              //     ],
-              //   ),
-              //   childrenDelegate: SliverChildBuilderDelegate(
-              //       childCount: images.length + widget.text1.length,
-              //       (BuildContext context, int index) {
-              //     if (index > images.length) {
-              //       return InkWell(
-              //         onTap: () {
-              //           Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                 builder: (context) => ai(),
-              //               ));
-              //         },
-              //         child: Container(
-              //           child: Padding(
-              //             padding: const EdgeInsets.all(8.0),
-              //             child: Stack(
-              //               children: [
-              //                 ListView(
-              //                   children: [
-              //                     Text(
-              //                       widget.text1[index - images.length],
-              //                       style: TextStyle(
-              //                           color: Colors.black,
-              //                           fontWeight: FontWeight.w500,
-              //                           fontSize: 13),
-              //                     ),
-              //                     SizedBox(
-              //                       height: 8,
-              //                     ),
-              //                     Text(
-              //                       "taste creative cuisine at the spicy foods festival! create culinary..",
-              //                       style: TextStyle(
-              //                           color: Colors.black, fontSize: 8),
-              //                     )
-              //                   ],
-              //                 ),
-              //                 Positioned(
-              //                     bottom: 5,
-              //                     right: 0,
-              //                     child: Image.asset("assets/add.png"))
-              //               ],
-              //             ),
-              //           ),
-              //           decoration: BoxDecoration(
-              //             borderRadius: BorderRadius.circular(20),
-              //             color: Colors.white,
-              //             boxShadow: const [
-              //               BoxShadow(
-              //                 color: Color.fromRGBO(0, 0, 0, 0.09),
-              //                 blurRadius: 5,
-              //                 spreadRadius: 0,
-              //                 offset: Offset(-4, 4),
-              //               ),
-              //             ],
-              //           ),
-              //           height: 135,
-              //           width: 121.59,
-              //         ),
-              //       );
-              //     } else if (index == 0) {
-              //       return InkWell(
-              //         onTap: () {
-              //           Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                 builder: (context) => ai(),
-              //               ));
-              //         },
-              //         child: Container(
-              //           child: Image.asset(
-              //             "assets/12.png",
-              //             fit: BoxFit.fill,
-              //           ),
-              //         ),
-              //       );
-              //     } else if (index == images.length) {
-              //       return InkWell(
-              //         onTap: () {
-              //           Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                 builder: (context) => ai(),
-              //               ));
-              //         },
-              //         child: Container(
-              //           decoration: BoxDecoration(
-              //             borderRadius: BorderRadius.circular(20),
-              //             color: Colors.white,
-              //             boxShadow: const [
-              //               BoxShadow(
-              //                 color: Color.fromRGBO(0, 0, 0, 0.09),
-              //                 blurRadius: 5,
-              //                 spreadRadius: 0,
-              //                 offset: Offset(-4, 4),
-              //               ),
-              //             ],
-              //           ),
-              //           child: Padding(
-              //             padding: const EdgeInsets.all(8.0),
-              //             child: InkWell(
-              //               onTap: () {
-              //                 Navigator.push(
-              //                     context,
-              //                     MaterialPageRoute(
-              //                       builder: (context) => ai(),
-              //                     ));
-              //               },
-              //               child: Stack(
-              //                 children: [
-              //                   ListView(
-              //                     children: [
-              //                       Text("work"),
-              //                       Text(
-              //                         "Tools",
-              //                         style: TextStyle(
-              //                             fontSize: 20,
-              //                             fontWeight: FontWeight.bold),
-              //                       ),
-              //                       Text(
-              //                         widget.text1[0],
-              //                         style: TextStyle(
-              //                           fontSize: 13,
-              //                           fontWeight: FontWeight.w500,
-              //                         ),
-              //                       ),
-              //                       Text(
-              //                         "taste creative cuisine at the spicy foods festival! create culinary..",
-              //                         style: TextStyle(fontSize: 8),
-              //                       )
-              //                     ],
-              //                   ),
-              //                   Positioned(
-              //                       bottom: 5,
-              //                       right: 1,
-              //                       child: Image.asset("assets/add.png"))
-              //                 ],
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       );
-              //     } else if (index == images.length - 1) {
-              //       return Container(
-              //         color: Colors.white,
-              //       );
-              //     } else {
-              //       return InkWell(
-              //         onTap: () {
-              //           Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                 builder: (context) => ai(),
-              //               ));
-              //         },
-              //         child: Container(
-              //           child: Image.asset(
-              //             images[index],
-              //             fit: BoxFit.fill,
-              //           ),
-              //           decoration: BoxDecoration(
-              //             borderRadius: BorderRadius.circular(20),
-              //           ),
-              //         ),
-              //       );
-              //     }
-              //   }),
-              // ),
             ),
           ),
 
