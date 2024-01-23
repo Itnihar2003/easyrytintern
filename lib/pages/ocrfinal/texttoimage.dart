@@ -4,7 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:todoaiapp/pages/result_screen.dart';
+import 'package:todoaiapp/pages/ocrfinal/result_screen.dart';
 class App extends StatelessWidget {
   const App({super.key});
 

@@ -263,6 +263,7 @@ class _detailState extends State<detail> {
                                                 borderRadius:
                                                     BorderRadius.circular(20)),
                                             child: CupertinoDatePicker(
+                                              minimumDate: DateTime.now(),
                                               maximumYear: DateTime.now().year,
                                               backgroundColor: Colors.white,
                                               onDateTimeChanged: (date) {
@@ -332,6 +333,7 @@ class _detailState extends State<detail> {
                                                         BorderRadius.circular(
                                                             20)),
                                                 child: CupertinoDatePicker(
+                                                  minimumDate: DateTime.now(),
                                                   maximumYear:
                                                       DateTime.now().year,
                                                   backgroundColor: Colors.white,
@@ -381,35 +383,37 @@ class _detailState extends State<detail> {
                     const SizedBox(
                       height: 30,
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          finalid++;
-                          for (int i = 0; i <= 16; i++) {
-                            val = val + datetime.toString()[i];
-                          }
-                          save();
-                          remindertime1 = finaltime;
+                    Center(
+                      child: ElevatedButton(
+                          onPressed: () {
+                            finalid++;
+                            for (int i = 0; i <= 16; i++) {
+                              val = val + datetime.toString()[i];
+                            }
+                            save();
+                            remindertime1 = finaltime;
 
-                          print(remindertime1);
-                          Navigator.pop(context);
-                          pop.clear();
-                          pop1.clear();
+                            print(remindertime1);
+                            Navigator.pop(context);
+                            pop.clear();
+                            pop1.clear();
 
-                          date1.clear();
-                          datetimecontroler.clear();
-                        },
-                        child: const SizedBox(
-                          width: 250,
-                          height: 50,
-                          child: Center(
-                              child: Text(
-                            "submit",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
+                            date1.clear();
+                            datetimecontroler.clear();
+                          },
+                          child: const SizedBox(
+                            width: 250,
+                            height: 50,
+                            child: Center(
+                                child: Text(
+                              "submit",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            )),
                           )),
-                        ))
+                    )
                   ],
                 ),
               ),
@@ -608,7 +612,10 @@ class _detailState extends State<detail> {
                             });
                           },
                           icon: Icon(Icons.delete)),
-                      title: Text(deletedata[index].tittle),
+                      title: Text(
+                        deletedata[index].tittle,
+                        style: TextStyle(color: Colors.grey),
+                      ),
                     ),
                   ),
                 );
@@ -620,13 +627,14 @@ class _detailState extends State<detail> {
       ),
       floatingActionButton: CircleAvatar(
           radius: 30,
-          backgroundColor: const Color.fromARGB(255, 211, 211, 211),
+          backgroundColor: Colors.black,
           child: IconButton(
               onPressed: () {
                 show();
                 print(datetime.toString());
               },
               icon: const Icon(
+                color: Colors.white,
                 Icons.add,
                 size: 30,
               ))),

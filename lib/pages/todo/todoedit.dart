@@ -105,7 +105,7 @@ class _editState extends State<edit> {
                               children: <Widget>[
                                 DropdownButtonFormField<String>(
                                   decoration: InputDecoration(
-                                     prefixIcon: Icon(Icons.priority_high),
+                                    prefixIcon: Icon(Icons.priority_high),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                     ),
@@ -131,7 +131,6 @@ class _editState extends State<edit> {
                                     );
                                   }).toList(),
                                 )
-                              
                               ]),
                           const SizedBox(
                             height: 20,
@@ -150,112 +149,93 @@ class _editState extends State<edit> {
                                     borderRadius: BorderRadius.circular(12)),
                                 suffixIcon: IconButton(
                                     onPressed: () async {
-                                                          
-                                showCupertinoModalPopup(
-                                  context: context,
-                                  builder: (context) {
-                                    return Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 300,
-                                            height: 150,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                            child: CupertinoDatePicker(
-                                              maximumYear: DateTime.now().year,
-                                              backgroundColor: Colors.white,
-                                              onDateTimeChanged: (date) {
-                                                setState(() {
-                                                  newdate.text= date.toString();
-                                                });
-                                                duetime = date;
-                                        
-                                              },
+                                      showCupertinoModalPopup(
+                                        context: context,
+                                        builder: (context) {
+                                          return Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  width: 300,
+                                                  height: 150,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20)),
+                                                  child: CupertinoDatePicker(
+                                                    minimumDate: DateTime.now(),
+                                                    maximumYear:
+                                                        DateTime.now().year,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    onDateTimeChanged: (date) {
+                                                      setState(() {
+                                                        newdate.text =
+                                                            date.toString();
+                                                      });
+                                                      duetime = date;
+                                                    },
+                                                  ),
+                                                ),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Container(
+                                                      width: 300,
+                                                      color: Colors.white,
+                                                      child: Center(
+                                                          child: Text(
+                                                        "OK",
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 22),
+                                                      )),
+                                                    ))
+                                              ],
                                             ),
-                                          ),
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Container(
-                                                width: 300,
-                                                color: Colors.white,
-                                                child: Center(
-                                                    child: Text(
-                                                  "OK",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 22),
-                                                )),
-                                              ))
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                                      // DateTime? pickeddata =
-                                      //     await showDatePicker(
-                                      //         context: context,
-                                      //         initialDate: DateTime.now(),
-                                      //         firstDate: DateTime(2000),
-                                      //         lastDate: DateTime(2101));
-                                      // if (pickeddata != null) {
-                                      //   setState(() {
-                                      //     newdate.text = pickeddata.toString();
-                                      //   });
-                                      // }
+                                          );
+                                        },
+                                      );
                                     },
                                     icon: const Icon(Icons.calendar_month))),
                           ),
                           const SizedBox(
                             height: 20,
                           ),
-                          // const Text(
-                          //   "Remiinder",
-                          //   style: TextStyle(
-                          //       fontWeight: FontWeight.bold,
-                          //       color: Colors.black),
-                          // ),
-                          // TextField(
-                          //   controller: newpop1,
-                          //   decoration: InputDecoration(
-                          //       hintText: "Enter Content",
-                          //       border: OutlineInputBorder(
-                          //           borderRadius: BorderRadius.circular(12))),
-                          // ),
                           const SizedBox(
                             height: 30,
                           ),
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => detail(
-                                        finalindex: widget.index,
-                                        finaltittle: newpop.text,
-                                        finalcontent: newpop1.text,
-                                        finalduedate: newdate.text,
-                                        finalpriority: dropdownValue,
-                                      ),
-                                    ));
-                              },
-                              child: const SizedBox(
-                                width: 250,
-                                height: 50,
-                                child: Center(
-                                    child: Text(
-                                  "submit",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
+                          Center(
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => detail(
+                                          finalindex: widget.index,
+                                          finaltittle: newpop.text,
+                                          finalcontent: newpop1.text,
+                                          finalduedate: newdate.text,
+                                          finalpriority: dropdownValue,
+                                        ),
+                                      ));
+                                },
+                                child: const SizedBox(
+                                  width: 250,
+                                  height: 50,
+                                  child: Center(
+                                      child: Text(
+                                    "submit",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  )),
                                 )),
-                              ))
+                          )
                         ],
                       ),
                     ),

@@ -984,6 +984,9 @@ class _aiState extends State<ai2> {
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
                                 borderSide: BorderSide(color: Colors.white)),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(color: Colors.white)),
                             filled: true,
                             fillColor: Color.fromARGB(255, 248, 246, 246),
                             contentPadding: EdgeInsets.all(15.0),

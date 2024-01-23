@@ -730,11 +730,12 @@ class _aiState extends State<ai> {
   }
 
   final List<Message> _messages = [];
-  bool _isLoading = true;
+
   final TextEditingController _textEditingController = TextEditingController();
   final TextEditingController edittext = TextEditingController();
   void onSendMessage() async {
-    Message message = Message(text: _textEditingController.text, isMe: true);
+    Message message = Message(
+        text: _textEditingController.text, isMe: true, isLoading = true);
 
     _textEditingController.clear();
 
@@ -744,7 +745,7 @@ class _aiState extends State<ai> {
 
     String response = await sendMessageToChatGpt(message.text);
 
-    Message chatGpt = Message(text: response, isMe: false);
+    Message chatGpt = Message(text: response, isMe: false, isLoading = false);
 
     setState(() {
       _messages.insert(0, chatGpt);
@@ -808,7 +809,7 @@ class _aiState extends State<ai> {
                       width: 10,
                     ),
                     Text(
-                      message.isMe ? 'You' : 'GPT',
+                      message.isMe ? 'You' : "GPT",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -1533,6 +1534,9 @@ class _aiState extends State<ai> {
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
                               borderSide: BorderSide(color: Colors.white)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide(color: Colors.white)),
                           filled: true,
                           fillColor: const Color.fromARGB(255, 218, 218, 218),
                           contentPadding: EdgeInsets.all(15.0),
@@ -1540,16 +1544,6 @@ class _aiState extends State<ai> {
                           hintStyle: TextStyle(
                               fontSize: 14,
                               color: Color.fromARGB(255, 156, 156, 156))),
-                      // decoration: InputDecoration(
-                      //   filled: true,
-                      //   fillColor: const Color.fromARGB(255, 218, 218, 218),
-                      //   contentPadding: EdgeInsets.all(15.0),
-                      //   hintText: 'Type a message...',
-                      //   hintStyle: TextStyle(color: Colors.black),
-                      //   border: OutlineInputBorder(
-                      //       borderSide: BorderSide(color: Colors.white),
-                      //       borderRadius: BorderRadius.circular(25)),
-                      // ),
                     ),
                   ),
                   SizedBox(
@@ -1603,35 +1597,13 @@ class _aiState extends State<ai> {
                   width: 35,
                 ),
               ),
-            )
-            // IconButton(
-            //     onPressed: () {
-            //       int a = messages.length;
-            //       for (int i = 0; i < a; i++) {
-            //         all = all + "\n" + messages[i];
-            //       }
-            //       save1(all);
-            //       Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //             builder: (context) => home(datas: []),
-            //           ));
-            //     },
-            //     icon: Padding(
-            //       padding: const EdgeInsets.only(bottom: 60),
-            //       child: Image.asset(
-            //         "assets/p32.png",
-            //         width: 20,
-            //       ),
-            //     )),
-
-            ));
+            )));
   }
 }
 
 class Message {
   final String text;
   final bool isMe;
-
-  Message({required this.text, required this.isMe});
+  final bool isloading;
+  Message(this.isloading, {required this.text, required this.isMe});
 }

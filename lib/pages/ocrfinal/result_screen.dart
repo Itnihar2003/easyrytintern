@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -67,11 +69,11 @@ class _ResultScreenState extends State<ResultScreen> {
       });
       setdata1();
     } else {
-      Get.snackbar("Error", "No data",
-          backgroundColor: Colors.grey);
+      Get.snackbar("Error", "No data", backgroundColor: Colors.grey);
     }
   }
 
+  String finalvalue = "";
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -100,58 +102,74 @@ class _ResultScreenState extends State<ResultScreen> {
                   size: 20,
                 ))
           ],
-          title: const Text('Result'),
+          title: Row(
+            children: [
+              IconButton(onPressed: () {}, icon: const Icon(Icons.undo)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.redo)),
+            ],
+          ),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Container(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.all(30.0),
-                child: SingleChildScrollView(
-                    child: Container(child: Text(widget.text))),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Reasults..',
+                    border: InputBorder.none,
+                    hintStyle: GoogleFonts.poppins(
+                      color: const Color(0xFFBFBFBF),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                  ),
+                  maxLines: null,
+                  initialValue: widget.text,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => home(datas: const []),
-                        ));
-                    save1(widget.text);
-                  },
-                  child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Center(
-                        child: Text(
-                          "Save to Recents",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ))),
-            )
-          ],
+            ],
+          ),
         ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 60),
-          child: TextButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => home(datas: const []),
-                    ));
-                FlutterClipboard.copy(widget.text);
-                Get.snackbar("copied", "");
-                Navigator.pop(context);
-              },
-              child: const Icon(
-                Icons.copy,
-                color: Colors.black,
-              )),
-        ),
+        floatingActionButton: InkWell(
+            onTap: () {
+              save1(widget.text);
+              Navigator.push(
+                  context,
+                 MaterialPageRoute(builder:(context) => home(datas: []),));
+            },
+            child: const CircleAvatar(
+              radius: 25,
+              backgroundColor: Colors.black,
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 30,
+              ),
+            )),
+        // Padding(
+        //   padding: const EdgeInsets.only(bottom: 60),
+        //   child: TextButton(
+        //       onPressed: () {
+        //         Navigator.push(
+        //             context,
+        //             MaterialPageRoute(
+        //               builder: (context) => home(datas: const []),
+        //             ));
+        //         FlutterClipboard.copy(finalvalue);
+        //         Get.snackbar("copied", "");
+        //         Navigator.pop(context);
+        //       },
+        //       child: const Icon(
+        //         Icons.copy,
+        //         color: Colors.black,
+        //       )),
+        // ),
       );
 }

@@ -29,7 +29,7 @@ import 'package:todoaiapp/pages/notes/notes.dart';
 import 'package:todoaiapp/pages/speechtotext/speechtotext.dart';
 import 'package:http/http.dart' as http;
 import 'package:todoaiapp/pages/home/suggestedpage.dart';
-import 'package:todoaiapp/pages/texttoimage.dart';
+import 'package:todoaiapp/pages/ocrfinal/texttoimage.dart';
 import 'package:todoaiapp/pages/todo/tododetail.dart';
 import 'package:uuid/uuid.dart';
 
@@ -859,7 +859,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                       //
                       // Recents
                       SizedBox(
-                        height: 10,
+                        height: 40,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -876,14 +876,14 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 30,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: suggesion(text, text4),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 30,
                       ),
 
                       Padding(
@@ -900,70 +900,73 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-
-                      Container(
-                        height: (widget.datas.length % 2 == 0)
-                            ? (widget.datas.length / 2) * 207
-                            : widget.datas.length * 180,
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: GridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisExtent: 200,
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10.0,
-                            mainAxisSpacing: 10.0,
-                          ),
-                          itemCount:
-                              widget.datas.length, // Total number of containers
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => editnotes(
-                                          tittle: widget.datas[index].tittle1,
-                                          content: widget.datas[index].content1,
-                                          id: index,
-                                          edit: widget.datas,
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: (widget.datas.length % 2 == 0)
+                              ? (widget.datas.length / 2) * 207
+                              : widget.datas.length * 180,
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: GridView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisExtent: 200,
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 10.0,
+                            ),
+                            itemCount: widget
+                                .datas.length, // Total number of containers
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => editnotes(
+                                            tittle: widget.datas[index].tittle1,
+                                            content:
+                                                widget.datas[index].content1,
+                                            id: index,
+                                            edit: widget.datas,
+                                          ),
+                                        ));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white,
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromRGBO(0, 0, 0, 0.09),
+                                          blurRadius: 1,
+                                          spreadRadius: 0,
+                                          offset: Offset(-4, 4),
                                         ),
-                                      ));
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Colors.white,
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color.fromRGBO(0, 0, 0, 0.09),
-                                        blurRadius: 1,
-                                        spreadRadius: 0,
-                                        offset: Offset(-4, 4),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height: 50,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 2),
-                                        width: double.infinity,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Container(
-                                                width: 100,
+                                      ],
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 50,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 2),
+                                          width: double.infinity,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Container(
+                                                width: 98,
                                                 height: 22,
                                                 child: Text(
                                                   widget.datas[index].tittle1,
@@ -974,289 +977,277 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  showModalBottomSheet(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        SizedBox(
-                                                      height: 400,
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        5),
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              color:
-                                                                  Colors.black,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        6),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        6),
-                                                              ),
-                                                            ),
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    const SizedBox(
-                                                                        height:
-                                                                            50,
-                                                                        width:
-                                                                            10),
-                                                                    Text(
-                                                                      "Quick Note",
-                                                                      style: GoogleFonts
-                                                                          .poppins(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            17,
-                                                                        fontWeight:
-                                                                            FontWeight.w400,
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                Padding(
-                                                                    padding: const EdgeInsets
+                                              IconButton(
+                                                  onPressed: () {
+                                                    showModalBottomSheet(
+                                                      context: context,
+                                                      builder: (context) =>
+                                                          SizedBox(
+                                                        height: 400,
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Container(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          5),
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                color: Colors
+                                                                    .black,
+                                                                borderRadius:
+                                                                    BorderRadius
                                                                         .only(
-                                                                        right:
-                                                                            10),
-                                                                    child:
-                                                                        ElevatedButton(
-                                                                      style: ElevatedButton.styleFrom(
-                                                                          backgroundColor:
-                                                                              Colors.black),
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child:
-                                                                          Text(
-                                                                        "close",
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          6),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          6),
+                                                                ),
+                                                              ),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      const SizedBox(
+                                                                          height:
+                                                                              50,
+                                                                          width:
+                                                                              10),
+                                                                      Text(
+                                                                        "Quick Note",
                                                                         style: GoogleFonts
                                                                             .poppins(
                                                                           color:
                                                                               Colors.white,
                                                                           fontSize:
-                                                                              20,
+                                                                              17,
                                                                           fontWeight:
-                                                                              FontWeight.w500,
+                                                                              FontWeight.w400,
                                                                         ),
                                                                       ),
-                                                                    )),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: Container(
-                                                              decoration:
-                                                                  const BoxDecoration(
-                                                                color: Color(
-                                                                    0xFFF6F6F6),
+                                                                    ],
+                                                                  ),
+                                                                  Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .only(
+                                                                          right:
+                                                                              10),
+                                                                      child:
+                                                                          ElevatedButton(
+                                                                        style: ElevatedButton.styleFrom(
+                                                                            backgroundColor:
+                                                                                Colors.black),
+                                                                        onPressed:
+                                                                            () {
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          "close",
+                                                                          style:
+                                                                              GoogleFonts.poppins(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontSize:
+                                                                                20,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                          ),
+                                                                        ),
+                                                                      )),
+                                                                ],
                                                               ),
-                                                              child:
-                                                                  SingleChildScrollView(
-                                                                child: Column(
-                                                                  children: [
-                                                                    const SizedBox(
-                                                                        height:
-                                                                            2.5),
-                                                                    const Padding(
-                                                                      padding:
-                                                                          EdgeInsets
-                                                                              .symmetric(
-                                                                        horizontal:
-                                                                            5,
-                                                                        vertical:
-                                                                            2.5,
+                                                            ),
+                                                            Expanded(
+                                                              child: Container(
+                                                                decoration:
+                                                                    const BoxDecoration(
+                                                                  color: Color(
+                                                                      0xFFF6F6F6),
+                                                                ),
+                                                                child:
+                                                                    SingleChildScrollView(
+                                                                  child: Column(
+                                                                    children: [
+                                                                      const SizedBox(
+                                                                          height:
+                                                                              2.5),
+                                                                      const Padding(
+                                                                        padding:
+                                                                            EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              5,
+                                                                          vertical:
+                                                                              2.5,
+                                                                        ),
                                                                       ),
-                                                                    ),
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          FlutterClipboard.copy(
-                                                                              "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
-                                                                          Get.snackbar(
-                                                                              "copied",
-                                                                              "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        child: ListTile(
-                                                                            leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
-                                                                            title: const Text(
-                                                                              "copy to clipboard",
-                                                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                                                            ),
-                                                                            trailing: const Icon(
-                                                                              Icons.arrow_forward_ios,
-                                                                              size: 20,
-                                                                            ))),
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () async {
-                                                                          // if (await _request_per(Permission.storage) ==
-                                                                          //     true) {
-                                                                          convertToPDF(
-                                                                              "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                          print(
-                                                                              "permission granted");
-                                                                          // } else {
-                                                                          //   print("permission not granted");
-                                                                          // }
-                                                                        },
-                                                                        child: ListTile(
-                                                                            leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
-                                                                            title: const Text(
-                                                                              "PDF",
-                                                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                                                            ),
-                                                                            trailing: const Icon(
-                                                                              Icons.arrow_forward_ios,
-                                                                              size: 20,
-                                                                            ))),
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () async {
-                                                                          // if (await _request_per(Permission.storage) ==
-                                                                          //     true) {
-                                                                          convertToDocx(
-                                                                              "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                          print(
-                                                                              "permission granted");
-                                                                          // } else {
-                                                                          //   print("permission not granted");
-                                                                          // }
-                                                                        },
-                                                                        child: ListTile(
-                                                                            leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
-                                                                            title: const Text(
-                                                                              "Word",
-                                                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                                                            ),
-                                                                            trailing: const Icon(
-                                                                              Icons.arrow_forward_ios,
-                                                                              size: 20,
-                                                                            ))),
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () async {
-                                                                          // if (await _request_per(Permission.storage) ==
-                                                                          //     true) {
-                                                                          downloadTxt(
-                                                                              "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                          print(
-                                                                              "permission granted");
-                                                                          // } else {
-                                                                          //   print("permission not granted");
-                                                                          // }
-                                                                        },
-                                                                        child: ListTile(
-                                                                            leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
-                                                                            title: const Text(
-                                                                              "Txt",
-                                                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                                                            ),
-                                                                            trailing: const Icon(
-                                                                              Icons.arrow_forward_ios,
-                                                                              size: 20,
-                                                                            ))),
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () async {
-                                                                          await Share.share(widget.datas[index].tittle1 +
-                                                                              "\n" +
-                                                                              widget.datas[index].content1);
-                                                                        },
-                                                                        child: ListTile(
-                                                                            leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
-                                                                            title: const Text(
-                                                                              "Share",
-                                                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                                                            ),
-                                                                            trailing: const Icon(
-                                                                              Icons.arrow_forward_ios,
-                                                                              size: 20,
-                                                                            ))),
-                                                                    TextButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          setState(
+                                                                      TextButton(
+                                                                          onPressed:
                                                                               () {
-                                                                            widget.datas.removeAt(index);
-                                                                            setdata1();
-                                                                          });
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        child: ListTile(
-                                                                            leading: Container(
-                                                                              height: 20,
-                                                                              width: 30,
-                                                                              color: Colors.white,
-                                                                              child: Image.asset("assets/delete.png"),
-                                                                            ),
-                                                                            title: const Text(
-                                                                              "Delete",
-                                                                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                                                            ),
-                                                                            trailing: const Icon(
-                                                                              Icons.arrow_forward_ios,
-                                                                              size: 20,
-                                                                            ))),
-                                                                  ],
+                                                                            FlutterClipboard.copy("${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                                                                            Get.snackbar("copied",
+                                                                                "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child: ListTile(
+                                                                              leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
+                                                                              title: const Text(
+                                                                                "copy to clipboard",
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                              trailing: const Icon(
+                                                                                Icons.arrow_forward_ios,
+                                                                                size: 20,
+                                                                              ))),
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            // if (await _request_per(Permission.storage) ==
+                                                                            //     true) {
+                                                                            convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                            print("permission granted");
+                                                                            // } else {
+                                                                            //   print("permission not granted");
+                                                                            // }
+                                                                          },
+                                                                          child: ListTile(
+                                                                              leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
+                                                                              title: const Text(
+                                                                                "PDF",
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                              trailing: const Icon(
+                                                                                Icons.arrow_forward_ios,
+                                                                                size: 20,
+                                                                              ))),
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            // if (await _request_per(Permission.storage) ==
+                                                                            //     true) {
+                                                                            convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                            print("permission granted");
+                                                                            // } else {
+                                                                            //   print("permission not granted");
+                                                                            // }
+                                                                          },
+                                                                          child: ListTile(
+                                                                              leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
+                                                                              title: const Text(
+                                                                                "Word",
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                              trailing: const Icon(
+                                                                                Icons.arrow_forward_ios,
+                                                                                size: 20,
+                                                                              ))),
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            // if (await _request_per(Permission.storage) ==
+                                                                            //     true) {
+                                                                            downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                            print("permission granted");
+                                                                            // } else {
+                                                                            //   print("permission not granted");
+                                                                            // }
+                                                                          },
+                                                                          child: ListTile(
+                                                                              leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
+                                                                              title: const Text(
+                                                                                "Txt",
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                              trailing: const Icon(
+                                                                                Icons.arrow_forward_ios,
+                                                                                size: 20,
+                                                                              ))),
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            await Share.share(widget.datas[index].tittle1 +
+                                                                                "\n" +
+                                                                                widget.datas[index].content1);
+                                                                          },
+                                                                          child: ListTile(
+                                                                              leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
+                                                                              title: const Text(
+                                                                                "Share",
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                              trailing: const Icon(
+                                                                                Icons.arrow_forward_ios,
+                                                                                size: 20,
+                                                                              ))),
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            setState(() {
+                                                                              widget.datas.removeAt(index);
+                                                                              setdata1();
+                                                                            });
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          child: ListTile(
+                                                                              leading: Container(
+                                                                                height: 20,
+                                                                                width: 30,
+                                                                                color: Colors.white,
+                                                                                child: Image.asset("assets/delete.png"),
+                                                                              ),
+                                                                              title: const Text(
+                                                                                "Delete",
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                              ),
+                                                                              trailing: const Icon(
+                                                                                Icons.arrow_forward_ios,
+                                                                                size: 20,
+                                                                              ))),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          )
-                                                        ],
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                  );
-                                                },
-                                                icon: SizedBox(
-                                                  width: 15,
-                                                  height: 15,
-                                                  child: Image.asset(
-                                                      "assets/dot.png"),
-                                                ))
-                                          ],
+                                                    );
+                                                  },
+                                                  icon: SizedBox(
+                                                    width: 12,
+                                                    height: 12,
+                                                    child: Image.asset(
+                                                        "assets/dot.png"),
+                                                  ))
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
-                                        child: SizedBox(
-                                            height: 120,
-                                            child: SingleChildScrollView(
-                                                child: Text(widget
-                                                    .datas[index].content1))),
-                                      )
-                                    ],
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: SizedBox(
+                                              height: 120,
+                                              child: SingleChildScrollView(
+                                                  child: Text(widget
+                                                      .datas[index].content1))),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ],
@@ -1388,7 +1379,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
           } else if (index == 2) {
             Get.to(() => const detail());
           } else if (index == 3) {
-            Get.to(() => App());
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => App(),
+                ));
           } else if (index == 4) {
             Get.to(() => ai());
           }
