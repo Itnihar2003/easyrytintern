@@ -255,13 +255,13 @@ class _notesState extends State<notes> {
         padding: const EdgeInsets.only(bottom: 50),
         child: InkWell(
             onTap: () {
-              Navigator.push(
-                  context,
+              Navigator.of(context).pushAndRemoveUntil(
+                  
                   MaterialPageRoute(
                     builder: (context) => home(
-                      datas: allnote,
+                      datas: [],
                     ),
-                  ));
+                  ),(Route)=>false);
               save1();
               writingController.clear();
               writingController.clear();

@@ -944,11 +944,13 @@ class _aiState extends State<ai2> {
                   all = all + "\n" + messages[i];
                 }
                 save1(all);
-                Navigator.push(
-                    context,
+                Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => home(datas: []),
-                    ));
+                      builder: (context) => home(
+                        datas: [],
+                      ),
+                    ),
+                    (Route) => false);
               },
               icon: Icon(
                 Icons.arrow_back,

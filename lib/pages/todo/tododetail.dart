@@ -444,11 +444,13 @@ class _detailState extends State<detail> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                  context,
+              Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
-                    builder: (context) => home(datas: []),
-                  ));
+                    builder: (context) => home(
+                      datas: [],
+                    ),
+                  ),
+                  (Route) => false);
             },
             icon: Icon(
               Icons.arrow_back,

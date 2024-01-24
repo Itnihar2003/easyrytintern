@@ -211,8 +211,7 @@ class _editState extends State<edit> {
                           Center(
                             child: ElevatedButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
+                                  Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                         builder: (context) => detail(
                                           finalindex: widget.index,
@@ -221,7 +220,8 @@ class _editState extends State<edit> {
                                           finalduedate: newdate.text,
                                           finalpriority: dropdownValue,
                                         ),
-                                      ));
+                                      ),
+                                      );
                                 },
                                 child: const SizedBox(
                                   width: 250,

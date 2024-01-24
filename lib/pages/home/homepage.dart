@@ -22,6 +22,7 @@ import 'package:todoaiapp/main.dart';
 
 import 'package:todoaiapp/pages/Aipage.dart';
 import 'package:todoaiapp/pages/home/cookingai.dart';
+import 'package:todoaiapp/pages/home/recents.dart';
 import 'package:todoaiapp/pages/notes/editnotes.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
 import 'package:todoaiapp/pages/notes/notes.dart';
@@ -537,9 +538,14 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: TextField(
-                                      onChanged: (String value) {
-                                        setState(() {});
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => recent(datas: widget.datas,),
+                                            ));
                                       },
+                                      
                                       controller: searchfielter,
                                       cursorColor: Colors.black,
                                       style: GoogleFonts.poppins(fontSize: 12),
@@ -859,7 +865,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                       //
                       // Recents
                       SizedBox(
-                        height: 40,
+                        height: 30,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -876,7 +882,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                         ),
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 10,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -900,9 +906,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 30,
-                      ),
+
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(

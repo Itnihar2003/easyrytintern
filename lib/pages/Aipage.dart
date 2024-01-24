@@ -1493,11 +1493,13 @@ class _aiState extends State<ai> {
                   all = all + "\n" + messages[i];
                 }
                 save1(all);
-                Navigator.push(
-                    context,
+                Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => home(datas: []),
-                    ));
+                      builder: (context) => home(
+                        datas: [],
+                      ),
+                    ),
+                    (Route) => false);
               },
               icon: Icon(
                 Icons.arrow_back,
@@ -1585,11 +1587,13 @@ class _aiState extends State<ai> {
                   all = all + "\n" + messages[i];
                 }
                 save1(all);
-                Navigator.push(
-                    context,
+                Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => home(datas: []),
-                    ));
+                      builder: (context) => home(
+                        datas: [],
+                      ),
+                    ),
+                    (Route) => false);
               },
               child: Container(
                 child: Image.asset(

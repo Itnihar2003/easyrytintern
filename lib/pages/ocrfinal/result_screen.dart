@@ -80,11 +80,13 @@ class _ResultScreenState extends State<ResultScreen> {
           leading: IconButton(
               onPressed: () {
                 save1(widget.text);
-                Navigator.push(
-                    context,
+                Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => home(datas: const []),
-                    ));
+                      builder: (context) => home(
+                        datas: [],
+                      ),
+                    ),
+                    (Route) => false);
               },
               icon: Icon(
                 Icons.arrow_back,
@@ -140,9 +142,13 @@ class _ResultScreenState extends State<ResultScreen> {
         floatingActionButton: InkWell(
             onTap: () {
               save1(widget.text);
-              Navigator.push(
-                  context,
-                 MaterialPageRoute(builder:(context) => home(datas: []),));
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => home(
+                      datas: [],
+                    ),
+                  ),
+                  (Route) => false);
             },
             child: const CircleAvatar(
               radius: 25,
