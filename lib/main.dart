@@ -4,7 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/intro/introone.dart';
-import 'package:todoaiapp/intro/splashone.dart';
+
 import 'package:todoaiapp/intro/splashtwo.dart';
 import 'package:todoaiapp/pages/notes/firebase_options.dart';
 

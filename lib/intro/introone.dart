@@ -28,7 +28,7 @@ class _intro1State extends State<intro1> {
       ),
       body: Column(
         children: [
-          Center(child: Image.asset("assets/in1.png")),
+          Center(child: Image.asset("assets/intro (2).png")),
           Padding(
             padding: const EdgeInsets.only(top: 25),
             child: InkWell(

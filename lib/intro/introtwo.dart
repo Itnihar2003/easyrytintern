@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todoaiapp/intro/splashone.dart';
+
 import 'package:todoaiapp/intro/splashtwo.dart';
 
 import 'package:todoaiapp/pages/welcomepage.dart';
@@ -24,7 +24,7 @@ class _intro2State extends State<intro2> {
           Center(
               child: Stack(
             children: [
-              Image.asset("assets/in2.png"),
+              Image.asset("assets/intro (3).png"),
             ],
           )),
           Padding(

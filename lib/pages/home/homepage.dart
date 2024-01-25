@@ -542,10 +542,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => recent(datas: widget.datas,),
+                                              builder: (context) => recent(
+                                                datas: widget.datas,
+                                              ),
                                             ));
                                       },
-                                      
                                       controller: searchfielter,
                                       cursorColor: Colors.black,
                                       style: GoogleFonts.poppins(fontSize: 12),
@@ -599,7 +600,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                       .symmetric(horizontal: 5),
                                                   decoration:
                                                       const BoxDecoration(
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     borderRadius:
                                                         BorderRadius.only(
                                                       topLeft:
@@ -623,7 +624,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                             style: GoogleFonts
                                                                 .poppins(
                                                               color:
-                                                                  Colors.white,
+                                                                  Colors.black,
                                                               fontSize: 17,
                                                               fontWeight:
                                                                   FontWeight
@@ -637,12 +638,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                               const EdgeInsets
                                                                   .only(
                                                                   right: 10),
-                                                          child: ElevatedButton(
-                                                            style: ElevatedButton
-                                                                .styleFrom(
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .black),
+                                                          child: TextButton(
                                                             onPressed: () {
                                                               Navigator.pop(
                                                                   context);
@@ -652,11 +648,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                               style: GoogleFonts
                                                                   .poppins(
                                                                 color: Colors
-                                                                    .white,
-                                                                fontSize: 20,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
+                                                                    .black,
+                                                                fontSize: 15,
                                                               ),
                                                             ),
                                                           )),
@@ -687,21 +680,21 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                               child: ListTile(
                                                                   leading: Container(
                                                                       height:
-                                                                          30,
-                                                                      width: 30,
-                                                                      color: Colors
-                                                                          .white,
+                                                                          40,
+                                                                      width: 40,
+                                                                      color: Color(
+                                                                          0xFFF6F6F6),
                                                                       child: Image
                                                                           .asset(
                                                                               "assets/1.png")),
                                                                   title:
                                                                       const Text(
                                                                     "share the App",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            15,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                    ),
                                                                   ),
                                                                   trailing:
                                                                       const Icon(
@@ -712,21 +705,21 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                               child: ListTile(
                                                                   leading: Container(
                                                                       height:
-                                                                          30,
-                                                                      width: 30,
-                                                                      color: Colors
-                                                                          .white,
+                                                                          40,
+                                                                      width: 40,
+                                                                      color: Color(
+                                                                          0xFFF6F6F6),
                                                                       child: Image
                                                                           .asset(
                                                                               "assets/2.png")),
                                                                   title:
                                                                       const Text(
                                                                     "Rate us",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            15,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                    ),
                                                                   ),
                                                                   trailing:
                                                                       const Icon(
@@ -737,21 +730,21 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                               child: ListTile(
                                                                   leading: Container(
                                                                       height:
-                                                                          30,
-                                                                      width: 30,
-                                                                      color: Colors
-                                                                          .white,
+                                                                          40,
+                                                                      width: 40,
+                                                                      color: Color(
+                                                                          0xFFF6F6F6),
                                                                       child: Image
                                                                           .asset(
                                                                               "assets/3.png")),
                                                                   title:
                                                                       const Text(
                                                                     "Terms of Use",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            15,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                    ),
                                                                   ),
                                                                   trailing:
                                                                       const Icon(
@@ -762,21 +755,21 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                               child: ListTile(
                                                                   leading: Container(
                                                                       height:
-                                                                          30,
-                                                                      width: 30,
-                                                                      color: Colors
-                                                                          .white,
+                                                                          40,
+                                                                      width: 40,
+                                                                      color: Color(
+                                                                          0xFFF6F6F6),
                                                                       child: Image
                                                                           .asset(
                                                                               "assets/4.png")),
                                                                   title:
                                                                       const Text(
                                                                     "Privacy Policy",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            15,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          18,
+                                                                    ),
                                                                   ),
                                                                   trailing:
                                                                       const Icon(
@@ -1274,9 +1267,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
         child: AnimatedBuilder(
           animation: _controller,
           child: const SizedBox(
-            width: 130,
+            width: 100,
             child: Image(
-              image: AssetImage("assets/ai.png"),
+              image: AssetImage("assets/rotate.png"),
               fit: BoxFit.cover,
             ),
           ),
