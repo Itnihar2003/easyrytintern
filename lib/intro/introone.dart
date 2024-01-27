@@ -45,8 +45,8 @@ class _intro1State extends State<intro1> {
                 },
                 child: CircleAvatar(
                   radius: 30,
-                  backgroundColor: Colors.grey,
-                  child: Icon(Icons.arrow_forward_ios),
+                  backgroundColor: Colors.black,
+                  child: Icon(Icons.arrow_forward_ios,color: Colors.white,),
                 )),
           )
         ],

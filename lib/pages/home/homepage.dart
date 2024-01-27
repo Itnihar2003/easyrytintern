@@ -22,7 +22,9 @@ import 'package:todoaiapp/main.dart';
 
 import 'package:todoaiapp/pages/Aipage.dart';
 import 'package:todoaiapp/pages/home/cookingai.dart';
+import 'package:todoaiapp/pages/home/privacy.dart';
 import 'package:todoaiapp/pages/home/recents.dart';
+import 'package:todoaiapp/pages/home/setting.dart';
 import 'package:todoaiapp/pages/notes/editnotes.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
 import 'package:todoaiapp/pages/notes/notes.dart';
@@ -100,7 +102,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
 //permission for internal storage acess
   Future<bool> _request_per(Permission permission) async {
     AndroidDeviceInfo build = await DeviceInfoPlugin().androidInfo;
-    if (build.version.sdkInt >= 30) {
+    if (build.version.sdkInt >= 10) {
       var re = await Permission.manageExternalStorage.request();
       if (re.isGranted) {
         return true;
@@ -111,7 +113,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       if (await permission.isGranted) {
         return true;
       } else {
-        return false;
+        var result = await permission.request();
+        if (result.isGranted) {
+          return true;
+        } else {
+          return false;
+        }
       }
     }
   }
@@ -587,203 +594,216 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
 
                                   IconButton(
                                       onPressed: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => SizedBox(
-                                            height: 350,
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 5),
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(6),
-                                                      topRight:
-                                                          Radius.circular(6),
-                                                    ),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          const SizedBox(
-                                                              height: 50,
-                                                              width: 10),
-                                                          Text(
-                                                            "Quick Note",
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: 17,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  right: 10),
-                                                          child: TextButton(
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: Text(
-                                                              "close",
-                                                              style: GoogleFonts
-                                                                  .poppins(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize: 15,
-                                                              ),
-                                                            ),
-                                                          )),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      color: Color(0xFFF6F6F6),
-                                                    ),
-                                                    child:
-                                                        SingleChildScrollView(
-                                                      child: Column(
-                                                        children: [
-                                                          const SizedBox(
-                                                              height: 2.5),
-                                                          const Padding(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                              horizontal: 5,
-                                                              vertical: 2.5,
-                                                            ),
-                                                          ),
-                                                          TextButton(
-                                                              onPressed: () {},
-                                                              child: ListTile(
-                                                                  leading: Container(
-                                                                      height:
-                                                                          40,
-                                                                      width: 40,
-                                                                      color: Color(
-                                                                          0xFFF6F6F6),
-                                                                      child: Image
-                                                                          .asset(
-                                                                              "assets/1.png")),
-                                                                  title:
-                                                                      const Text(
-                                                                    "share the App",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                    ),
-                                                                  ),
-                                                                  trailing:
-                                                                      const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios))),
-                                                          TextButton(
-                                                              onPressed: () {},
-                                                              child: ListTile(
-                                                                  leading: Container(
-                                                                      height:
-                                                                          40,
-                                                                      width: 40,
-                                                                      color: Color(
-                                                                          0xFFF6F6F6),
-                                                                      child: Image
-                                                                          .asset(
-                                                                              "assets/2.png")),
-                                                                  title:
-                                                                      const Text(
-                                                                    "Rate us",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                    ),
-                                                                  ),
-                                                                  trailing:
-                                                                      const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios))),
-                                                          TextButton(
-                                                              onPressed: () {},
-                                                              child: ListTile(
-                                                                  leading: Container(
-                                                                      height:
-                                                                          40,
-                                                                      width: 40,
-                                                                      color: Color(
-                                                                          0xFFF6F6F6),
-                                                                      child: Image
-                                                                          .asset(
-                                                                              "assets/3.png")),
-                                                                  title:
-                                                                      const Text(
-                                                                    "Terms of Use",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                    ),
-                                                                  ),
-                                                                  trailing:
-                                                                      const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios))),
-                                                          TextButton(
-                                                              onPressed: () {},
-                                                              child: ListTile(
-                                                                  leading: Container(
-                                                                      height:
-                                                                          40,
-                                                                      width: 40,
-                                                                      color: Color(
-                                                                          0xFFF6F6F6),
-                                                                      child: Image
-                                                                          .asset(
-                                                                              "assets/4.png")),
-                                                                  title:
-                                                                      const Text(
-                                                                    "Privacy Policy",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                    ),
-                                                                  ),
-                                                                  trailing:
-                                                                      const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios))),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => setting(),
+                                            ));
+                                        // showModalBottomSheet(
+                                        //   context: context,
+                                        //   builder: (context) => SizedBox(
+                                        //     height: 350,
+                                        //     child: Column(
+                                        //       mainAxisAlignment:
+                                        //           MainAxisAlignment.start,
+                                        //       children: [
+                                        //         Container(
+                                        //           padding: const EdgeInsets
+                                        //               .symmetric(horizontal: 5),
+                                        //           decoration:
+                                        //               const BoxDecoration(
+                                        //             color: Colors.white,
+                                        //             borderRadius:
+                                        //                 BorderRadius.only(
+                                        //               topLeft:
+                                        //                   Radius.circular(6),
+                                        //               topRight:
+                                        //                   Radius.circular(6),
+                                        //             ),
+                                        //           ),
+                                        //           child: Row(
+                                        //             mainAxisAlignment:
+                                        //                 MainAxisAlignment
+                                        //                     .spaceBetween,
+                                        //             children: [
+                                        //               Row(
+                                        //                 children: [
+                                        //                   const SizedBox(
+                                        //                       height: 50,
+                                        //                       width: 10),
+                                        //                   Text(
+                                        //                     "Quick Note",
+                                        //                     style: GoogleFonts
+                                        //                         .poppins(
+                                        //                       color:
+                                        //                           Colors.black,
+                                        //                       fontSize: 17,
+                                        //                       fontWeight:
+                                        //                           FontWeight
+                                        //                               .w400,
+                                        //                     ),
+                                        //                   ),
+                                        //                 ],
+                                        //               ),
+                                        //               Padding(
+                                        //                   padding:
+                                        //                       const EdgeInsets
+                                        //                           .only(
+                                        //                           right: 10),
+                                        //                   child: TextButton(
+                                        //                     onPressed: () {
+                                        //                       Navigator.pop(
+                                        //                           context);
+                                        //                     },
+                                        //                     child: Text(
+                                        //                       "close",
+                                        //                       style: GoogleFonts
+                                        //                           .poppins(
+                                        //                         color: Colors
+                                        //                             .black,
+                                        //                         fontSize: 15,
+                                        //                       ),
+                                        //                     ),
+                                        //                   )),
+                                        //             ],
+                                        //           ),
+                                        //         ),
+                                        //         Expanded(
+                                        //           child: Container(
+                                        //             decoration:
+                                        //                 const BoxDecoration(
+                                        //               color: Color(0xFFF6F6F6),
+                                        //             ),
+                                        //             child:
+                                        //                 SingleChildScrollView(
+                                        //               child: Column(
+                                        //                 children: [
+                                        //                   const SizedBox(
+                                        //                       height: 2.5),
+                                        //                   const Padding(
+                                        //                     padding: EdgeInsets
+                                        //                         .symmetric(
+                                        //                       horizontal: 5,
+                                        //                       vertical: 2.5,
+                                        //                     ),
+                                        //                   ),
+                                        //                   TextButton(
+                                        //                       onPressed: () {},
+                                        //                       child: ListTile(
+                                        //                           leading: Container(
+                                        //                               height:
+                                        //                                   40,
+                                        //                               width: 40,
+                                        //                               color: Color(
+                                        //                                   0xFFF6F6F6),
+                                        //                               child: Image
+                                        //                                   .asset(
+                                        //                                       "assets/1.png")),
+                                        //                           title:
+                                        //                               const Text(
+                                        //                             "share the App",
+                                        //                             style:
+                                        //                                 TextStyle(
+                                        //                               fontSize:
+                                        //                                   18,
+                                        //                             ),
+                                        //                           ),
+                                        //                           trailing:
+                                        //                               const Icon(
+                                        //                                   Icons
+                                        //                                       .arrow_forward_ios))),
+                                        //                   TextButton(
+                                        //                       onPressed: () {},
+                                        //                       child: ListTile(
+                                        //                           leading: Container(
+                                        //                               height:
+                                        //                                   40,
+                                        //                               width: 40,
+                                        //                               color: Color(
+                                        //                                   0xFFF6F6F6),
+                                        //                               child: Image
+                                        //                                   .asset(
+                                        //                                       "assets/2.png")),
+                                        //                           title:
+                                        //                               const Text(
+                                        //                             "Rate us",
+                                        //                             style:
+                                        //                                 TextStyle(
+                                        //                               fontSize:
+                                        //                                   18,
+                                        //                             ),
+                                        //                           ),
+                                        //                           trailing:
+                                        //                               const Icon(
+                                        //                                   Icons
+                                        //                                       .arrow_forward_ios))),
+                                        //                   TextButton(
+                                        //                       onPressed: () {},
+                                        //                       child: ListTile(
+                                        //                           leading: Container(
+                                        //                               height:
+                                        //                                   40,
+                                        //                               width: 40,
+                                        //                               color: Color(
+                                        //                                   0xFFF6F6F6),
+                                        //                               child: Image
+                                        //                                   .asset(
+                                        //                                       "assets/3.png")),
+                                        //                           title:
+                                        //                               const Text(
+                                        //                             "Terms of Use",
+                                        //                             style:
+                                        //                                 TextStyle(
+                                        //                               fontSize:
+                                        //                                   18,
+                                        //                             ),
+                                        //                           ),
+                                        //                           trailing:
+                                        //                               const Icon(
+                                        //                                   Icons
+                                        //                                       .arrow_forward_ios))),
+                                        //                   TextButton(
+                                        //                       onPressed: () {
+                                        //                         Navigator.push(
+                                        //                             context,
+                                        //                             MaterialPageRoute(
+                                        //                               builder:
+                                        //                                   (context) =>
+                                        //                                       privacy(),
+                                        //                             ));
+                                        //                       },
+                                        //                       child: ListTile(
+                                        //                           leading: Container(
+                                        //                               height:
+                                        //                                   40,
+                                        //                               width: 40,
+                                        //                               color: Color(
+                                        //                                   0xFFF6F6F6),
+                                        //                               child: Image
+                                        //                                   .asset(
+                                        //                                       "assets/4.png")),
+                                        //                           title:
+                                        //                               const Text(
+                                        //                             "Privacy Policy",
+                                        //                             style:
+                                        //                                 TextStyle(
+                                        //                               fontSize:
+                                        //                                   18,
+                                        //                             ),
+                                        //                           ),
+                                        //                           trailing:
+                                        //                               const Icon(
+                                        //                                   Icons
+                                        //                                       .arrow_forward_ios))),
+                                        //                 ],
+                                        //               ),
+                                        //             ),
+                                        //           ),
+                                        //         )
+                                        //       ],
+                                        //     ),
+                                        //   ),
+                                        // );
                                       },
                                       icon: const Icon(Icons.settings)),
                                 ],
@@ -1109,13 +1129,13 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            // if (await _request_per(Permission.storage) ==
-                                                                            //     true) {
-                                                                            convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                            print("permission granted");
-                                                                            // } else {
-                                                                            //   print("permission not granted");
-                                                                            // }
+                                                                            if (await _request_per(Permission.storage) ==
+                                                                                true) {
+                                                                              convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                              print("permission granted");
+                                                                            } else {
+                                                                              print("permission not granted");
+                                                                            }
                                                                           },
                                                                           child: ListTile(
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
@@ -1130,13 +1150,13 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            // if (await _request_per(Permission.storage) ==
-                                                                            //     true) {
-                                                                            convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                            print("permission granted");
-                                                                            // } else {
-                                                                            //   print("permission not granted");
-                                                                            // }
+                                                                            if (await _request_per(Permission.storage) ==
+                                                                                true) {
+                                                                              convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                              print("permission granted");
+                                                                            } else {
+                                                                              print("permission not granted");
+                                                                            }
                                                                           },
                                                                           child: ListTile(
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
@@ -1151,13 +1171,13 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            // if (await _request_per(Permission.storage) ==
-                                                                            //     true) {
-                                                                            downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                            print("permission granted");
-                                                                            // } else {
-                                                                            //   print("permission not granted");
-                                                                            // }
+                                                                            if (await _request_per(Permission.storage) ==
+                                                                                true) {
+                                                                              downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                              print("permission granted");
+                                                                            } else {
+                                                                              print("permission not granted");
+                                                                            }
                                                                           },
                                                                           child: ListTile(
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
@@ -1267,9 +1287,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
         child: AnimatedBuilder(
           animation: _controller,
           child: const SizedBox(
-            width: 100,
+            width: 50,
             child: Image(
-              image: AssetImage("assets/rotate.png"),
+              image: AssetImage("assets/chatai.png"),
               fit: BoxFit.cover,
             ),
           ),
