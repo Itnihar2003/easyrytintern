@@ -459,6 +459,15 @@ class _aiState extends State<ai2> {
     _textEditingController.clear();
 
     setState(() {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+              child: CircularProgressIndicator(
+            color: Colors.black,
+          ));
+        },
+      );
       _messages.insert(0, message);
     });
 
@@ -468,6 +477,7 @@ class _aiState extends State<ai2> {
 
     setState(() {
       _messages.insert(0, chatGpt);
+      Navigator.pop(context);
     });
   }
 
@@ -523,7 +533,7 @@ class _aiState extends State<ai2> {
                         ? Container(
                             width: 15, child: Image.asset("assets/person.png"))
                         : Container(
-                            width: 20, child: Image.asset("assets/gpt.png")),
+                            width: 25, child: Image.asset("assets/logo1.png")),
                     SizedBox(
                       width: 10,
                     ),
@@ -632,429 +642,433 @@ class _aiState extends State<ai2> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Suggestions"),
-          actions: [
-            Row(
-              children: [
-                SizedBox(width: 10),
-                IconButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) => SizedBox(
-                          height: 400,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                decoration: const BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(6),
-                                    topRight: Radius.circular(6),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const SizedBox(height: 50, width: 10),
-                                        Text(
-                                          "Quick Note",
-                                          style: GoogleFonts.poppins(
-                                            color: Colors.white,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text("Suggestions"),
+            actions: [
+              Row(
+                children: [
+                  SizedBox(width: 10),
+                  IconButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) => SizedBox(
+                            height: 400,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(6),
+                                      topRight: Radius.circular(6),
                                     ),
-                                    Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10),
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.black),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            "close",
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const SizedBox(height: 50, width: 10),
+                                          Text(
+                                            "Quick Note",
                                             style: GoogleFonts.poppins(
                                               color: Colors.white,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500,
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w400,
                                             ),
                                           ),
-                                        )),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFFF6F6F6),
-                                  ),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(height: 2.5),
-                                        const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 5,
-                                            vertical: 2.5,
-                                          ),
-                                        ),
-                                        TextButton(
+                                        ],
+                                      ),
+                                      Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.black),
                                             onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => home(
-                                                      datas: allnote,
-                                                    ),
-                                                  ));
-                                              int a = messages.length;
-                                              for (int i = 0; i < a; i++) {
-                                                all = all +
-                                                    "\n" +
-                                                    "\n" +
-                                                    messages[i];
-                                              }
-                                              save1(all);
-                                            },
-                                            child: ListTile(
-                                                leading: Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    color: Colors.white,
-                                                    child: Icon(
-                                                      Icons.save,
-                                                      size: 30,
-                                                    )),
-                                                title: const Text(
-                                                  "save",
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                trailing: const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  size: 20,
-                                                ))),
-                                        TextButton(
-                                            onPressed: () {
-                                              int a = messages.length;
-                                              for (int i = 0; i < a; i++) {
-                                                all = all +
-                                                    "\n" +
-                                                    "\n" +
-                                                    messages[i];
-                                              }
-
-                                              FlutterClipboard.copy(all);
-                                              Get.snackbar("copied", "");
                                               Navigator.pop(context);
                                             },
-                                            child: ListTile(
-                                                leading: Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    color: Colors.white,
-                                                    child: Image.asset(
-                                                        "assets/copy.png")),
-                                                title: const Text(
-                                                  "copy to clipboard",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                trailing: const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  size: 20,
-                                                ))),
-                                        TextButton(
-                                            onPressed: () async {
-                                              // if (await _request_per(Permission.storage) ==
-                                              //     true) {
-                                              int a = messages.length;
-                                              for (int i = 0; i < a; i++) {
-                                                all = all +
-                                                    "\n" +
-                                                    "\n" +
-                                                    messages[i];
-                                              }
-
-                                              convertToPDF(all);
-                                              print("permission granted");
-                                              // } else {
-                                              //   print("permission not granted");
-                                              // }
-                                            },
-                                            child: ListTile(
-                                                leading: Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    color: Colors.white,
-                                                    child: Image.asset(
-                                                        "assets/pop.png")),
-                                                title: const Text(
-                                                  "PDF",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                trailing: const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  size: 20,
-                                                ))),
-                                        TextButton(
-                                            onPressed: () async {
-                                              // if (await _request_per(Permission.storage) ==
-                                              //     true) {
-                                              int a = messages.length;
-                                              for (int i = 0; i < a; i++) {
-                                                all = all +
-                                                    "\n" +
-                                                    "\n" +
-                                                    messages[i];
-                                              }
-                                              save1(all);
-                                              convertToDocx(all);
-                                              print("permission granted");
-                                              // } else {
-                                              //   print("permission not granted");
-                                              // }
-                                            },
-                                            child: ListTile(
-                                                leading: Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    color: Colors.white,
-                                                    child: Image.asset(
-                                                        "assets/word.png")),
-                                                title: const Text(
-                                                  "Word",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                trailing: const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  size: 20,
-                                                ))),
-                                        TextButton(
-                                            onPressed: () async {
-                                              // if (await _request_per(Permission.storage) ==
-                                              //     true) {
-                                              int a = messages.length;
-                                              for (int i = 0; i < a; i++) {
-                                                all = all +
-                                                    "\n" +
-                                                    "\n" +
-                                                    messages[i];
-                                              }
-
-                                              downloadTxt(all);
-                                              print("permission granted");
-                                              // } else {
-                                              //   print("permission not granted");
-                                              // }
-                                            },
-                                            child: ListTile(
-                                                leading: Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    color: Colors.white,
-                                                    child: Image.asset(
-                                                        "assets/text.png")),
-                                                title: const Text(
-                                                  "Txt",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                trailing: const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  size: 20,
-                                                ))),
-                                        TextButton(
-                                            onPressed: () async {
-                                              int a = messages.length;
-                                              for (int i = 0; i < a; i++) {
-                                                all = all +
-                                                    "\n" +
-                                                    "\n" +
-                                                    messages[i];
-                                              }
-
-                                              await Share.share(all);
-                                            },
-                                            child: ListTile(
-                                                leading: Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    color: Colors.white,
-                                                    child: Image.asset(
-                                                        "assets/share.png")),
-                                                title: const Text(
-                                                  "Share",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                trailing: const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  size: 20,
-                                                ))),
-                                      ],
-                                    ),
+                                            child: Text(
+                                              "close",
+                                              style: GoogleFonts.poppins(
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          )),
+                                    ],
                                   ),
                                 ),
-                              )
-                            ],
+                                Expanded(
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFFF6F6F6),
+                                    ),
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(height: 2.5),
+                                          const Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 5,
+                                              vertical: 2.5,
+                                            ),
+                                          ),
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          home(
+                                                        datas: allnote,
+                                                      ),
+                                                    ));
+                                                int a = messages.length;
+                                                for (int i = 0; i < a; i++) {
+                                                  all = all +
+                                                      "\n" +
+                                                      "\n" +
+                                                      messages[i];
+                                                }
+                                                save1(all);
+                                              },
+                                              child: ListTile(
+                                                  leading: Container(
+                                                      height: 20,
+                                                      width: 30,
+                                                      color: Colors.white,
+                                                      child: Icon(
+                                                        Icons.save,
+                                                        size: 30,
+                                                      )),
+                                                  title: const Text(
+                                                    "save",
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  trailing: const Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    size: 20,
+                                                  ))),
+                                          TextButton(
+                                              onPressed: () {
+                                                int a = messages.length;
+                                                for (int i = 0; i < a; i++) {
+                                                  all = all +
+                                                      "\n" +
+                                                      "\n" +
+                                                      messages[i];
+                                                }
+
+                                                FlutterClipboard.copy(all);
+                                                Get.snackbar("copied", "");
+                                                Navigator.pop(context);
+                                              },
+                                              child: ListTile(
+                                                  leading: Container(
+                                                      height: 20,
+                                                      width: 30,
+                                                      color: Colors.white,
+                                                      child: Image.asset(
+                                                          "assets/copy.png")),
+                                                  title: const Text(
+                                                    "copy to clipboard",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  trailing: const Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    size: 20,
+                                                  ))),
+                                          TextButton(
+                                              onPressed: () async {
+                                                // if (await _request_per(Permission.storage) ==
+                                                //     true) {
+                                                int a = messages.length;
+                                                for (int i = 0; i < a; i++) {
+                                                  all = all +
+                                                      "\n" +
+                                                      "\n" +
+                                                      messages[i];
+                                                }
+
+                                                convertToPDF(all);
+                                                print("permission granted");
+                                                // } else {
+                                                //   print("permission not granted");
+                                                // }
+                                              },
+                                              child: ListTile(
+                                                  leading: Container(
+                                                      height: 20,
+                                                      width: 30,
+                                                      color: Colors.white,
+                                                      child: Image.asset(
+                                                          "assets/pop.png")),
+                                                  title: const Text(
+                                                    "PDF",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  trailing: const Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    size: 20,
+                                                  ))),
+                                          TextButton(
+                                              onPressed: () async {
+                                                // if (await _request_per(Permission.storage) ==
+                                                //     true) {
+                                                int a = messages.length;
+                                                for (int i = 0; i < a; i++) {
+                                                  all = all +
+                                                      "\n" +
+                                                      "\n" +
+                                                      messages[i];
+                                                }
+                                                save1(all);
+                                                convertToDocx(all);
+                                                print("permission granted");
+                                                // } else {
+                                                //   print("permission not granted");
+                                                // }
+                                              },
+                                              child: ListTile(
+                                                  leading: Container(
+                                                      height: 20,
+                                                      width: 30,
+                                                      color: Colors.white,
+                                                      child: Image.asset(
+                                                          "assets/word.png")),
+                                                  title: const Text(
+                                                    "Word",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  trailing: const Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    size: 20,
+                                                  ))),
+                                          TextButton(
+                                              onPressed: () async {
+                                                // if (await _request_per(Permission.storage) ==
+                                                //     true) {
+                                                int a = messages.length;
+                                                for (int i = 0; i < a; i++) {
+                                                  all = all +
+                                                      "\n" +
+                                                      "\n" +
+                                                      messages[i];
+                                                }
+
+                                                downloadTxt(all);
+                                                print("permission granted");
+                                                // } else {
+                                                //   print("permission not granted");
+                                                // }
+                                              },
+                                              child: ListTile(
+                                                  leading: Container(
+                                                      height: 20,
+                                                      width: 30,
+                                                      color: Colors.white,
+                                                      child: Image.asset(
+                                                          "assets/text.png")),
+                                                  title: const Text(
+                                                    "Txt",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  trailing: const Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    size: 20,
+                                                  ))),
+                                          TextButton(
+                                              onPressed: () async {
+                                                int a = messages.length;
+                                                for (int i = 0; i < a; i++) {
+                                                  all = all +
+                                                      "\n" +
+                                                      "\n" +
+                                                      messages[i];
+                                                }
+
+                                                await Share.share(all);
+                                              },
+                                              child: ListTile(
+                                                  leading: Container(
+                                                      height: 20,
+                                                      width: 30,
+                                                      color: Colors.white,
+                                                      child: Image.asset(
+                                                          "assets/share.png")),
+                                                  title: const Text(
+                                                    "Share",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  trailing: const Icon(
+                                                    Icons.arrow_forward_ios,
+                                                    size: 20,
+                                                  ))),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    icon: SizedBox(
-                      width: 15,
-                      height: 15,
-                      child: Image.asset("assets/dot.png"),
-                    ))
-              ],
-            ),
-          ],
-          leading: IconButton(
-              onPressed: () {
-                int a = messages.length;
-                for (int i = 0; i < a; i++) {
-                  all = all + "\n" + messages[i];
-                }
-                save1(all);
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => home(
-                        datas: [],
-                      ),
-                    ),
-                    (Route) => false);
-              },
-              icon: Icon(
-                Icons.arrow_back,
-                size: 30,
-                color: Colors.black,
-              )),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 20, top: 10),
-              child: Text(
-                "Please Describe Your Needs",
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        maxLines: 5,
-                        controller: _textEditingController,
-                        decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(color: Colors.white)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(color: Colors.white)),
-                            filled: true,
-                            fillColor: Color.fromARGB(255, 248, 246, 246),
-                            contentPadding: EdgeInsets.all(15.0),
-                            hintText: 'Write your requirement here.',
-                            hintStyle: TextStyle(
-                                fontSize: 14,
-                                color:
-                                    const Color.fromARGB(255, 185, 185, 185))),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
+                        );
+                      },
+                      icon: SizedBox(
+                        width: 15,
+                        height: 15,
+                        child: Image.asset("assets/dot.png"),
+                      ))
                 ],
               ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Center(
-              child: Text(
-                "taste creative cuisine at the spicy foods festival! create\n                                      culinary..",
-                style: TextStyle(fontSize: 12, color: Colors.grey),
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                controller: _scrollController,
-                itemCount: _messages.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  if (index == _messages.length) {
-                    return Container(
-                      height: 250,
-                    );
+            ],
+            leading: IconButton(
+                onPressed: () {
+                  int a = messages.length;
+                  for (int i = 0; i < a; i++) {
+                    all = all + "\n" + messages[i];
                   }
-                  int reversedIndex = _messages.length - 1 - index;
-                  return _buildMessage(_messages[reversedIndex]);
+                  save1(all);
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => home(
+                          datas: [],
+                        ),
+                      ),
+                      (Route) => false);
                 },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 30,
+                  color: Colors.black,
+                )),
+          ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 20, top: 10),
+                child: Text(
+                  "Please Describe Your Needs",
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
-                child: ElevatedButton(
-                  child: Text(
-                    "Generate",
-                    style: TextStyle(color: Colors.black),
-                  ),
-                  onPressed: () {
-                    onSendMessage();
-                    FocusScopeNode focus = FocusScope.of(context);
-                    if (!focus.hasPrimaryFocus) {
-                      focus.unfocus();
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          maxLines: 5,
+                          controller: _textEditingController,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              filled: true,
+                              fillColor: Color.fromARGB(255, 248, 246, 246),
+                              contentPadding: EdgeInsets.all(15.0),
+                              hintText: 'Write your requirement here.',
+                              hintStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: const Color.fromARGB(
+                                      255, 185, 185, 185))),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Center(
+                child: Text(
+                  "taste creative cuisine at the spicy foods festival! create\n                                      culinary..",
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  controller: _scrollController,
+                  itemCount: _messages.length + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == _messages.length) {
+                      return Container(
+                        height: 400,
+                      );
                     }
+                    int reversedIndex = _messages.length - 1 - index;
+                    return _buildMessage(_messages[reversedIndex]);
                   },
                 ),
               ),
-            ),
-          ],
-        ));
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: ElevatedButton(
+                    child: Text(
+                      "Generate",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    onPressed: () {
+                      onSendMessage();
+                      FocusScopeNode focus = FocusScope.of(context);
+                      if (!focus.hasPrimaryFocus) {
+                        focus.unfocus();
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          )),
+    );
     // floatingActionButton: Padding(
     //   padding: const EdgeInsets.only(bottom: 50),
     //   child: CircleAvatar(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todoaiapp/pages/home/argument.dart';
+import 'package:todoaiapp/pages/home/helpfeedback.dart';
 import 'package:todoaiapp/pages/home/privacy.dart';
 
 class setting extends StatefulWidget {
@@ -46,47 +48,6 @@ class _settingState extends State<setting> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                width: MediaQuery.of(context).size.width,
-                height: 113,
-                child: Column(
-                  children: [
-                    ListTile(
-                      trailing: Switch(
-                        value: isswitched,
-                        onChanged: (value) {
-                          setState(() {
-                            isswitched = value;
-                          });
-                        },
-                      ),
-                      leading: Text(
-                        "Floating ball display",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                    ListTile(
-                      trailing: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.control_point_duplicate_sharp,
-                            size: 30,
-                          )),
-                      leading: Text(
-                        "Notification bar display",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Container(
                 decoration: BoxDecoration(
@@ -94,26 +55,26 @@ class _settingState extends State<setting> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 width: MediaQuery.of(context).size.width,
-                height: 370,
+                height: 220,
                 child: Column(
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => feedback(),
+                            ));
+                      },
                       child: ListTile(
                         trailing: IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.arrow_forward_ios)),
-                        leading: Text(
-                          "Quicknote creation mode",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: ListTile(
-                        trailing: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => feedback(),
+                                  ));
+                            },
                             icon: Icon(Icons.arrow_forward_ios)),
                         leading: Text(
                           "Help and Feedback",
@@ -146,23 +107,26 @@ class _settingState extends State<setting> {
                       ),
                     ),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => argument(),
+                              ));
+                        },
                         child: ListTile(
                           trailing: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => argument(),
+                                    ));
+                              },
                               icon: Icon(Icons.arrow_forward_ios)),
                           leading: Text("User Agreement",
                               style: TextStyle(fontSize: 15)),
                         )),
-                    TextButton(
-                        onPressed: () {},
-                        child: ListTile(
-                          trailing: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.arrow_forward_ios)),
-                          leading: Text("Membership Support",
-                              style: TextStyle(fontSize: 15)),
-                        ))
                   ],
                 ),
               ),

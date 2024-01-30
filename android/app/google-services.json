@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "1048969344310",
-    "project_id": "noteaiapp-514ed",
-    "storage_bucket": "noteaiapp-514ed.appspot.com"
+    "project_number": "104265584311",
+    "project_id": "nota-ai-tool",
+    "storage_bucket": "nota-ai-tool.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1048969344310:android:f6b484c9c3409817066f97",
+        "mobilesdk_app_id": "1:104265584311:android:fbfdc01a655b5aa541c732",
         "android_client_info": {
-          "package_name": "com.example.todoaiapp"
+          "package_name": "com.easyrytAiNotes"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC6KEfDBYwuDaCtEyrbFeAGXQQtDyTcgIg"
+          "current_key": "AIzaSyCfSh83LIFbCLO1G0f7cI7Y4AIpKZ1TemA"
         }
       ],
       "services": {

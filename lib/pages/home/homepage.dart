@@ -4,8 +4,8 @@ import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:network_info_plus/network_info_plus.dart';
+
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
@@ -22,19 +22,18 @@ import 'package:todoaiapp/main.dart';
 
 import 'package:todoaiapp/pages/Aipage.dart';
 import 'package:todoaiapp/pages/home/cookingai.dart';
-import 'package:todoaiapp/pages/home/privacy.dart';
+
 import 'package:todoaiapp/pages/home/recents.dart';
 import 'package:todoaiapp/pages/home/setting.dart';
 import 'package:todoaiapp/pages/notes/editnotes.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
 import 'package:todoaiapp/pages/notes/notes.dart';
 
-import 'package:todoaiapp/pages/speechtotext/speechtotext.dart';
 import 'package:http/http.dart' as http;
 import 'package:todoaiapp/pages/home/suggestedpage.dart';
 import 'package:todoaiapp/pages/ocrfinal/texttoimage.dart';
 import 'package:todoaiapp/pages/todo/tododetail.dart';
-import 'package:uuid/uuid.dart';
+
 
 class home extends StatefulWidget {
   List<data1> datas;
@@ -48,8 +47,12 @@ class home extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<home> with TickerProviderStateMixin {
+ 
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
   @override
   void initState() {
+    analytics.setAnalyticsCollectionEnabled(true);
     update();
     super.initState();
     // generateDeviceIdentifier();
@@ -1120,7 +1123,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
                                                                               title: const Text(
                                                                                 "copy to clipboard",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                                                                               ),
                                                                               trailing: const Icon(
                                                                                 Icons.arrow_forward_ios,
@@ -1141,7 +1144,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
                                                                               title: const Text(
                                                                                 "PDF",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                                                                               ),
                                                                               trailing: const Icon(
                                                                                 Icons.arrow_forward_ios,
@@ -1162,7 +1165,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
                                                                               title: const Text(
                                                                                 "Word",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                                                                               ),
                                                                               trailing: const Icon(
                                                                                 Icons.arrow_forward_ios,
@@ -1183,7 +1186,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
                                                                               title: const Text(
                                                                                 "Txt",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                                                                               ),
                                                                               trailing: const Icon(
                                                                                 Icons.arrow_forward_ios,
@@ -1200,7 +1203,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
                                                                               title: const Text(
                                                                                 "Share",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                                                                               ),
                                                                               trailing: const Icon(
                                                                                 Icons.arrow_forward_ios,
@@ -1224,7 +1227,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               ),
                                                                               title: const Text(
                                                                                 "Delete",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
                                                                               ),
                                                                               trailing: const Icon(
                                                                                 Icons.arrow_forward_ios,
@@ -1287,9 +1290,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
         child: AnimatedBuilder(
           animation: _controller,
           child: const SizedBox(
-            width: 50,
+            width: 60,
             child: Image(
-              image: AssetImage("assets/chatai.png"),
+              image: AssetImage("assets/logo1.png"),
               fit: BoxFit.cover,
             ),
           ),
@@ -1391,7 +1394,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       child: InkWell(
         overlayColor: MaterialStateProperty.all(Colors.transparent),
         onTap: () {
+       
           if (index == 1) {
+              analytics.logEvent(name: "Pages_tracked",parameters:{
+            "pagename":"ai","pageindex":index
+          } );
             Get.to(() => const notes());
           } else if (index == 2) {
             Get.to(() => const detail());
