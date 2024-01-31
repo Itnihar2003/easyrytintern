@@ -25,7 +25,7 @@ class _splashoneState extends State<splashtwo> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    Timer(Duration(seconds: 4), () {
+    Timer(Duration(seconds: 2), () {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -40,10 +40,23 @@ class _splashoneState extends State<splashtwo> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Image.asset("assets/animation.gif"),
-    ));
+        body: AnimatedBuilder(
+        animation: _controller,
+        child: Center(
+          child: const SizedBox(
+            width: 190,
+            child: Image(
+              image: AssetImage("assets/splash screen logo.gif"),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        builder: (context, child) {
+          return Transform.rotate(
+            angle: _controller.value * 2 * 3.141,
+            child: child,
+          );
+        },
+      ),);
   }
 }

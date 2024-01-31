@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:clipboard/clipboard.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,6 @@ import 'package:todoaiapp/pages/home/suggestedpage.dart';
 import 'package:todoaiapp/pages/ocrfinal/texttoimage.dart';
 import 'package:todoaiapp/pages/todo/tododetail.dart';
 
-
 class home extends StatefulWidget {
   List<data1> datas;
   home({
@@ -47,8 +47,7 @@ class home extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<home> with TickerProviderStateMixin {
- 
-  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
@@ -56,6 +55,10 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     update();
     super.initState();
     // generateDeviceIdentifier();
+  }
+
+  save() {
+    FirebaseDatabase.instance.ref("post").set({"name2": "nihar"});
   }
 
   bool isLoading = true;
@@ -597,6 +600,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
 
                                   IconButton(
                                       onPressed: () {
+                                        save();
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -1394,11 +1398,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       child: InkWell(
         overlayColor: MaterialStateProperty.all(Colors.transparent),
         onTap: () {
-       
           if (index == 1) {
-              analytics.logEvent(name: "Pages_tracked",parameters:{
-            "pagename":"ai","pageindex":index
-          } );
             Get.to(() => const notes());
           } else if (index == 2) {
             Get.to(() => const detail());

@@ -17,15 +17,24 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,39 +52,12 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAesg_AsmGcFZpL_wYjskG_x7UvQhY0dRY',
-    appId: '1:104265584311:web:4c622814962d2b4141c732',
-    messagingSenderId: '104265584311',
-    projectId: 'nota-ai-tool',
-    authDomain: 'nota-ai-tool.firebaseapp.com',
-    storageBucket: 'nota-ai-tool.appspot.com',
-    measurementId: 'G-ME3B62SDTV',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCfSh83LIFbCLO1G0f7cI7Y4AIpKZ1TemA',
-    appId: '1:104265584311:android:fbfdc01a655b5aa541c732',
-    messagingSenderId: '104265584311',
-    projectId: 'nota-ai-tool',
-    storageBucket: 'nota-ai-tool.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAJCDFrcYpDzthOg4r533FOkYx5NjjytQ8',
-    appId: '1:104265584311:ios:3cb4f5e94d33abc341c732',
-    messagingSenderId: '104265584311',
-    projectId: 'nota-ai-tool',
-    storageBucket: 'nota-ai-tool.appspot.com',
-    iosBundleId: 'com.example.todoaiapp',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAJCDFrcYpDzthOg4r533FOkYx5NjjytQ8',
-    appId: '1:104265584311:ios:cd93bedf9fbc608541c732',
-    messagingSenderId: '104265584311',
-    projectId: 'nota-ai-tool',
-    storageBucket: 'nota-ai-tool.appspot.com',
-    iosBundleId: 'com.example.todoaiapp.RunnerTests',
+    apiKey: 'AIzaSyD2kZrPMUr6RH7iUfIIfXo-xnouu05HpYs',
+    appId: '1:339770757995:android:ee1f849ca18acbd3b8f22e',
+    messagingSenderId: '339770757995',
+    projectId: 'nota-ai-app',
+    databaseURL: 'https://nota-ai-app-default-rtdb.firebaseio.com',
+    storageBucket: 'nota-ai-app.appspot.com',
   );
 }

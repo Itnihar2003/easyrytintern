@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "104265584311",
-    "project_id": "nota-ai-tool",
-    "storage_bucket": "nota-ai-tool.appspot.com"
+    "project_number": "339770757995",
+    "firebase_url": "https://nota-ai-app-default-rtdb.firebaseio.com",
+    "project_id": "nota-ai-app",
+    "storage_bucket": "nota-ai-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:104265584311:android:fbfdc01a655b5aa541c732",
+        "mobilesdk_app_id": "1:339770757995:android:ee1f849ca18acbd3b8f22e",
         "android_client_info": {
           "package_name": "com.easyrytAiNotes"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCfSh83LIFbCLO1G0f7cI7Y4AIpKZ1TemA"
+          "current_key": "AIzaSyD2kZrPMUr6RH7iUfIIfXo-xnouu05HpYs"
         }
       ],
       "services": {
