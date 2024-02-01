@@ -37,7 +37,7 @@ class _settingState extends State<setting> {
               padding: const EdgeInsets.all(20.0),
               child: Container(
                 child: Image.asset(
-                  "assets/pri.png",
+                  "assets/Frame 603.png",
                   fit: BoxFit.fitWidth,
                 ),
                 decoration: BoxDecoration(

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todoaiapp/intro/intro.dart';
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:todoaiapp/intro/intro1.dart';
+import 'package:todoaiapp/intro/splashtwo.dart';
 import 'firebase_options.dart';
 
 import 'package:timezone/data/latest.dart' as tz;
@@ -23,8 +25,8 @@ void main(List<String> args) async {
     GetMaterialApp(
       title: 'Palm - AI, Gpt, Notes, AI Chat',
       debugShowCheckedModeBanner: false,
-      // home: inviewed != 0 ? intro1() : splashtwo(),
-      home: intro(),
+      home: inviewed != 0 ? intro1() : splashtwo(),
+      
     ),
   );
 }

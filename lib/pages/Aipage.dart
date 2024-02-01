@@ -731,25 +731,19 @@ class _aiState extends State<ai> {
   }
 
   final List<Message> _messages = [];
-
+  bool issend = false;
   final TextEditingController _textEditingController = TextEditingController();
   final TextEditingController edittext = TextEditingController();
+  bool isfinished = false;
   void onSendMessage() async {
     Message message = Message(text: _textEditingController.text, isMe: true);
 
     _textEditingController.clear();
 
     setState(() {
+      isfinished = true;
+      issend = true;
       _messages.insert(0, message);
-      showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-              child: CircularProgressIndicator(
-            color: Colors.black,
-          ));
-        },
-      );
     });
 
     String response = await sendMessageToChatGpt(message.text);
@@ -757,9 +751,9 @@ class _aiState extends State<ai> {
     Message chatGpt = Message(text: response, isMe: false);
 
     setState(() {
+      isfinished = false;
+      issend = false;
       _messages.insert(0, chatGpt);
-      Navigator.pop(context);
-      FocusScope.of(context).unfocus();
     });
   }
 
@@ -815,12 +809,16 @@ class _aiState extends State<ai> {
                         ? Container(
                             width: 15, child: Image.asset("assets/person.png"))
                         : Container(
-                            width: 25, child: Image.asset("assets/logo1.png")),
+                            width: 38,
+                            child: Image.asset(
+                              "assets/gpt4.png",
+                              fit: BoxFit.cover,
+                            )),
                     SizedBox(
                       width: 10,
                     ),
                     Text(
-                      message.isMe ? 'You' : "GPT",
+                      message.isMe ? 'You' : "Nota Ai",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -843,7 +841,7 @@ class _aiState extends State<ai> {
                               repeatForever: false,
                               isRepeatingAnimation: false,
                               animatedTexts: [
-                                TypewriterAnimatedText(message.text)
+                                TyperAnimatedText(message.text),
                               ]),
                         ),
                       ),
@@ -1522,6 +1520,8 @@ class _aiState extends State<ai> {
                 )),
           ),
           body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Expanded(
                 child: ListView.builder(
@@ -1537,6 +1537,16 @@ class _aiState extends State<ai> {
                     int reversedIndex = _messages.length - 1 - index;
                     return _buildMessage(_messages[reversedIndex]);
                   },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  issend ? "Ai is Writing..." : "",
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
@@ -1574,12 +1584,17 @@ class _aiState extends State<ai> {
                         ),
                         child: IconButton(
                           icon: Icon(
-                            Icons.send,
+                            isfinished
+                                ? Icons.assistant_navigation
+                                : Icons.send,
                             color: Colors.black,
                           ),
                           onPressed: () {
                             FocusScope.of(context).unfocus();
-                            onSendMessage();
+                            if (isfinished == false &&
+                                _textEditingController.text != "") {
+                              onSendMessage();
+                            }
                           },
                         ),
                       ),

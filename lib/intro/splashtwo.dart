@@ -25,7 +25,7 @@ class _splashoneState extends State<splashtwo> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 1), () {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -40,7 +40,7 @@ class _splashoneState extends State<splashtwo> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: AnimatedBuilder(
+      body: AnimatedBuilder(
         animation: _controller,
         child: Center(
           child: const SizedBox(
@@ -57,6 +57,7 @@ class _splashoneState extends State<splashtwo> with TickerProviderStateMixin {
             child: child,
           );
         },
-      ),);
+      ),
+    );
   }
 }

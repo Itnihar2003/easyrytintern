@@ -68,7 +68,7 @@ dependencies:
   device_info_plus: ^9.1.1
   #for io adress
   uuid: ^3.0.4
-  
+
   network_info_plus: ^3.0.0
   #OCR
   camera: ^0.10.0+4
@@ -80,7 +80,9 @@ dependencies:
   flutter_keyboard_visibility: ^6.0.0
   flutter_staggered_grid_view: ^0.7.0
   firebase_analytics: ^10.8.0
+  rate_my_app: ^2.0.0
   
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

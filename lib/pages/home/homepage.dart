@@ -17,6 +17,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/main.dart';
@@ -47,11 +48,84 @@ class home extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<home> with TickerProviderStateMixin {
+  //rating the app
+  final RateMyApp rateMyApp = RateMyApp(
+      remindLaunches: 2,
+      remindDays: 2,
+      minDays: 0,
+      minLaunches: 0,
+      googlePlayIdentifier: "com.easyrytAiNotes");
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   @override
   void initState() {
-    analytics.setAnalyticsCollectionEnabled(true);
+    rateMyApp.init().then((_) {
+      rateMyApp.conditions.forEach((condition) {
+        if (condition is DebuggableCondition) {
+          print(condition.valuesAsString);
+        }
+      });
+      if (rateMyApp.shouldOpenDialog) {
+        rateMyApp.showStarRateDialog(
+          context,
+          title: "Rate this APP",
+          message:
+              "you like this app ? Then take a little bit of your time to Leave a rating",
+          actionsBuilder: (context, stars) {
+            return [
+              TextButton(
+                  onPressed: () async {
+                    stars = stars ?? 0;
+                    print("Thank you for the :${stars.toString()}");
+                    if (stars! < 4) {
+                      print("Would you like to send any feedback");
+                    } else {
+                      Navigator.pop<RateMyAppDialogButton>(
+                          context, RateMyAppDialogButton.rate);
+                      await rateMyApp
+                          .callEvent(RateMyAppEventType.rateButtonPressed);
+                      // if ((await rateMyApp.isNativeReviewDialogSupported) ??
+                      //     false) {
+                      //   await rateMyApp.launchNativeReviewDialog();
+                      // }
+                      rateMyApp.launchStore();
+                    }
+                  },
+                  child: Text(
+                    "ok",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold),
+                  ))
+            ];
+          },
+          ignoreNativeDialog: true,
+          dialogStyle: DialogStyle(
+              titleAlign: TextAlign.center,
+              messageAlign: TextAlign.center,
+              messagePadding: EdgeInsets.only(bottom: 20)),
+          starRatingOptions: StarRatingOptions(),
+          onDismissed: () {
+            rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed);
+          },
+        );
+
+        // rateMyApp.showRateDialog(
+        //   context,
+        //   title: "Rate this APP",
+        //   message: "If you like this app",
+        //   rateButton: "Rate",
+        //   noButton: "No thanks",
+        //   laterButton: "Maybe Later",
+        //   ignoreNativeDialog: true,
+        //   onDismissed: () {
+        //     rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed);
+        //   },
+        // );
+      }
+    });
+    analytics.setCurrentScreen(screenName: "Homepage");
     update();
     super.initState();
     // generateDeviceIdentifier();
@@ -1007,7 +1081,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                       context: context,
                                                       builder: (context) =>
                                                           SizedBox(
-                                                        height: 400,
+                                                        height: 370,
                                                         child: Column(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
@@ -1022,7 +1096,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                               decoration:
                                                                   const BoxDecoration(
                                                                 color: Colors
-                                                                    .black,
+                                                                    .white,
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .only(
@@ -1051,11 +1125,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                         style: GoogleFonts
                                                                             .poppins(
                                                                           color:
-                                                                              Colors.white,
+                                                                              Colors.black,
                                                                           fontSize:
                                                                               17,
                                                                           fontWeight:
-                                                                              FontWeight.w400,
+                                                                              FontWeight.w500,
                                                                         ),
                                                                       ),
                                                                     ],
@@ -1066,10 +1140,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                           right:
                                                                               10),
                                                                       child:
-                                                                          ElevatedButton(
-                                                                        style: ElevatedButton.styleFrom(
-                                                                            backgroundColor:
-                                                                                Colors.black),
+                                                                          TextButton(
                                                                         onPressed:
                                                                             () {
                                                                           Navigator.pop(
@@ -1081,7 +1152,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                           style:
                                                                               GoogleFonts.poppins(
                                                                             color:
-                                                                                Colors.white,
+                                                                                Colors.black,
                                                                             fontSize:
                                                                                 20,
                                                                             fontWeight:
@@ -1294,9 +1365,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
         child: AnimatedBuilder(
           animation: _controller,
           child: const SizedBox(
-            width: 60,
+            width: 90,
             child: Image(
-              image: AssetImage("assets/logo1.png"),
+              image: AssetImage("assets/gpt4.png"),
               fit: BoxFit.cover,
             ),
           ),
@@ -1398,6 +1469,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       child: InkWell(
         overlayColor: MaterialStateProperty.all(Colors.transparent),
         onTap: () {
+          analytics.setCurrentScreen(screenName: "demo");
           if (index == 1) {
             Get.to(() => const notes());
           } else if (index == 2) {
