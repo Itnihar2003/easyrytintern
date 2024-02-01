@@ -111,18 +111,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
           },
         );
 
-        // rateMyApp.showRateDialog(
-        //   context,
-        //   title: "Rate this APP",
-        //   message: "If you like this app",
-        //   rateButton: "Rate",
-        //   noButton: "No thanks",
-        //   laterButton: "Maybe Later",
-        //   ignoreNativeDialog: true,
-        //   onDismissed: () {
-        //     rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed);
-        //   },
-        // );
+       
       }
     });
     analytics.setCurrentScreen(screenName: "Homepage");
