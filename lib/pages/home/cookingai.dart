@@ -24,7 +24,7 @@ class ai2 extends StatefulWidget {
 
 class _aiState extends State<ai2> {
   List<data1> allnote = [];
-
+  bool issend = false;
   setdata1() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     List<String> data2list =
@@ -450,7 +450,7 @@ class _aiState extends State<ai2> {
   }
 
   final List<Message> _messages = [];
-  bool _isLoading = true;
+
   final TextEditingController _textEditingController = TextEditingController();
   final TextEditingController edittext = TextEditingController();
   void onSendMessage() async {
@@ -459,15 +459,7 @@ class _aiState extends State<ai2> {
     _textEditingController.clear();
 
     setState(() {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return Center(
-              child: CircularProgressIndicator(
-            color: Colors.black,
-          ));
-        },
-      );
+      issend = true;
       _messages.insert(0, message);
     });
 
@@ -477,7 +469,7 @@ class _aiState extends State<ai2> {
 
     setState(() {
       _messages.insert(0, chatGpt);
-      Navigator.pop(context);
+      issend = false;
     });
   }
 
@@ -533,12 +525,12 @@ class _aiState extends State<ai2> {
                         ? Container(
                             width: 15, child: Image.asset("assets/person.png"))
                         : Container(
-                            width: 25, child: Image.asset("assets/logo1.png")),
+                            width: 38, child: Image.asset("assets/gpt4.png")),
                     SizedBox(
                       width: 10,
                     ),
                     Text(
-                      message.isMe ? 'You' : 'GPT',
+                      message.isMe ? 'You' : "Nota Ai",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -664,7 +656,7 @@ class _aiState extends State<ai2> {
                                   padding:
                                       const EdgeInsets.symmetric(horizontal: 5),
                                   decoration: const BoxDecoration(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(6),
                                       topRight: Radius.circular(6),
@@ -680,9 +672,9 @@ class _aiState extends State<ai2> {
                                           Text(
                                             "Quick Note",
                                             style: GoogleFonts.poppins(
-                                              color: Colors.white,
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                         ],
@@ -690,17 +682,15 @@ class _aiState extends State<ai2> {
                                       Padding(
                                           padding:
                                               const EdgeInsets.only(right: 10),
-                                          child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.black),
+                                          child: TextButton(
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
                                             child: Text(
                                               "close",
                                               style: GoogleFonts.poppins(
-                                                color: Colors.white,
-                                                fontSize: 20,
+                                                color: Colors.black,
+                                                fontSize: 15,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
@@ -748,15 +738,15 @@ class _aiState extends State<ai2> {
                                                       width: 30,
                                                       color: Colors.white,
                                                       child: Icon(
-                                                        Icons.save,
+                                                        Icons.add_box_outlined,
                                                         size: 30,
                                                       )),
                                                   title: const Text(
-                                                    "save",
+                                                    "Save",
                                                     style: TextStyle(
-                                                        fontSize: 18,
+                                                        fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,
@@ -784,11 +774,11 @@ class _aiState extends State<ai2> {
                                                       child: Image.asset(
                                                           "assets/copy.png")),
                                                   title: const Text(
-                                                    "copy to clipboard",
+                                                    "Copy to clipboard",
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,
@@ -824,7 +814,7 @@ class _aiState extends State<ai2> {
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,
@@ -860,7 +850,7 @@ class _aiState extends State<ai2> {
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,
@@ -896,7 +886,7 @@ class _aiState extends State<ai2> {
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,
@@ -926,7 +916,7 @@ class _aiState extends State<ai2> {
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,
@@ -1036,12 +1026,22 @@ class _aiState extends State<ai2> {
                   itemBuilder: (BuildContext context, int index) {
                     if (index == _messages.length) {
                       return Container(
-                        height: 400,
+                        height: 300,
                       );
                     }
                     int reversedIndex = _messages.length - 1 - index;
                     return _buildMessage(_messages[reversedIndex]);
                   },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Text(
+                  issend ? "Ai is Writing..." : "",
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
@@ -1057,7 +1057,10 @@ class _aiState extends State<ai2> {
                       style: TextStyle(color: Colors.black),
                     ),
                     onPressed: () {
-                      onSendMessage();
+                      if (issend == false &&
+                          _textEditingController.text != "") {
+                        onSendMessage();
+                      }
                       FocusScopeNode focus = FocusScope.of(context);
                       if (!focus.hasPrimaryFocus) {
                         focus.unfocus();

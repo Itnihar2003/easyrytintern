@@ -262,7 +262,7 @@ class _editnotesState extends State<editnotes> {
                   setdata1();
                 });
               }
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => home(
@@ -315,15 +315,15 @@ class _editnotesState extends State<editnotes> {
                             children: [
                               IconButton(
                                   onPressed: () async {
-                                    if(finalvalue!=""&&finalcontent!=""){
-                                         await Share.share(
-                                        finalvalue + "\n" + finalcontent);
-                                    }
-                                    else{
+                                    if (finalvalue != "" &&
+                                        finalcontent != "") {
                                       await Share.share(
-                                        widget.tittle + "\n" + widget.content);
+                                          finalvalue + "\n" + finalcontent);
+                                    } else {
+                                      await Share.share(widget.tittle +
+                                          "\n" +
+                                          widget.content);
                                     }
-                                   
                                   },
                                   icon: const Icon(Icons.share)),
                             ],

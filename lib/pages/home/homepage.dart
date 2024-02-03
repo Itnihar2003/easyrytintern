@@ -110,8 +110,6 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
             rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed);
           },
         );
-
-       
       }
     });
     analytics.setCurrentScreen(screenName: "Homepage");
@@ -1116,7 +1114,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                           color:
                                                                               Colors.black,
                                                                           fontSize:
-                                                                              17,
+                                                                              15,
                                                                           fontWeight:
                                                                               FontWeight.w500,
                                                                         ),
@@ -1143,7 +1141,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                             color:
                                                                                 Colors.black,
                                                                             fontSize:
-                                                                                20,
+                                                                                15,
                                                                             fontWeight:
                                                                                 FontWeight.w500,
                                                                           ),

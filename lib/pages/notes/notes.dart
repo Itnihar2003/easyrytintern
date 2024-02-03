@@ -256,12 +256,12 @@ class _notesState extends State<notes> {
         child: InkWell(
             onTap: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  
                   MaterialPageRoute(
                     builder: (context) => home(
                       datas: [],
                     ),
-                  ),(Route)=>false);
+                  ),
+                  (Route) => false);
               save1();
               writingController.clear();
               writingController.clear();
@@ -297,7 +297,17 @@ class _notesState extends State<notes> {
                           children: [
                             IconButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                        builder: (context) => home(
+                                          datas: [],
+                                        ),
+                                      ),
+                                      (Route) => false);
+                                  save1();
+                                  writingController.clear();
+                                  writingController.clear();
+                                  print(allnote.length);
                                 },
                                 icon: const Icon(Icons.arrow_back)),
                             IconButton(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:clipboard/clipboard.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/main.dart';
@@ -51,6 +53,30 @@ class _recentState extends State<recent> {
       platformChannelSpecifics,
       payload: 'item x',
     );
+  }
+
+  //permission
+  Future<bool> _request_per(Permission permission) async {
+    AndroidDeviceInfo build = await DeviceInfoPlugin().androidInfo;
+    if (build.version.sdkInt >= 10) {
+      var re = await Permission.manageExternalStorage.request();
+      if (re.isGranted) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (await permission.isGranted) {
+        return true;
+      } else {
+        var result = await permission.request();
+        if (result.isGranted) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
   }
 
   Future<void> convertToDocx(String doc) async {
@@ -467,21 +493,12 @@ class _recentState extends State<recent> {
             ),
             SingleChildScrollView(
               child: Container(
-                height: (widget.datas.length % 2 == 0)
-                    ? (widget.datas.length / 2) * 207
-                    : widget.datas.length * 180,
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: 200,
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10.0,
-                    ),
-                    itemCount:
-                        widget.datas.length, // Total number of containers
+                  child: ListView.builder(
+                    itemCount: widget.datas.length,
                     itemBuilder: (BuildContext context, int index) {
                       String tittle = widget.datas[index].tittle1;
                       if (searchfilter.text.isEmpty) {
@@ -489,7 +506,7 @@ class _recentState extends State<recent> {
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => editnotes(
@@ -513,340 +530,346 @@ class _recentState extends State<recent> {
                                   ),
                                 ],
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 50,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 2),
-                                    width: double.infinity,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: 98,
-                                          height: 22,
-                                          child: Text(
-                                            widget.datas[index].tittle1,
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.black,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              showModalBottomSheet(
-                                                context: context,
-                                                builder: (context) => SizedBox(
-                                                  height: 400,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 5),
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          color: Colors.black,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                    6),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    6),
-                                                          ),
-                                                        ),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                const SizedBox(
-                                                                    height: 50,
-                                                                    width: 10),
-                                                                Text(
-                                                                  "Quick Note",
-                                                                  style: GoogleFonts
-                                                                      .poppins(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        17,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        right:
-                                                                            10),
-                                                                child:
-                                                                    ElevatedButton(
-                                                                  style: ElevatedButton.styleFrom(
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .black),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                    "close",
-                                                                    style: GoogleFonts
-                                                                        .poppins(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          20,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                                  ),
-                                                                )),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Container(
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                            color: Color(
-                                                                0xFFF6F6F6),
-                                                          ),
-                                                          child:
-                                                              SingleChildScrollView(
-                                                            child: Column(
-                                                              children: [
-                                                                const SizedBox(
-                                                                    height:
-                                                                        2.5),
-                                                                const Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .symmetric(
-                                                                    horizontal:
-                                                                        5,
-                                                                    vertical:
-                                                                        2.5,
-                                                                  ),
-                                                                ),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      FlutterClipboard
-                                                                          .copy(
-                                                                              "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
-                                                                      Get.snackbar(
-                                                                          "copied",
-                                                                          "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
-                                                                        title: const Text(
-                                                                          "copy to clipboard",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      // if (await _request_per(Permission.storage) ==
-                                                                      //     true) {
-                                                                      convertToPDF(
-                                                                          "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                      print(
-                                                                          "permission granted");
-                                                                      // } else {
-                                                                      //   print("permission not granted");
-                                                                      // }
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
-                                                                        title: const Text(
-                                                                          "PDF",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      // if (await _request_per(Permission.storage) ==
-                                                                      //     true) {
-                                                                      convertToDocx(
-                                                                          "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                      print(
-                                                                          "permission granted");
-                                                                      // } else {
-                                                                      //   print("permission not granted");
-                                                                      // }
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
-                                                                        title: const Text(
-                                                                          "Word",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      // if (await _request_per(Permission.storage) ==
-                                                                      //     true) {
-                                                                      downloadTxt(
-                                                                          "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                      print(
-                                                                          "permission granted");
-                                                                      // } else {
-                                                                      //   print("permission not granted");
-                                                                      // }
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
-                                                                        title: const Text(
-                                                                          "Txt",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      await Share.share(widget
-                                                                              .datas[
-                                                                                  index]
-                                                                              .tittle1 +
-                                                                          "\n" +
-                                                                          widget
-                                                                              .datas[index]
-                                                                              .content1);
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
-                                                                        title: const Text(
-                                                                          "Share",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      setState(
-                                                                          () {
-                                                                        widget
-                                                                            .datas
-                                                                            .removeAt(index);
-                                                                        setdata1();
-                                                                      });
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(
-                                                                          height:
-                                                                              20,
-                                                                          width:
-                                                                              30,
-                                                                          color:
-                                                                              Colors.white,
-                                                                          child:
-                                                                              Image.asset("assets/delete.png"),
-                                                                        ),
-                                                                        title: const Text(
-                                                                          "Delete",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
+                              child: ListTile(
+                                trailing: IconButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) => SizedBox(
+                                          height: 400,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5),
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft: Radius.circular(6),
+                                                    topRight:
+                                                        Radius.circular(6),
                                                   ),
                                                 ),
-                                              );
-                                            },
-                                            icon: SizedBox(
-                                              width: 12,
-                                              height: 12,
-                                              child:
-                                                  Image.asset("assets/dot.png"),
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    child: SizedBox(
-                                        height: 120,
-                                        child: SingleChildScrollView(
-                                            child: Text(
-                                                widget.datas[index].content1))),
-                                  )
-                                ],
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const SizedBox(
+                                                            height: 50,
+                                                            width: 10),
+                                                        Text(
+                                                          "Quick Note",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: Colors.black,
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                right: 10),
+                                                        child: TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            "close",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        )),
+                                                  ],
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: Color(0xFFF6F6F6),
+                                                  ),
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      children: [
+                                                        const SizedBox(
+                                                            height: 2.5),
+                                                        const Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                            horizontal: 5,
+                                                            vertical: 2.5,
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              FlutterClipboard.copy(
+                                                                  "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                                                              Get.snackbar(
+                                                                  "copied",
+                                                                  "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: ListTile(
+                                                                leading: Container(
+                                                                    height: 20,
+                                                                    width: 30,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            "assets/copy.png")),
+                                                                title:
+                                                                    const Text(
+                                                                  "copy to clipboard",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              if (await _request_per(
+                                                                      Permission
+                                                                          .storage) ==
+                                                                  true) {
+                                                                convertToPDF(
+                                                                    "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                print(
+                                                                    "permission granted");
+                                                              } else {
+                                                                print(
+                                                                    "permission not granted");
+                                                              }
+                                                            },
+                                                            child: ListTile(
+                                                                leading: Container(
+                                                                    height: 20,
+                                                                    width: 30,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            "assets/pop.png")),
+                                                                title:
+                                                                    const Text(
+                                                                  "PDF",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              if (await _request_per(
+                                                                      Permission
+                                                                          .storage) ==
+                                                                  true) {
+                                                                convertToDocx(
+                                                                    "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                print(
+                                                                    "permission granted");
+                                                              } else {
+                                                                print(
+                                                                    "permission not granted");
+                                                              }
+                                                            },
+                                                            child: ListTile(
+                                                                leading: Container(
+                                                                    height: 20,
+                                                                    width: 30,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            "assets/word.png")),
+                                                                title:
+                                                                    const Text(
+                                                                  "Word",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              if (await _request_per(
+                                                                      Permission
+                                                                          .storage) ==
+                                                                  true) {
+                                                                downloadTxt(
+                                                                    "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                print(
+                                                                    "permission granted");
+                                                              } else {
+                                                                print(
+                                                                    "permission not granted");
+                                                              }
+                                                            },
+                                                            child: ListTile(
+                                                                leading: Container(
+                                                                    height: 20,
+                                                                    width: 30,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            "assets/text.png")),
+                                                                title:
+                                                                    const Text(
+                                                                  "Txt",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              await Share.share(widget
+                                                                      .datas[
+                                                                          index]
+                                                                      .tittle1 +
+                                                                  "\n" +
+                                                                  widget
+                                                                      .datas[
+                                                                          index]
+                                                                      .content1);
+                                                            },
+                                                            child: ListTile(
+                                                                leading: Container(
+                                                                    height: 20,
+                                                                    width: 30,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            "assets/share.png")),
+                                                                title:
+                                                                    const Text(
+                                                                  "Share",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                widget.datas
+                                                                    .removeAt(
+                                                                        index);
+                                                                setdata1();
+                                                              });
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: ListTile(
+                                                                leading:
+                                                                    Container(
+                                                                  height: 20,
+                                                                  width: 30,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          "assets/delete.png"),
+                                                                ),
+                                                                title:
+                                                                    const Text(
+                                                                  "Delete",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    icon: SizedBox(
+                                      width: 12,
+                                      height: 12,
+                                      child: Image.asset("assets/dot.png"),
+                                    )),
+                                title: Text(widget.datas[index].tittle1),
                               ),
                             ),
                           ),
@@ -858,7 +881,7 @@ class _recentState extends State<recent> {
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => editnotes(
@@ -882,340 +905,346 @@ class _recentState extends State<recent> {
                                   ),
                                 ],
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 50,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 2),
-                                    width: double.infinity,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: 98,
-                                          height: 22,
-                                          child: Text(
-                                            tittle,
-                                            style: GoogleFonts.poppins(
-                                              color: Colors.black,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              showModalBottomSheet(
-                                                context: context,
-                                                builder: (context) => SizedBox(
-                                                  height: 400,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal: 5),
-                                                        decoration:
-                                                            const BoxDecoration(
-                                                          color: Colors.black,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                    6),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    6),
-                                                          ),
-                                                        ),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                const SizedBox(
-                                                                    height: 50,
-                                                                    width: 10),
-                                                                Text(
-                                                                  "Quick Note",
-                                                                  style: GoogleFonts
-                                                                      .poppins(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        17,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        right:
-                                                                            10),
-                                                                child:
-                                                                    ElevatedButton(
-                                                                  style: ElevatedButton.styleFrom(
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .black),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                    "close",
-                                                                    style: GoogleFonts
-                                                                        .poppins(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          20,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                                  ),
-                                                                )),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Container(
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                            color: Color(
-                                                                0xFFF6F6F6),
-                                                          ),
-                                                          child:
-                                                              SingleChildScrollView(
-                                                            child: Column(
-                                                              children: [
-                                                                const SizedBox(
-                                                                    height:
-                                                                        2.5),
-                                                                const Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .symmetric(
-                                                                    horizontal:
-                                                                        5,
-                                                                    vertical:
-                                                                        2.5,
-                                                                  ),
-                                                                ),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      FlutterClipboard
-                                                                          .copy(
-                                                                              "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
-                                                                      Get.snackbar(
-                                                                          "copied",
-                                                                          "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
-                                                                        title: const Text(
-                                                                          "copy to clipboard",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      // if (await _request_per(Permission.storage) ==
-                                                                      //     true) {
-                                                                      convertToPDF(
-                                                                          "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                      print(
-                                                                          "permission granted");
-                                                                      // } else {
-                                                                      //   print("permission not granted");
-                                                                      // }
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
-                                                                        title: const Text(
-                                                                          "PDF",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      // if (await _request_per(Permission.storage) ==
-                                                                      //     true) {
-                                                                      convertToDocx(
-                                                                          "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                      print(
-                                                                          "permission granted");
-                                                                      // } else {
-                                                                      //   print("permission not granted");
-                                                                      // }
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
-                                                                        title: const Text(
-                                                                          "Word",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      // if (await _request_per(Permission.storage) ==
-                                                                      //     true) {
-                                                                      downloadTxt(
-                                                                          "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                      print(
-                                                                          "permission granted");
-                                                                      // } else {
-                                                                      //   print("permission not granted");
-                                                                      // }
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
-                                                                        title: const Text(
-                                                                          "Txt",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      await Share.share(widget
-                                                                              .datas[
-                                                                                  index]
-                                                                              .tittle1 +
-                                                                          "\n" +
-                                                                          widget
-                                                                              .datas[index]
-                                                                              .content1);
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
-                                                                        title: const Text(
-                                                                          "Share",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                                TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      setState(
-                                                                          () {
-                                                                        widget
-                                                                            .datas
-                                                                            .removeAt(index);
-                                                                        setdata1();
-                                                                      });
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: ListTile(
-                                                                        leading: Container(
-                                                                          height:
-                                                                              20,
-                                                                          width:
-                                                                              30,
-                                                                          color:
-                                                                              Colors.white,
-                                                                          child:
-                                                                              Image.asset("assets/delete.png"),
-                                                                        ),
-                                                                        title: const Text(
-                                                                          "Delete",
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.bold),
-                                                                        ),
-                                                                        trailing: const Icon(
-                                                                          Icons
-                                                                              .arrow_forward_ios,
-                                                                          size:
-                                                                              20,
-                                                                        ))),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
+                              child: ListTile(
+                                trailing: IconButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) => SizedBox(
+                                          height: 400,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5),
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft: Radius.circular(6),
+                                                    topRight:
+                                                        Radius.circular(6),
                                                   ),
                                                 ),
-                                              );
-                                            },
-                                            icon: SizedBox(
-                                              width: 12,
-                                              height: 12,
-                                              child:
-                                                  Image.asset("assets/dot.png"),
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    child: SizedBox(
-                                        height: 120,
-                                        child: SingleChildScrollView(
-                                            child: Text(
-                                                widget.datas[index].content1))),
-                                  )
-                                ],
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        const SizedBox(
+                                                            height: 50,
+                                                            width: 10),
+                                                        Text(
+                                                          "Quick Note",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: Colors.black,
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                right: 10),
+                                                        child: TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            "close",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        )),
+                                                  ],
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: Color(0xFFF6F6F6),
+                                                  ),
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      children: [
+                                                        const SizedBox(
+                                                            height: 2.5),
+                                                        const Padding(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                            horizontal: 5,
+                                                            vertical: 2.5,
+                                                          ),
+                                                        ),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              FlutterClipboard.copy(
+                                                                  "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                                                              Get.snackbar(
+                                                                  "copied",
+                                                                  "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: ListTile(
+                                                                leading: Container(
+                                                                    height: 20,
+                                                                    width: 30,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            "assets/copy.png")),
+                                                                title:
+                                                                    const Text(
+                                                                  "copy to clipboard",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              if (await _request_per(
+                                                                      Permission
+                                                                          .storage) ==
+                                                                  true) {
+                                                                convertToPDF(
+                                                                    "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                print(
+                                                                    "permission granted");
+                                                              } else {
+                                                                print(
+                                                                    "permission not granted");
+                                                              }
+                                                            },
+                                                            child: ListTile(
+                                                                leading: Container(
+                                                                    height: 20,
+                                                                    width: 30,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            "assets/pop.png")),
+                                                                title:
+                                                                    const Text(
+                                                                  "PDF",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              if (await _request_per(
+                                                                      Permission
+                                                                          .storage) ==
+                                                                  true) {
+                                                                convertToDocx(
+                                                                    "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                print(
+                                                                    "permission granted");
+                                                              } else {
+                                                                print(
+                                                                    "permission not granted");
+                                                              }
+                                                            },
+                                                            child: ListTile(
+                                                                leading: Container(
+                                                                    height: 20,
+                                                                    width: 30,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            "assets/word.png")),
+                                                                title:
+                                                                    const Text(
+                                                                  "Word",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              if (await _request_per(
+                                                                      Permission
+                                                                          .storage) ==
+                                                                  true) {
+                                                                downloadTxt(
+                                                                    "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                print(
+                                                                    "permission granted");
+                                                              } else {
+                                                                print(
+                                                                    "permission not granted");
+                                                              }
+                                                            },
+                                                            child: ListTile(
+                                                                leading: Container(
+                                                                    height: 20,
+                                                                    width: 30,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            "assets/text.png")),
+                                                                title:
+                                                                    const Text(
+                                                                  "Txt",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              await Share.share(widget
+                                                                      .datas[
+                                                                          index]
+                                                                      .tittle1 +
+                                                                  "\n" +
+                                                                  widget
+                                                                      .datas[
+                                                                          index]
+                                                                      .content1);
+                                                            },
+                                                            child: ListTile(
+                                                                leading: Container(
+                                                                    height: 20,
+                                                                    width: 30,
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            "assets/share.png")),
+                                                                title:
+                                                                    const Text(
+                                                                  "Share",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                widget.datas
+                                                                    .removeAt(
+                                                                        index);
+                                                                setdata1();
+                                                              });
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: ListTile(
+                                                                leading:
+                                                                    Container(
+                                                                  height: 20,
+                                                                  width: 30,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          "assets/delete.png"),
+                                                                ),
+                                                                title:
+                                                                    const Text(
+                                                                  "Delete",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                                trailing:
+                                                                    const Icon(
+                                                                  Icons
+                                                                      .arrow_forward_ios,
+                                                                  size: 20,
+                                                                ))),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    icon: SizedBox(
+                                      width: 12,
+                                      height: 12,
+                                      child: Image.asset("assets/dot.png"),
+                                    )),
+                                title: Text(widget.datas[index].tittle1),
                               ),
                             ),
                           ),
@@ -1225,6 +1254,759 @@ class _recentState extends State<recent> {
                       }
                     },
                   ),
+                  // child: GridView.builder(
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   gridDelegate:
+                  //       const SliverGridDelegateWithFixedCrossAxisCount(
+                  //     mainAxisExtent: 200,
+                  //     crossAxisCount: 2,
+                  //     mainAxisSpacing: 10.0,
+                  //   ),
+                  //   itemCount:
+                  //       widget.datas.length, // Total number of containers
+                  //   itemBuilder: (BuildContext context, int index) {
+                  //     String tittle = widget.datas[index].tittle1;
+                  //     if (searchfilter.text.isEmpty) {
+                  //       return Padding(
+                  //         padding: const EdgeInsets.all(8.0),
+                  //         child: InkWell(
+                  //           onTap: () {
+                  //             Navigator.push(
+                  //                 context,
+                  //                 MaterialPageRoute(
+                  //                   builder: (context) => editnotes(
+                  //                     tittle: widget.datas[index].tittle1,
+                  //                     content: widget.datas[index].content1,
+                  //                     id: index,
+                  //                     edit: widget.datas,
+                  //                   ),
+                  //                 ));
+                  //           },
+                  //           child: Container(
+                  //             decoration: BoxDecoration(
+                  //               borderRadius: BorderRadius.circular(15),
+                  //               color: Colors.white,
+                  //               boxShadow: const [
+                  //                 BoxShadow(
+                  //                   color: Color.fromRGBO(0, 0, 0, 0.09),
+                  //                   blurRadius: 1,
+                  //                   spreadRadius: 0,
+                  //                   offset: Offset(-4, 4),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //             child: Column(
+                  //               mainAxisAlignment: MainAxisAlignment.start,
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 Container(
+                  //                   height: 50,
+                  //                   padding: const EdgeInsets.symmetric(
+                  //                       horizontal: 10, vertical: 2),
+                  //                   width: double.infinity,
+                  //                   child: Row(
+                  //                     mainAxisAlignment:
+                  //                         MainAxisAlignment.spaceBetween,
+                  //                     children: [
+                  //                       Container(
+                  //                         width: 98,
+                  //                         height: 22,
+                  //                         child: Text(
+                  //                           widget.datas[index].tittle1,
+                  //                           style: GoogleFonts.poppins(
+                  //                             color: Colors.black,
+                  //                             fontSize: 13,
+                  //                             fontWeight: FontWeight.bold,
+                  //                           ),
+                  //                         ),
+                  //                       ),
+                  //                       IconButton(
+                  //                           onPressed: () {
+                  //                             showModalBottomSheet(
+                  //                               context: context,
+                  //                               builder: (context) => SizedBox(
+                  //                                 height: 400,
+                  //                                 child: Column(
+                  //                                   mainAxisAlignment:
+                  //                                       MainAxisAlignment.start,
+                  //                                   children: [
+                  //                                     Container(
+                  //                                       padding:
+                  //                                           const EdgeInsets
+                  //                                               .symmetric(
+                  //                                               horizontal: 5),
+                  //                                       decoration:
+                  //                                           const BoxDecoration(
+                  //                                         color: Colors.black,
+                  //                                         borderRadius:
+                  //                                             BorderRadius.only(
+                  //                                           topLeft:
+                  //                                               Radius.circular(
+                  //                                                   6),
+                  //                                           topRight:
+                  //                                               Radius.circular(
+                  //                                                   6),
+                  //                                         ),
+                  //                                       ),
+                  //                                       child: Row(
+                  //                                         mainAxisAlignment:
+                  //                                             MainAxisAlignment
+                  //                                                 .spaceBetween,
+                  //                                         children: [
+                  //                                           Row(
+                  //                                             children: [
+                  //                                               const SizedBox(
+                  //                                                   height: 50,
+                  //                                                   width: 10),
+                  //                                               Text(
+                  //                                                 "Quick Note",
+                  //                                                 style: GoogleFonts
+                  //                                                     .poppins(
+                  //                                                   color: Colors
+                  //                                                       .white,
+                  //                                                   fontSize:
+                  //                                                       17,
+                  //                                                   fontWeight:
+                  //                                                       FontWeight
+                  //                                                           .w400,
+                  //                                                 ),
+                  //                                               ),
+                  //                                             ],
+                  //                                           ),
+                  //                                           Padding(
+                  //                                               padding:
+                  //                                                   const EdgeInsets
+                  //                                                       .only(
+                  //                                                       right:
+                  //                                                           10),
+                  //                                               child:
+                  //                                                   ElevatedButton(
+                  //                                                 style: ElevatedButton.styleFrom(
+                  //                                                     backgroundColor:
+                  //                                                         Colors
+                  //                                                             .black),
+                  //                                                 onPressed:
+                  //                                                     () {
+                  //                                                   Navigator.pop(
+                  //                                                       context);
+                  //                                                 },
+                  //                                                 child: Text(
+                  //                                                   "close",
+                  //                                                   style: GoogleFonts
+                  //                                                       .poppins(
+                  //                                                     color: Colors
+                  //                                                         .white,
+                  //                                                     fontSize:
+                  //                                                         20,
+                  //                                                     fontWeight:
+                  //                                                         FontWeight
+                  //                                                             .w500,
+                  //                                                   ),
+                  //                                                 ),
+                  //                                               )),
+                  //                                         ],
+                  //                                       ),
+                  //                                     ),
+                  //                                     Expanded(
+                  //                                       child: Container(
+                  //                                         decoration:
+                  //                                             const BoxDecoration(
+                  //                                           color: Color(
+                  //                                               0xFFF6F6F6),
+                  //                                         ),
+                  //                                         child:
+                  //                                             SingleChildScrollView(
+                  //                                           child: Column(
+                  //                                             children: [
+                  //                                               const SizedBox(
+                  //                                                   height:
+                  //                                                       2.5),
+                  //                                               const Padding(
+                  //                                                 padding:
+                  //                                                     EdgeInsets
+                  //                                                         .symmetric(
+                  //                                                   horizontal:
+                  //                                                       5,
+                  //                                                   vertical:
+                  //                                                       2.5,
+                  //                                                 ),
+                  //                                               ),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () {
+                  //                                                     FlutterClipboard
+                  //                                                         .copy(
+                  //                                                             "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                  //                                                     Get.snackbar(
+                  //                                                         "copied",
+                  //                                                         "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                  //                                                     Navigator.pop(
+                  //                                                         context);
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
+                  //                                                       title: const Text(
+                  //                                                         "copy to clipboard",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () async {
+                  //                                                     // if (await _request_per(Permission.storage) ==
+                  //                                                     //     true) {
+                  //                                                     convertToPDF(
+                  //                                                         "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                  //                                                     print(
+                  //                                                         "permission granted");
+                  //                                                     // } else {
+                  //                                                     //   print("permission not granted");
+                  //                                                     // }
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
+                  //                                                       title: const Text(
+                  //                                                         "PDF",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () async {
+                  //                                                     // if (await _request_per(Permission.storage) ==
+                  //                                                     //     true) {
+                  //                                                     convertToDocx(
+                  //                                                         "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                  //                                                     print(
+                  //                                                         "permission granted");
+                  //                                                     // } else {
+                  //                                                     //   print("permission not granted");
+                  //                                                     // }
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
+                  //                                                       title: const Text(
+                  //                                                         "Word",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () async {
+                  //                                                     // if (await _request_per(Permission.storage) ==
+                  //                                                     //     true) {
+                  //                                                     downloadTxt(
+                  //                                                         "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                  //                                                     print(
+                  //                                                         "permission granted");
+                  //                                                     // } else {
+                  //                                                     //   print("permission not granted");
+                  //                                                     // }
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
+                  //                                                       title: const Text(
+                  //                                                         "Txt",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () async {
+                  //                                                     await Share.share(widget
+                  //                                                             .datas[
+                  //                                                                 index]
+                  //                                                             .tittle1 +
+                  //                                                         "\n" +
+                  //                                                         widget
+                  //                                                             .datas[index]
+                  //                                                             .content1);
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
+                  //                                                       title: const Text(
+                  //                                                         "Share",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () {
+                  //                                                     setState(
+                  //                                                         () {
+                  //                                                       widget
+                  //                                                           .datas
+                  //                                                           .removeAt(index);
+                  //                                                       setdata1();
+                  //                                                     });
+                  //                                                     Navigator.pop(
+                  //                                                         context);
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(
+                  //                                                         height:
+                  //                                                             20,
+                  //                                                         width:
+                  //                                                             30,
+                  //                                                         color:
+                  //                                                             Colors.white,
+                  //                                                         child:
+                  //                                                             Image.asset("assets/delete.png"),
+                  //                                                       ),
+                  //                                                       title: const Text(
+                  //                                                         "Delete",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                             ],
+                  //                                           ),
+                  //                                         ),
+                  //                                       ),
+                  //                                     )
+                  //                                   ],
+                  //                                 ),
+                  //                               ),
+                  //                             );
+                  //                           },
+                  //                           icon: SizedBox(
+                  //                             width: 12,
+                  //                             height: 12,
+                  //                             child:
+                  //                                 Image.asset("assets/dot.png"),
+                  //                           ))
+                  //                     ],
+                  //                   ),
+                  //                 ),
+                  //                 Padding(
+                  //                   padding: const EdgeInsets.symmetric(
+                  //                       horizontal: 8),
+                  //                   child: SizedBox(
+                  //                       height: 120,
+                  //                       child: SingleChildScrollView(
+                  //                           child: Text(
+                  //                               widget.datas[index].content1))),
+                  //                 )
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       );
+                  //     } else if (tittle
+                  //         .toLowerCase()
+                  //         .contains(searchfilter.text.toLowerCase())) {
+                  //       return Padding(
+                  //         padding: const EdgeInsets.all(8.0),
+                  //         child: InkWell(
+                  //           onTap: () {
+                  //             Navigator.push(
+                  //                 context,
+                  //                 MaterialPageRoute(
+                  //                   builder: (context) => editnotes(
+                  //                     tittle: widget.datas[index].tittle1,
+                  //                     content: widget.datas[index].content1,
+                  //                     id: index,
+                  //                     edit: widget.datas,
+                  //                   ),
+                  //                 ));
+                  //           },
+                  //           child: Container(
+                  //             decoration: BoxDecoration(
+                  //               borderRadius: BorderRadius.circular(15),
+                  //               color: Colors.white,
+                  //               boxShadow: const [
+                  //                 BoxShadow(
+                  //                   color: Color.fromRGBO(0, 0, 0, 0.09),
+                  //                   blurRadius: 1,
+                  //                   spreadRadius: 0,
+                  //                   offset: Offset(-4, 4),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //             child: Column(
+                  //               mainAxisAlignment: MainAxisAlignment.start,
+                  //               crossAxisAlignment: CrossAxisAlignment.start,
+                  //               children: [
+                  //                 Container(
+                  //                   height: 50,
+                  //                   padding: const EdgeInsets.symmetric(
+                  //                       horizontal: 10, vertical: 2),
+                  //                   width: double.infinity,
+                  //                   child: Row(
+                  //                     mainAxisAlignment:
+                  //                         MainAxisAlignment.spaceBetween,
+                  //                     children: [
+                  //                       Container(
+                  //                         width: 98,
+                  //                         height: 22,
+                  //                         child: Text(
+                  //                           tittle,
+                  //                           style: GoogleFonts.poppins(
+                  //                             color: Colors.black,
+                  //                             fontSize: 13,
+                  //                             fontWeight: FontWeight.bold,
+                  //                           ),
+                  //                         ),
+                  //                       ),
+                  //                       IconButton(
+                  //                           onPressed: () {
+                  //                             showModalBottomSheet(
+                  //                               context: context,
+                  //                               builder: (context) => SizedBox(
+                  //                                 height: 400,
+                  //                                 child: Column(
+                  //                                   mainAxisAlignment:
+                  //                                       MainAxisAlignment.start,
+                  //                                   children: [
+                  //                                     Container(
+                  //                                       padding:
+                  //                                           const EdgeInsets
+                  //                                               .symmetric(
+                  //                                               horizontal: 5),
+                  //                                       decoration:
+                  //                                           const BoxDecoration(
+                  //                                         color: Colors.black,
+                  //                                         borderRadius:
+                  //                                             BorderRadius.only(
+                  //                                           topLeft:
+                  //                                               Radius.circular(
+                  //                                                   6),
+                  //                                           topRight:
+                  //                                               Radius.circular(
+                  //                                                   6),
+                  //                                         ),
+                  //                                       ),
+                  //                                       child: Row(
+                  //                                         mainAxisAlignment:
+                  //                                             MainAxisAlignment
+                  //                                                 .spaceBetween,
+                  //                                         children: [
+                  //                                           Row(
+                  //                                             children: [
+                  //                                               const SizedBox(
+                  //                                                   height: 50,
+                  //                                                   width: 10),
+                  //                                               Text(
+                  //                                                 "Quick Note",
+                  //                                                 style: GoogleFonts
+                  //                                                     .poppins(
+                  //                                                   color: Colors
+                  //                                                       .white,
+                  //                                                   fontSize:
+                  //                                                       17,
+                  //                                                   fontWeight:
+                  //                                                       FontWeight
+                  //                                                           .w400,
+                  //                                                 ),
+                  //                                               ),
+                  //                                             ],
+                  //                                           ),
+                  //                                           Padding(
+                  //                                               padding:
+                  //                                                   const EdgeInsets
+                  //                                                       .only(
+                  //                                                       right:
+                  //                                                           10),
+                  //                                               child:
+                  //                                                   ElevatedButton(
+                  //                                                 style: ElevatedButton.styleFrom(
+                  //                                                     backgroundColor:
+                  //                                                         Colors
+                  //                                                             .black),
+                  //                                                 onPressed:
+                  //                                                     () {
+                  //                                                   Navigator.pop(
+                  //                                                       context);
+                  //                                                 },
+                  //                                                 child: Text(
+                  //                                                   "close",
+                  //                                                   style: GoogleFonts
+                  //                                                       .poppins(
+                  //                                                     color: Colors
+                  //                                                         .white,
+                  //                                                     fontSize:
+                  //                                                         20,
+                  //                                                     fontWeight:
+                  //                                                         FontWeight
+                  //                                                             .w500,
+                  //                                                   ),
+                  //                                                 ),
+                  //                                               )),
+                  //                                         ],
+                  //                                       ),
+                  //                                     ),
+                  //                                     Expanded(
+                  //                                       child: Container(
+                  //                                         decoration:
+                  //                                             const BoxDecoration(
+                  //                                           color: Color(
+                  //                                               0xFFF6F6F6),
+                  //                                         ),
+                  //                                         child:
+                  //                                             SingleChildScrollView(
+                  //                                           child: Column(
+                  //                                             children: [
+                  //                                               const SizedBox(
+                  //                                                   height:
+                  //                                                       2.5),
+                  //                                               const Padding(
+                  //                                                 padding:
+                  //                                                     EdgeInsets
+                  //                                                         .symmetric(
+                  //                                                   horizontal:
+                  //                                                       5,
+                  //                                                   vertical:
+                  //                                                       2.5,
+                  //                                                 ),
+                  //                                               ),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () {
+                  //                                                     FlutterClipboard
+                  //                                                         .copy(
+                  //                                                             "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                  //                                                     Get.snackbar(
+                  //                                                         "copied",
+                  //                                                         "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                  //                                                     Navigator.pop(
+                  //                                                         context);
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
+                  //                                                       title: const Text(
+                  //                                                         "copy to clipboard",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () async {
+                  //                                                     // if (await _request_per(Permission.storage) ==
+                  //                                                     //     true) {
+                  //                                                     convertToPDF(
+                  //                                                         "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                  //                                                     print(
+                  //                                                         "permission granted");
+                  //                                                     // } else {
+                  //                                                     //   print("permission not granted");
+                  //                                                     // }
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
+                  //                                                       title: const Text(
+                  //                                                         "PDF",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () async {
+                  //                                                     // if (await _request_per(Permission.storage) ==
+                  //                                                     //     true) {
+                  //                                                     convertToDocx(
+                  //                                                         "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                  //                                                     print(
+                  //                                                         "permission granted");
+                  //                                                     // } else {
+                  //                                                     //   print("permission not granted");
+                  //                                                     // }
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
+                  //                                                       title: const Text(
+                  //                                                         "Word",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () async {
+                  //                                                     // if (await _request_per(Permission.storage) ==
+                  //                                                     //     true) {
+                  //                                                     downloadTxt(
+                  //                                                         "${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                  //                                                     print(
+                  //                                                         "permission granted");
+                  //                                                     // } else {
+                  //                                                     //   print("permission not granted");
+                  //                                                     // }
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
+                  //                                                       title: const Text(
+                  //                                                         "Txt",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () async {
+                  //                                                     await Share.share(widget
+                  //                                                             .datas[
+                  //                                                                 index]
+                  //                                                             .tittle1 +
+                  //                                                         "\n" +
+                  //                                                         widget
+                  //                                                             .datas[index]
+                  //                                                             .content1);
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
+                  //                                                       title: const Text(
+                  //                                                         "Share",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                               TextButton(
+                  //                                                   onPressed:
+                  //                                                       () {
+                  //                                                     setState(
+                  //                                                         () {
+                  //                                                       widget
+                  //                                                           .datas
+                  //                                                           .removeAt(index);
+                  //                                                       setdata1();
+                  //                                                     });
+                  //                                                     Navigator.pop(
+                  //                                                         context);
+                  //                                                   },
+                  //                                                   child: ListTile(
+                  //                                                       leading: Container(
+                  //                                                         height:
+                  //                                                             20,
+                  //                                                         width:
+                  //                                                             30,
+                  //                                                         color:
+                  //                                                             Colors.white,
+                  //                                                         child:
+                  //                                                             Image.asset("assets/delete.png"),
+                  //                                                       ),
+                  //                                                       title: const Text(
+                  //                                                         "Delete",
+                  //                                                         style: TextStyle(
+                  //                                                             fontSize: 15,
+                  //                                                             fontWeight: FontWeight.bold),
+                  //                                                       ),
+                  //                                                       trailing: const Icon(
+                  //                                                         Icons
+                  //                                                             .arrow_forward_ios,
+                  //                                                         size:
+                  //                                                             20,
+                  //                                                       ))),
+                  //                                             ],
+                  //                                           ),
+                  //                                         ),
+                  //                                       ),
+                  //                                     )
+                  //                                   ],
+                  //                                 ),
+                  //                               ),
+                  //                             );
+                  //                           },
+                  //                           icon: SizedBox(
+                  //                             width: 12,
+                  //                             height: 12,
+                  //                             child:
+                  //                                 Image.asset("assets/dot.png"),
+                  //                           ))
+                  //                     ],
+                  //                   ),
+                  //                 ),
+                  //                 Padding(
+                  //                   padding: const EdgeInsets.symmetric(
+                  //                       horizontal: 8),
+                  //                   child: SizedBox(
+                  //                       height: 120,
+                  //                       child: SingleChildScrollView(
+                  //                           child: Text(
+                  //                               widget.datas[index].content1))),
+                  //                 )
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       );
+                  //     } else {
+                  //       return Container();
+                  //     }
+                  //   },
+                  // ),
                 ),
               ),
             ),

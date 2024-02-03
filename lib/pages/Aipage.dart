@@ -734,14 +734,13 @@ class _aiState extends State<ai> {
   bool issend = false;
   final TextEditingController _textEditingController = TextEditingController();
   final TextEditingController edittext = TextEditingController();
-  bool isfinished = false;
+
   void onSendMessage() async {
     Message message = Message(text: _textEditingController.text, isMe: true);
 
     _textEditingController.clear();
 
     setState(() {
-      isfinished = true;
       issend = true;
       _messages.insert(0, message);
     });
@@ -751,7 +750,6 @@ class _aiState extends State<ai> {
     Message chatGpt = Message(text: response, isMe: false);
 
     setState(() {
-      isfinished = false;
       issend = false;
       _messages.insert(0, chatGpt);
     });
@@ -1584,14 +1582,12 @@ class _aiState extends State<ai> {
                         ),
                         child: IconButton(
                           icon: Icon(
-                            isfinished
-                                ? Icons.assistant_navigation
-                                : Icons.send,
+                            issend ? Icons.assistant_navigation : Icons.send,
                             color: Colors.black,
                           ),
                           onPressed: () {
                             FocusScope.of(context).unfocus();
-                            if (isfinished == false &&
+                            if (issend == false &&
                                 _textEditingController.text != "") {
                               onSendMessage();
                             }
