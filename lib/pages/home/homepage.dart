@@ -55,10 +55,33 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       minDays: 0,
       minLaunches: 0,
       googlePlayIdentifier: "com.easyrytAiNotes");
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
+  Future<void> _sendAnalyticsEvent(String message, int nom) async {
+    await analytics.logEvent(
+      name: 'NotaAidetail',
+      parameters: <String, dynamic>{
+        'Page__name': message,
+        'page__index': nom,
+      },
+    );
+
+    setMessage('logEvent succeeded');
+  }
+
+  String _message = '';
+  void setMessage(String message) {
+    setState(() {
+      _message = message;
+    });
+  }
 
   @override
   void initState() {
+    analytics.setAnalyticsCollectionEnabled(true);
     rateMyApp.init().then((_) {
       rateMyApp.conditions.forEach((condition) {
         if (condition is DebuggableCondition) {
@@ -112,7 +135,6 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
         );
       }
     });
-    analytics.setCurrentScreen(screenName: "Homepage");
     update();
     super.initState();
     // generateDeviceIdentifier();
@@ -166,10 +188,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     "Craft hilarious punchlines, witty observations—laughter guaranteed. ",
   ];
 
+
 //permission for internal storage acess
   Future<bool> _request_per(Permission permission) async {
     AndroidDeviceInfo build = await DeviceInfoPlugin().androidInfo;
-    if (build.version.sdkInt >= 10) {
+    if (build.version.sdkInt >= 5) {
       var re = await Permission.manageExternalStorage.request();
       if (re.isGranted) {
         return true;
@@ -613,6 +636,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                     ),
                                     child: TextField(
                                       onTap: () {
+                                        _sendAnalyticsEvent("setting", 7);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -641,26 +665,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // ElevatedButton(
-                                  //     style: ElevatedButton.styleFrom(
-                                  //         backgroundColor: Colors.amber),
-                                  //     onPressed: () {
-                                  //       num++;
-                                  //       setState(() {});
-                                  //     },
-                                  //     child: Row(
-                                  //       children: [
-                                  //         Text(num.toString()),
-                                  //         Container(
-                                  //             height: 25,
-                                  //             width: 22,
-                                  //             child: Image.asset(
-                                  //                 "assets/popw.png")),
-                                  //       ],
-                                  //     )),
-
                                   IconButton(
                                       onPressed: () {
+                                        _sendAnalyticsEvent("seetingpage", 5);
                                         save();
                                         Navigator.push(
                                             context,
@@ -1259,7 +1266,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               () async {
                                                                             await Share.share(widget.datas[index].tittle1 +
                                                                                 "\n" +
-                                                                                widget.datas[index].content1);
+                                                                                widget.datas[index].content1 +
+                                                                                "\n" +
+                                                                                "https://bit.ly/4bk7ZAV");
                                                                           },
                                                                           child: ListTile(
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
@@ -1343,6 +1352,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: CupertinoButton(
         onPressed: () {
+          _sendAnalyticsEvent("AI Notes", 4);
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -1382,6 +1392,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                   BoxDecoration(borderRadius: BorderRadius.circular(15)),
               child: IconButton(
                   onPressed: () {
+                    _sendAnalyticsEvent("suggestions", 6);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -1395,6 +1406,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
               padding: const EdgeInsets.all(5.0),
               child: InkWell(
                 onTap: () {
+                  _sendAnalyticsEvent("suggestions", 6);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -1451,23 +1463,30 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     );
   }
 
-  Widget quickTools(String imageUrl, String title, int index) {
+  Widget quickTools(
+    String imageUrl,
+    String title,
+    int index,
+  ) {
     return Expanded(
       child: InkWell(
         overlayColor: MaterialStateProperty.all(Colors.transparent),
         onTap: () {
-          analytics.setCurrentScreen(screenName: "demo");
           if (index == 1) {
+            _sendAnalyticsEvent(title, index);
             Get.to(() => const notes());
           } else if (index == 2) {
+            _sendAnalyticsEvent(title, index);
             Get.to(() => const detail());
           } else if (index == 3) {
+            _sendAnalyticsEvent(title, index);
             Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => App(),
                 ));
           } else if (index == 4) {
+            _sendAnalyticsEvent(title, index);
             Get.to(() => ai());
           }
         },

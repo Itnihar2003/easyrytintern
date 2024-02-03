@@ -1210,7 +1210,7 @@ class _aiState extends State<ai> {
                                   padding:
                                       const EdgeInsets.symmetric(horizontal: 5),
                                   decoration: const BoxDecoration(
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(6),
                                       topRight: Radius.circular(6),
@@ -1226,9 +1226,9 @@ class _aiState extends State<ai> {
                                           Text(
                                             "Quick Note",
                                             style: GoogleFonts.poppins(
-                                              color: Colors.white,
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                         ],
@@ -1236,17 +1236,15 @@ class _aiState extends State<ai> {
                                       Padding(
                                           padding:
                                               const EdgeInsets.only(right: 10),
-                                          child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.black),
+                                          child: TextButton(
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
                                             child: Text(
                                               "close",
                                               style: GoogleFonts.poppins(
-                                                color: Colors.white,
-                                                fontSize: 20,
+                                                color: Colors.black,
+                                                fontSize: 15,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
@@ -1294,15 +1292,15 @@ class _aiState extends State<ai> {
                                                       width: 30,
                                                       color: Colors.white,
                                                       child: Icon(
-                                                        Icons.save,
+                                                        Icons.add_box_outlined,
                                                         size: 30,
                                                       )),
                                                   title: const Text(
                                                     "save",
                                                     style: TextStyle(
-                                                        fontSize: 18,
+                                                        fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,
@@ -1334,7 +1332,7 @@ class _aiState extends State<ai> {
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,
@@ -1370,7 +1368,7 @@ class _aiState extends State<ai> {
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,
@@ -1406,7 +1404,7 @@ class _aiState extends State<ai> {
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,
@@ -1442,7 +1440,7 @@ class _aiState extends State<ai> {
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,
@@ -1472,7 +1470,7 @@ class _aiState extends State<ai> {
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.w400),
                                                   ),
                                                   trailing: const Icon(
                                                     Icons.arrow_forward_ios,

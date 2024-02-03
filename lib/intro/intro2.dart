@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:todoaiapp/intro/splashtwo.dart';
 
 class intro2 extends StatefulWidget {
@@ -19,25 +20,27 @@ class _intro2State extends State<intro2> {
           Container(
             child: Padding(
               padding: const EdgeInsets.only(top: 60, left: 74),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Seize the Day with Todo:",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.black),
-                  ),
-                  Text(
-                    "Where Tasks Meet Triumph! ",
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  ),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Seize the Day with Todo:",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.black),
+                    ),
+                    Text(
+                      "Where Tasks Meet Triumph! ",
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    ),
+                  ],
+                ),
               ),
             ),
             height: 150,

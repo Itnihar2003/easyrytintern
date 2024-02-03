@@ -335,6 +335,7 @@ class _editnotesState extends State<editnotes> {
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: TextFormField(
+                      maxLength: 100,
                       initialValue: tit,
                       onChanged: (value) {
                         setState(() {
@@ -373,6 +374,7 @@ class _editnotesState extends State<editnotes> {
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                         child: TextFormField(
+                          maxLength: 1000,
                           initialValue: con,
                           onChanged: (value1) {
                             setState(() {
@@ -384,13 +386,7 @@ class _editnotesState extends State<editnotes> {
                               }
                             });
                           },
-                          // initialValue: widget.content,
-
-                          // textAlign: isTextStart
-                          //     ? TextAlign.start
-                          //     : isTextCenter
-                          //         ? TextAlign.center
-                          //         : TextAlign.end,
+                       
                           decoration: InputDecoration(
                             hintText: 'Start Writing..',
                             border: InputBorder.none,
