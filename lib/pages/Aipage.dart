@@ -291,6 +291,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/main.dart';
@@ -491,7 +492,8 @@ class _aiState extends State<ai> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Error'),
-          content: const Text('Failed to convert to pdf'),
+          content: const Text(
+              'Failed to convert to pdf\nPlease allow to acess storage'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -583,7 +585,8 @@ class _aiState extends State<ai> {
             context: context,
             builder: (context) => AlertDialog(
               title: const Text('Error'),
-              content: Text('Failed to convert to TXT ${response.statusCode}'),
+              content: Text(
+                  'Failed to convert to TXT ${response.statusCode}\nPlease allow to acess storage'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context),
@@ -606,7 +609,8 @@ class _aiState extends State<ai> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Error'),
-          content: const Text('Failed to convert to TXT'),
+          content: const Text(
+              'Failed to convert to TXT\nPlease allow to acess storage'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -694,7 +698,8 @@ class _aiState extends State<ai> {
             context: context,
             builder: (context) => AlertDialog(
               title: const Text('Error'),
-              content: Text('Failed to convert to DOCX ${response.statusCode}'),
+              content: Text(
+                  'Failed to convert to DOCX ${response.statusCode}\nPlease allow to acess storage'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context),
@@ -718,7 +723,8 @@ class _aiState extends State<ai> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Error'),
-          content: const Text('Failed to convert to DOCX'),
+          content: const Text(
+              'Failed to convert to DOCX\nPlease allow to acess storage'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -760,6 +766,7 @@ class _aiState extends State<ai> {
         duration: Duration(seconds: 2), curve: Curves.easeInOutCubic);
   }
 
+  var permission = Permission.manageExternalStorage.request();
   String all = "";
   String data = "";
   String editdata = "";
@@ -1340,8 +1347,7 @@ class _aiState extends State<ai> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
-                                                // if (await _request_per(Permission.storage) ==
-                                                //     true) {
+                                                // if (await permission.isGranted) {
                                                 int a = messages.length;
                                                 for (int i = 0; i < a; i++) {
                                                   all = all +
@@ -1376,8 +1382,7 @@ class _aiState extends State<ai> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
-                                                // if (await _request_per(Permission.storage) ==
-                                                //     true) {
+                                                // if (await permission.isGranted) {
                                                 int a = messages.length;
                                                 for (int i = 0; i < a; i++) {
                                                   all = all +
@@ -1412,8 +1417,7 @@ class _aiState extends State<ai> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
-                                                // if (await _request_per(Permission.storage) ==
-                                                //     true) {
+                                                // if (await permission.isGranted) {
                                                 int a = messages.length;
                                                 for (int i = 0; i < a; i++) {
                                                   all = all +

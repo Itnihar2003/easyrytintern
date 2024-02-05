@@ -42,7 +42,7 @@ class _ResultScreenState extends State<ResultScreen> {
       return finaldata2;
     }
   }
-
+TextEditingController controller=TextEditingController();
   @override
   void initState() {
     update();
@@ -61,10 +61,10 @@ class _ResultScreenState extends State<ResultScreen> {
     if (aimessage != "") {
       setState(() {
         allnote.add(data1(
-            tittle1: "OCR" +
+            tittle1:controller.text==""? "OCR" +
                 "(" +
                 DateFormat.yMMMMEEEEd().format(DateTime.now()) +
-                ")",
+                ")":controller.text,
             content1: aimessage));
       });
       setdata1();
@@ -114,6 +114,28 @@ class _ResultScreenState extends State<ResultScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                child: TextFormField(
+                  controller: controller,
+                  maxLength: 100,
+                  maxLines: 2,
+                  autofocus: true,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    hintText: "tittle",
+                    hintStyle: GoogleFonts.poppins(
+                      color: const Color(0xFFBFBFBF),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                  ),
+                ),
+              ),
               Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,

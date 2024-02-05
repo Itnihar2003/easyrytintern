@@ -18,6 +18,9 @@ import 'package:todoaiapp/pages/home/homepage.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
 
 class ai2 extends StatefulWidget {
+  final String givendata;
+  final String givencontent;
+  const ai2({super.key, required this.givendata, required this.givencontent});
   @override
   _aiState createState() => _aiState();
 }
@@ -454,7 +457,8 @@ class _aiState extends State<ai2> {
   final TextEditingController _textEditingController = TextEditingController();
   final TextEditingController edittext = TextEditingController();
   void onSendMessage() async {
-    Message message = Message(text: _textEditingController.text, isMe: true);
+    Message message = Message(
+        text: _textEditingController.text + " " + widget.givendata, isMe: true);
 
     _textEditingController.clear();
 
@@ -968,7 +972,7 @@ class _aiState extends State<ai2> {
               Padding(
                 padding: const EdgeInsets.only(left: 20, top: 10),
                 child: Text(
-                  "Please Describe Your Needs",
+                  widget.givendata,
                   style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -1014,7 +1018,7 @@ class _aiState extends State<ai2> {
               ),
               Center(
                 child: Text(
-                  "taste creative cuisine at the spicy foods festival! create\n                                      culinary..",
+                  widget.givencontent,
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ),

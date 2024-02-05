@@ -284,7 +284,9 @@ class _editnotesState extends State<editnotes> {
         top: true,
         child: Stack(
           children: [
-            SingleChildScrollView(
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -368,13 +370,12 @@ class _editnotesState extends State<editnotes> {
                     padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
+                      height: 610,
                       decoration: const BoxDecoration(),
                       child: Padding(
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
                         child: TextFormField(
-                          maxLength: 1000,
                           initialValue: con,
                           onChanged: (value1) {
                             setState(() {
@@ -386,7 +387,7 @@ class _editnotesState extends State<editnotes> {
                               }
                             });
                           },
-                       
+
                           decoration: InputDecoration(
                             hintText: 'Start Writing..',
                             border: InputBorder.none,

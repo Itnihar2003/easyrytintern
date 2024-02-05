@@ -6,6 +6,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'dart:math' as math show sin, pi, sqrt;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ import 'package:todoaiapp/pages/todo/tododetail.dart';
 
 class home extends StatefulWidget {
   List<data1> datas;
+
   home({
     super.key,
     required this.datas,
@@ -176,6 +178,37 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     "Mail Mastery Assistant:",
     "Weekly Planner Generator:",
     "Stand-Up Comedy Companion:",
+    "Holiday Wishes Generator:",
+    "Dream Interpretation Wizard:",
+    "Fun Suggestions Hub:",
+    "Song Recommendations Maven:",
+    "Shopping Advice Advisor:",
+    "Improvise Recipes Companion :",
+    "Travel Guide Companion:",
+    "Instagram Captions Guru:",
+    "Tweet Generator:",
+    "YouTube Script Creator:",
+    "Restaurant Reviews Companion:",
+    "Technology Insight Hub:",
+    "Life Guide Advisor:",
+    "English Enhancement Studio:",
+    "Language Recognition Navigator:",
+    "Identify languages easily: notes on patterns, dialects, nuances.",
+    "Chinese-English Translation Wizard:",
+    "Poetry Crafting Studio:",
+    "Article Extension Navigator:",
+    "Writing Materials Collection:",
+    "Writing Advisory Hub :",
+    "Writing Support System",
+    "Storytelling Keywords Generator:",
+    "SEO-Optimized Article Wizard:",
+    "Book Summaries Companion:",
+    "Philosophical Pondering Aid:",
+    "Fallacy Detection System:",
+    "Debate Perspective Generator:",
+    "Theme Deconstruction Companion:",
+    "Think Tank Assistant:",
+    "Question Query Companion:"
   ];
   List text4 = [
     "Create impactful ad plans, targeting effectively. ",
@@ -186,32 +219,61 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     "Refine email communication: language, tone, structure. ",
     "Prioritize tasks, set goals—boost productivity weekly. ",
     "Craft hilarious punchlines, witty observations—laughter guaranteed. ",
+    "Spread joy, warmth—personalized holiday wishes crafted. ",
+    "Understand dream symbolism—unravel nightly mysteries. ",
+    "Roll good times with creative leisure. ",
+    "Elevate playlist: personalized notes, mood-matching recommendations.",
+    "Make informed shopping decisions—expert reviews, trends, comparisons.",
+    "Kitchen maestro: enhance, experiment with culinary improvisation.",
+    "Effortless adventure planning: personalized travel notes, insider tips.",
+    "Elevate social media: catchy, engaging photo captions.",
+    "Create tweets: quick-witted, attention-grabbing content.",
+    "Create YouTube scripts: engage, entertain, compel.",
+    "Craft engaging restaurant reviews: ambiance, cuisine, experience.",
+    "Cutting-edge tech reviews: features, performance, user experience.",
+    "Navigate life's complexities: personalized notes, holistic guidance.",
+    "Expand English writing: grammar, vocabulary, structure refinement.",
+    "Identify languages easily: notes on patterns, dialects, nuances.",
+    "Translate Chinese to English seamlessly: context, culture.",
+    "Craft expressive poems: refine rhythm, imagery, devices.",
+    "Continue articles seamlessly: content, tone, structure continuity.",
+    "Curate diverse writing materials: genres, styles, themes.",
+    "Gain expert writing advice: technique, style, storytelling.",
+    "Assist at every writing stage: brainstorming, drafting, polishing.",
+    "Spark creativity: curated keywords inspire enriched narrative.",
+    "Optimize online presence with SEO articles.",
+    "Summarize books: key themes, characters, plot.",
+    "Deepen philosophy: key concepts, theories, perspectives notes.",
+    "Hone argumentative skills: fallacy finder notes, logical errors.",
+    " Craft compelling debate points: diverse viewpoints, enriched arguments.",
+    "Explore themes deeply: symbolism, motifs, underlying messages.",
+    "Innovate with think tank's collaborative notes.",
+    "Hone questioning skills: craft thoughtful, probing questions."
   ];
-
-
+  var permission = Permission.manageExternalStorage.request();
 //permission for internal storage acess
-  Future<bool> _request_per(Permission permission) async {
-    AndroidDeviceInfo build = await DeviceInfoPlugin().androidInfo;
-    if (build.version.sdkInt >= 5) {
-      var re = await Permission.manageExternalStorage.request();
-      if (re.isGranted) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      if (await permission.isGranted) {
-        return true;
-      } else {
-        var result = await permission.request();
-        if (result.isGranted) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    }
-  }
+  // Future<bool> _request_per(Permission permission) async {
+  //   AndroidDeviceInfo build = await DeviceInfoPlugin().androidInfo;
+  //   if (build.version.sdkInt >= 5) {
+  //     var re = await Permission.manageExternalStorage.request();
+  //     if (re.isGranted) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } else {
+  //     if (await permission.isGranted) {
+  //       return true;
+  //     } else {
+  //       var result = await permission.request();
+  //       if (result.isGranted) {
+  //         return true;
+  //       } else {
+  //         return false;
+  //       }
+  //     }
+  //   }
+  // }
 
   //filter operation
   final searchfielter = TextEditingController();
@@ -1201,13 +1263,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            if (await _request_per(Permission.storage) ==
-                                                                                true) {
-                                                                              convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                              print("permission granted");
-                                                                            } else {
-                                                                              print("permission not granted");
-                                                                            }
+                                                                            // if (await permission.isGranted) {
+                                                                            convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                            print("permission granted");
+                                                                            // } else {
+                                                                            //   print("permission not granted");
+                                                                            // }
                                                                           },
                                                                           child: ListTile(
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
@@ -1222,13 +1283,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            if (await _request_per(Permission.storage) ==
-                                                                                true) {
-                                                                              convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                              print("permission granted");
-                                                                            } else {
-                                                                              print("permission not granted");
-                                                                            }
+                                                                            // if (await permission.isGranted) {
+                                                                            convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                            print("permission granted");
+                                                                            // } else {
+                                                                            //   print("permission not granted");
+                                                                            // }
                                                                           },
                                                                           child: ListTile(
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
@@ -1243,13 +1303,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            if (await _request_per(Permission.storage) ==
-                                                                                true) {
-                                                                              downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
-                                                                              print("permission granted");
-                                                                            } else {
-                                                                              print("permission not granted");
-                                                                            }
+                                                                            // if (await permission.isGranted) {
+                                                                            downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                            print("permission granted");
+                                                                            // } else {
+                                                                            //   print("permission not granted");
+                                                                            // }
                                                                           },
                                                                           child: ListTile(
                                                                               leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
@@ -1359,21 +1418,36 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                 builder: (context) => ai(),
               ));
         },
-        child: AnimatedBuilder(
-          animation: _controller,
-          child: const SizedBox(
-            width: 90,
-            child: Image(
-              image: AssetImage("assets/gpt4.png"),
-              fit: BoxFit.cover,
+        child: Stack(
+          children: [
+            WaveAnimation(
+              size: 60.0,
+              color: Color.fromARGB(255, 172, 172, 172),
+              centerChild: Stack(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      _sendAnalyticsEvent("AI Notes", 4);
+                      // Handle button tap
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ai(),
+                          ));
+                    },
+                    child: Text(""),
+                  ),
+                ],
+              ),
             ),
-          ),
-          builder: (context, child) {
-            return Transform.rotate(
-              angle: _controller.value * 2 * 3.141,
-              child: child,
-            );
-          },
+            Positioned(
+                top: 11.5,
+                left: 7,
+                child: Image.asset(
+                  "assets/gpt4.png",
+                  width: 85,
+                ))
+          ],
         ),
       ),
     );
@@ -1384,9 +1458,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       height: 135,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: text.length + 1,
+        itemCount: 8 + 1,
         itemBuilder: (BuildContext context, int index) {
-          if (index == text.length) {
+          if (index == 8) {
             return Container(
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(15)),
@@ -1396,7 +1470,10 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => suggesiondetail(),
+                          builder: (context) => suggesiondetail(
+                            suggestedtext: text,
+                            suggestedcontent: text4,
+                          ),
                         ));
                   },
                   icon: Icon(Icons.send)),
@@ -1410,7 +1487,10 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ai2(),
+                        builder: (context) => ai2(
+                          givendata: text[index],
+                          givencontent: text4[index],
+                        ),
                       ));
                 },
                 child: Container(
@@ -1591,5 +1671,124 @@ class _ImageChangerState extends State<ImageChanger> {
     // cancel the timer when the widget is disposed
     _timer.cancel();
     super.dispose();
+  }
+}
+
+class WaveAnimation extends StatefulWidget {
+  final double size;
+  final Color color;
+  final Widget centerChild;
+
+  const WaveAnimation({
+    this.size = 80.0,
+    this.color = Colors.red,
+    required this.centerChild,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  WaveAnimationState createState() => WaveAnimationState();
+}
+
+class WaveAnimationState extends State<WaveAnimation>
+    with TickerProviderStateMixin {
+  late AnimationController animCtr;
+
+  @override
+  void initState() {
+    super.initState();
+    animCtr = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    )..repeat();
+  }
+
+  Widget getAnimatedWidget() {
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.size),
+          gradient: RadialGradient(
+            colors: [
+              widget.color,
+              Color.lerp(widget.color, Colors.black, .05)!
+            ],
+          ),
+        ),
+        child: ScaleTransition(
+          scale: Tween(begin: 0.95, end: 1.0).animate(
+            CurvedAnimation(
+              parent: animCtr,
+              curve: CurveWave(),
+            ),
+          ),
+          child: Container(
+            width: widget.size * 0.4,
+            height: widget.size * 0.4,
+            margin: const EdgeInsets.all(6),
+            child: widget.centerChild,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(context) {
+    return CustomPaint(
+      painter: CirclePainter(animCtr, color: widget.color),
+      child: SizedBox(
+        width: widget.size * 1.6,
+        height: widget.size * 1.6,
+        child: getAnimatedWidget(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    animCtr.dispose();
+    super.dispose();
+  }
+}
+
+class CirclePainter extends CustomPainter {
+  final Color color;
+  final Animation<double> animation;
+
+  CirclePainter(
+    this.animation, {
+    required this.color,
+  }) : super(repaint: animation);
+
+  void circle(Canvas canvas, Rect rect, double value) {
+    final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
+    final Color rippleColor = color.withOpacity(opacity);
+    final double size = rect.width / 2;
+    final double area = size * size;
+    final double radius = math.sqrt(area * value / 4);
+    final Paint paint = Paint()..color = rippleColor;
+    canvas.drawCircle(rect.center, radius, paint);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
+    for (int wave = 3; wave >= 0; wave--) {
+      circle(canvas, rect, wave + animation.value);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CirclePainter oldDelegate) => true;
+}
+
+class CurveWave extends Curve {
+  @override
+  double transform(double t) {
+    if (t == 0 || t == 1) {
+      return 0.01;
+    }
+    return math.sin(t * math.pi);
   }
 }
