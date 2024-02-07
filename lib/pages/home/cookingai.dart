@@ -7,7 +7,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
@@ -675,7 +675,7 @@ class _aiState extends State<ai2> {
                                           const SizedBox(height: 50, width: 10),
                                           Text(
                                             "Quick Note",
-                                            style: GoogleFonts.poppins(
+                                            style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
@@ -692,7 +692,7 @@ class _aiState extends State<ai2> {
                                             },
                                             child: Text(
                                               "close",
-                                              style: GoogleFonts.poppins(
+                                              style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w500,

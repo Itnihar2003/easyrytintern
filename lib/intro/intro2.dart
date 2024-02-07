@@ -19,28 +19,24 @@ class _intro2State extends State<intro2> {
         children: [
           Container(
             child: Padding(
-              padding: const EdgeInsets.only(top: 60, left: 74),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Seize the Day with Todo:",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black),
-                    ),
-                    Text(
-                      "Where Tasks Meet Triumph! ",
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
-                    ),
-                  ],
-                ),
+              padding: const EdgeInsets.only(top: 25, left: 74),
+              child: ListView(
+                children: [
+                  Text(
+                    "Seize the Day with Todo:",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.black),
+                  ),
+                  Text(
+                    "Where Tasks Meet Triumph! ",
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
+                  ),
+                ],
               ),
             ),
             height: 150,

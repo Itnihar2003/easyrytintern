@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
@@ -566,8 +566,7 @@ class _recentState extends State<recent> {
                                                             width: 10),
                                                         Text(
                                                           "Quick Note",
-                                                          style: GoogleFonts
-                                                              .poppins(
+                                                          style: TextStyle(
                                                             color: Colors.black,
                                                             fontSize: 15,
                                                             fontWeight:
@@ -588,8 +587,7 @@ class _recentState extends State<recent> {
                                                           },
                                                           child: Text(
                                                             "close",
-                                                            style: GoogleFonts
-                                                                .poppins(
+                                                            style: TextStyle(
                                                               color:
                                                                   Colors.black,
                                                               fontSize: 15,
@@ -941,8 +939,7 @@ class _recentState extends State<recent> {
                                                             width: 10),
                                                         Text(
                                                           "Quick Note",
-                                                          style: GoogleFonts
-                                                              .poppins(
+                                                          style: TextStyle(
                                                             color: Colors.black,
                                                             fontSize: 15,
                                                             fontWeight:
@@ -963,8 +960,7 @@ class _recentState extends State<recent> {
                                                           },
                                                           child: Text(
                                                             "close",
-                                                            style: GoogleFonts
-                                                                .poppins(
+                                                            style: TextStyle(
                                                               color:
                                                                   Colors.white,
                                                               fontSize: 15,

@@ -14,7 +14,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
-import 'package:google_fonts/google_fonts.dart';
+
 
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -709,7 +709,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                       },
                                       controller: searchfielter,
                                       cursorColor: Colors.black,
-                                      style: GoogleFonts.poppins(fontSize: 12),
+                                      style: TextStyle(fontSize: 12),
                                       decoration: const InputDecoration(
                                         prefixIcon: Icon(
                                           Icons.search,
@@ -981,7 +981,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             "Quick Tools",
-                            style: GoogleFonts.poppins(
+                            style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -1023,7 +1023,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             "Suggested",
-                            style: GoogleFonts.poppins(
+                            style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -1048,7 +1048,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: Text(
                             "Recents",
-                            style: GoogleFonts.poppins(
+                            style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -1124,7 +1124,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                 height: 22,
                                                 child: Text(
                                                   widget.datas[index].tittle1,
-                                                  style: GoogleFonts.poppins(
+                                                  style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.bold,
@@ -1178,8 +1178,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               10),
                                                                       Text(
                                                                         "Quick Note",
-                                                                        style: GoogleFonts
-                                                                            .poppins(
+                                                                        style:TextStyle(
                                                                           color:
                                                                               Colors.black,
                                                                           fontSize:
@@ -1206,7 +1205,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                             Text(
                                                                           "close",
                                                                           style:
-                                                                              GoogleFonts.poppins(
+                                                                              TextStyle(
                                                                             color:
                                                                                 Colors.black,
                                                                             fontSize:
@@ -1609,7 +1608,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
             const SizedBox(height: 5),
             Text(
               title,
-              style: GoogleFonts.poppins(
+              style: TextStyle(
                 color: Colors.black,
                 fontSize: 12,
               ),

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:share_plus/share_plus.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -354,7 +354,7 @@ class _editnotesState extends State<editnotes> {
                       obscureText: false,
                       decoration: InputDecoration(
                         hintText: "tittle",
-                        hintStyle: GoogleFonts.poppins(
+                        hintStyle: TextStyle(
                           color: const Color(0xFFBFBFBF),
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -391,7 +391,7 @@ class _editnotesState extends State<editnotes> {
                           decoration: InputDecoration(
                             hintText: 'Start Writing..',
                             border: InputBorder.none,
-                            hintStyle: GoogleFonts.poppins(
+                            hintStyle: TextStyle(
                               color: const Color(0xFFBFBFBF),
                               fontSize: 12,
                               fontWeight: FontWeight.w500,

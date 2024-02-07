@@ -121,7 +121,7 @@
 
 //                           child: TextFormField(
 //                             maxLines: 1,
-//                             style: GoogleFonts.poppins(
+//                             style: TextStyle(
 //                               color: Colors.grey,
 //                               fontSize: 16,
 //                             ),
@@ -190,7 +190,7 @@
 //             const SizedBox(width: 2.5),
 //             Text(
 //               "You",
-//               style: GoogleFonts.poppins(
+//               style: TextStyle(
 //                 color: Colors.black,
 //                 fontSize: 14,
 //                 fontWeight: FontWeight.w600,
@@ -207,7 +207,7 @@
 //             const SizedBox(width: 2.5),
 //             Text(
 //               "Write About AI",
-//               style: GoogleFonts.poppins(
+//               style: TextStyle(
 //                 color: Colors.black,
 //                 fontSize: 16,
 //                 fontWeight: FontWeight.w500,
@@ -225,7 +225,7 @@
 //             Expanded(
 //               child: Text(
 //                 chatReply,
-//                 style: GoogleFonts.poppins(
+//                 style: TextStyle(
 //                   color: Colors.black,
 //                   fontSize: 15,
 //                   fontWeight: FontWeight.w400,
@@ -287,7 +287,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
@@ -945,7 +945,7 @@ class _aiState extends State<ai> {
                                   //                         Text(
                                   //                           "Quick Note",
                                   //                           style:
-                                  //                               GoogleFonts.poppins(
+                                  //                               TextStyle(
                                   //                             color: Colors.white,
                                   //                             fontSize: 17,
                                   //                             fontWeight:
@@ -1232,7 +1232,7 @@ class _aiState extends State<ai> {
                                           const SizedBox(height: 50, width: 10),
                                           Text(
                                             "Quick Note",
-                                            style: GoogleFonts.poppins(
+                                            style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
@@ -1249,7 +1249,7 @@ class _aiState extends State<ai> {
                                             },
                                             child: Text(
                                               "close",
-                                              style: GoogleFonts.poppins(
+                                              style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w500,
