@@ -14,8 +14,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
-
-
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rate_my_app/rate_my_app.dart';
@@ -34,6 +32,7 @@ import 'package:todoaiapp/pages/notes/notes.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:todoaiapp/pages/home/suggestedpage.dart';
+import 'package:todoaiapp/pages/ocrfinal/ocrhome.dart';
 import 'package:todoaiapp/pages/ocrfinal/texttoimage.dart';
 import 'package:todoaiapp/pages/todo/tododetail.dart';
 
@@ -1178,7 +1177,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               10),
                                                                       Text(
                                                                         "Quick Note",
-                                                                        style:TextStyle(
+                                                                        style:
+                                                                            TextStyle(
                                                                           color:
                                                                               Colors.black,
                                                                           fontSize:
@@ -1562,7 +1562,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => App(),
+                  builder: (context) => ocrhome(),
                 ));
           } else if (index == 4) {
             _sendAnalyticsEvent(title, index);
