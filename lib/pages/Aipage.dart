@@ -390,8 +390,8 @@ class _aiState extends State<ai> {
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
-        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
         request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (RewardedAd ad) {
