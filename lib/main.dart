@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -15,6 +16,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 int? inviewed;
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+
   tz.initializeTimeZones();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -26,7 +28,6 @@ void main(List<String> args) async {
       title: 'Palm - AI, Gpt, Notes, AI Chat',
       debugShowCheckedModeBanner: false,
       home: inviewed != 0 ? intro1() : splashtwo(),
-      
     ),
   );
 }

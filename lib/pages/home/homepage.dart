@@ -9,10 +9,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'dart:math' as math show sin, pi, sqrt;
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:in_app_update/in_app_update.dart';
 
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -33,7 +36,7 @@ import 'package:todoaiapp/pages/notes/notes.dart';
 import 'package:http/http.dart' as http;
 import 'package:todoaiapp/pages/home/suggestedpage.dart';
 import 'package:todoaiapp/pages/ocrfinal/ocrhome.dart';
-import 'package:todoaiapp/pages/ocrfinal/texttoimage.dart';
+
 import 'package:todoaiapp/pages/todo/tododetail.dart';
 
 class home extends StatefulWidget {
@@ -49,6 +52,60 @@ class home extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<home> with TickerProviderStateMixin {
+  //banneradds
+  late BannerAd _bannerAd;
+
+  bool _isadloaded = false;
+  bool loadreward = false;
+  initialadd() {
+    _bannerAd = BannerAd(
+        size: AdSize.banner,
+        adUnitId: "ca-app-pub-3940256099942544/6300978111",
+        listener: BannerAdListener(
+          onAdLoaded: (Ad) {
+            setState(() {
+              _isadloaded = true;
+            });
+          },
+          onAdFailedToLoad: (ad, error) {},
+        ),
+        request: AdRequest());
+    _bannerAd.load();
+  }
+
+  late RewardedAd _rewardedAd;
+  startrewardad() {
+    RewardedAd.load(
+        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        request: AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+            onAdLoaded: (RewardedAd ad) {
+              this._rewardedAd = ad;
+            },
+            onAdFailedToLoad: (LoadAdError error) {}));
+  }
+
+  showreward() {
+    _rewardedAd.show(
+      onUserEarnedReward: (ad, reward) {
+        print("Rewarded money${reward.amount}");
+      },
+    );
+    _rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (RewardedAd ad) {},
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+      },
+      onAdWillDismissFullScreenContent: (ad) {
+        ad.dispose();
+      },
+      onAdImpression: (ad) {
+        print("$ad impression occure");
+      },
+    );
+  }
+
   //rating the app
   final RateMyApp rateMyApp = RateMyApp(
       remindLaunches: 2,
@@ -82,6 +139,18 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    checkForUpdate();
+    Timer.periodic(Duration(minutes: 2), (_) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: showreward(),
+        ),
+      );
+      // show popup from here
+    });
+    startrewardad();
+    initialadd();
     analytics.setAnalyticsCollectionEnabled(true);
     rateMyApp.init().then((_) {
       rateMyApp.conditions.forEach((condition) {
@@ -141,9 +210,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     // generateDeviceIdentifier();
   }
 
-  save() {
-    FirebaseDatabase.instance.ref("post").set({"name2": "nihar"});
-  }
+  // save() {
+  //   FirebaseDatabase.instance.ref("post").set({"name2": "nihar"});
+  // }
 
   bool isLoading = true;
   String baseUrl = 'https://scannerimage-e52f6979766b.herokuapp.com';
@@ -649,6 +718,44 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     });
   }
 
+  //playstoreupdate
+
+  Future<void> checkForUpdate() async {
+    if (kDebugMode) {
+      print('checking for Update');
+    }
+    InAppUpdate.checkForUpdate().then((info) {
+      setState(() {
+        if (info.updateAvailability == UpdateAvailability.updateAvailable) {
+          if (kDebugMode) {
+            print('Update Available');
+          }
+          updatescreen();
+        } else {
+          if (kDebugMode) {
+            print('it is up to date');
+          }
+        }
+      });
+    }).catchError((e) {
+      if (kDebugMode) {
+        print('check update function error ${e.toString()}');
+      }
+    });
+  }
+
+  void updatescreen() async {
+    await InAppUpdate.startFlexibleUpdate();
+    InAppUpdate.completeFlexibleUpdate().then((_) {}).catchError((e) {
+      if (kDebugMode) {
+        print('update function error ${e.toString()}');
+      }
+    });
+    if (kDebugMode) {
+      print('updating');
+    }
+  }
+
   late final AnimationController _controller =
       AnimationController(vsync: this, duration: const Duration(seconds: 10))
         ..repeat();
@@ -729,7 +836,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                   IconButton(
                                       onPressed: () {
                                         _sendAnalyticsEvent("seetingpage", 5);
-                                        save();
+
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -974,6 +1081,23 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                       SizedBox(
                         height: 10,
                       ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Center(
+                      //     child: Container(
+                      //         height: _bannerAd.size.height.toDouble(),
+                      //         width: _bannerAd.size.width.toDouble(),
+                      //         child: _isadloaded
+                      //             ? AdWidget(ad: _bannerAd)
+                      //             : Container(
+                      //                 decoration: BoxDecoration(
+                      //                     gradient: LinearGradient(colors: [
+                      //                   Colors.green,
+                      //                   Colors.blue
+                      //                 ])),
+                      //               )),
+                      //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -1262,6 +1386,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
+                                                                            showreward();
+
                                                                             // if (await permission.isGranted) {
                                                                             convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
@@ -1282,6 +1408,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
+                                                                            showreward();
                                                                             // if (await permission.isGranted) {
                                                                             convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
@@ -1302,6 +1429,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
+                                                                            showreward();
                                                                             // if (await permission.isGranted) {
                                                                             downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
@@ -1322,6 +1450,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
+                                                                            showreward();
                                                                             await Share.share(widget.datas[index].tittle1 +
                                                                                 "\n" +
                                                                                 widget.datas[index].content1 +
@@ -1482,6 +1611,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
               padding: const EdgeInsets.all(5.0),
               child: InkWell(
                 onTap: () {
+                  showreward();
                   _sendAnalyticsEvent("suggestions", 6);
                   Navigator.push(
                       context,

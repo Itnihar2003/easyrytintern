@@ -287,6 +287,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -328,7 +329,7 @@ class _aiState extends State<ai> {
   @override
   void initState() {
     update();
-
+    startrewardad();
     _scrollController = ScrollController();
     super.initState();
   }
@@ -383,6 +384,39 @@ class _aiState extends State<ai> {
       body,
       platformChannelSpecifics,
       payload: 'item x',
+    );
+  }
+
+  late RewardedAd _rewardedAd;
+  startrewardad() {
+    RewardedAd.load(
+        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        request: AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+            onAdLoaded: (RewardedAd ad) {
+              this._rewardedAd = ad;
+            },
+            onAdFailedToLoad: (LoadAdError error) {}));
+  }
+
+  showreward() {
+    _rewardedAd.show(
+      onUserEarnedReward: (ad, reward) {
+        print("Rewarded money${reward.amount}");
+      },
+    );
+    _rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (RewardedAd ad) {},
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+      },
+      onAdWillDismissFullScreenContent: (ad) {
+        ad.dispose();
+      },
+      onAdImpression: (ad) {
+        print("$ad impression occure");
+      },
     );
   }
 
@@ -1276,6 +1310,7 @@ class _aiState extends State<ai> {
                                           ),
                                           TextButton(
                                               onPressed: () {
+                                                showreward();
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -1347,6 +1382,7 @@ class _aiState extends State<ai> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
+                                                showreward();
                                                 // if (await permission.isGranted) {
                                                 int a = messages.length;
                                                 for (int i = 0; i < a; i++) {
@@ -1382,6 +1418,7 @@ class _aiState extends State<ai> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
+                                                showreward();
                                                 // if (await permission.isGranted) {
                                                 int a = messages.length;
                                                 for (int i = 0; i < a; i++) {
@@ -1417,6 +1454,7 @@ class _aiState extends State<ai> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
+                                                showreward();
                                                 // if (await permission.isGranted) {
                                                 int a = messages.length;
                                                 for (int i = 0; i < a; i++) {
@@ -1610,6 +1648,7 @@ class _aiState extends State<ai> {
                   for (int i = 0; i < a; i++) {
                     all = all + "\n" + messages[i];
                   }
+                  showreward();
                   save1(all);
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(

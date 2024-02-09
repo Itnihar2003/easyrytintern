@@ -14,7 +14,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/pages/home/homepage.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
-import 'package:todoaiapp/pages/ocrfinal/coverted.dart';
+
 import 'package:translator/translator.dart';
 
 class ResultScreen extends StatefulWidget {

@@ -6,6 +6,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -438,9 +439,43 @@ class _TextViewerState extends State<TextViewer> {
     }
   }
 
+  late RewardedAd _rewardedAd;
+  startrewardad() {
+    RewardedAd.load(
+        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        request: AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+            onAdLoaded: (RewardedAd ad) {
+              this._rewardedAd = ad;
+            },
+            onAdFailedToLoad: (LoadAdError error) {}));
+  }
+
+  showreward() {
+    _rewardedAd.show(
+      onUserEarnedReward: (ad, reward) {
+        print("Rewarded money${reward.amount}");
+      },
+    );
+    _rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (RewardedAd ad) {},
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+      },
+      onAdWillDismissFullScreenContent: (ad) {
+        ad.dispose();
+      },
+      onAdImpression: (ad) {
+        print("$ad impression occure");
+      },
+    );
+  }
+
   @override
   void initState() {
     update();
+    startrewardad();
     _textController.text = widget.data;
     super.initState();
   }
@@ -487,6 +522,7 @@ class _TextViewerState extends State<TextViewer> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
+                showreward();
                 save1("${_textController.text.toString()}");
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
@@ -592,6 +628,7 @@ class _TextViewerState extends State<TextViewer> {
                                         ),
                                         TextButton(
                                             onPressed: () async {
+                                              showreward();
                                               convertToPDF(
                                                 _textController.text.toString(),
                                                 widget.langCode,
@@ -617,6 +654,7 @@ class _TextViewerState extends State<TextViewer> {
                                                 ))),
                                         TextButton(
                                             onPressed: () async {
+                                              showreward();
                                               convertToDocx(_textController.text
                                                   .toString());
                                             },
@@ -640,6 +678,7 @@ class _TextViewerState extends State<TextViewer> {
                                                 ))),
                                         TextButton(
                                             onPressed: () async {
+                                              showreward();
                                               downloadTxt(_textController.text
                                                   .toString());
                                             },
@@ -1054,6 +1093,7 @@ class _TextViewerState extends State<TextViewer> {
         ),
         floatingActionButton: InkWell(
             onTap: () {
+              showreward();
               save1("${_textController.text.toString()}");
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(

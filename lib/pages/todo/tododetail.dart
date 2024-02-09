@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +43,7 @@ class _detailState extends State<detail> {
   Notificationservice notificationservice = Notificationservice();
   @override
   void initState() {
+    startrewardad();
     update1();
     update();
     super.initState();
@@ -118,6 +120,39 @@ class _detailState extends State<detail> {
     });
 
     setdata1();
+  }
+
+  late RewardedAd _rewardedAd;
+  startrewardad() {
+    RewardedAd.load(
+        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        request: AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+            onAdLoaded: (RewardedAd ad) {
+              this._rewardedAd = ad;
+            },
+            onAdFailedToLoad: (LoadAdError error) {}));
+  }
+
+  showreward() {
+    _rewardedAd.show(
+      onUserEarnedReward: (ad, reward) {
+        print("Rewarded money${reward.amount}");
+      },
+    );
+    _rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (RewardedAd ad) {},
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+      },
+      onAdWillDismissFullScreenContent: (ad) {
+        ad.dispose();
+      },
+      onAdImpression: (ad) {
+        print("$ad impression occure");
+      },
+    );
   }
 
   save() {
@@ -386,6 +421,7 @@ class _detailState extends State<detail> {
                     Center(
                       child: ElevatedButton(
                           onPressed: () {
+                            showreward();
                             finalid++;
                             for (int i = 0; i <= 16; i++) {
                               val = val + datetime.toString()[i];
@@ -632,6 +668,7 @@ class _detailState extends State<detail> {
           backgroundColor: Colors.black,
           child: IconButton(
               onPressed: () {
+                showreward();
                 show();
                 print(datetime.toString());
               },

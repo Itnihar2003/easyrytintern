@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -188,6 +189,38 @@ class _notesState extends State<notes> {
   //         backgroundColor: Colors.grey);
   //   }
   // }
+  late RewardedAd _rewardedAd;
+  startrewardad() {
+    RewardedAd.load(
+        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        request: AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+            onAdLoaded: (RewardedAd ad) {
+              this._rewardedAd = ad;
+            },
+            onAdFailedToLoad: (LoadAdError error) {}));
+  }
+
+  showreward() {
+    _rewardedAd.show(
+      onUserEarnedReward: (ad, reward) {
+        print("Rewarded money${reward.amount}");
+      },
+    );
+    _rewardedAd.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (RewardedAd ad) {},
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+      },
+      onAdWillDismissFullScreenContent: (ad) {
+        ad.dispose();
+      },
+      onAdImpression: (ad) {
+        print("$ad impression occure");
+      },
+    );
+  }
 
   List<data1> allnote = [];
 
@@ -213,6 +246,7 @@ class _notesState extends State<notes> {
   @override
   void initState() {
     update();
+    startrewardad();
     super.initState();
   }
 
@@ -252,6 +286,7 @@ class _notesState extends State<notes> {
         padding: const EdgeInsets.only(bottom: 50),
         child: InkWell(
             onTap: () {
+              showreward();
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) => home(
@@ -342,7 +377,7 @@ class _notesState extends State<notes> {
                       obscureText: false,
                       decoration: InputDecoration(
                         hintText: 'Title',
-                        hintStyle:TextStyle(
+                        hintStyle: TextStyle(
                           color: const Color(0xFFBFBFBF),
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
