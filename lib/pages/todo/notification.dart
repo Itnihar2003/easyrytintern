@@ -48,20 +48,20 @@ class Notificationservice {
             UILocalNotificationDateInterpretation.absoluteTime,
         androidAllowWhileIdle: true);
   }
-      void scheduleminute(String title, String body,  DateTime scheduledNotificationDateTime) async {
+
+  void scheduleminute(
+      String title, String body, DateTime scheduledNotificationDateTime) async {
     AndroidNotificationDetails androidNotificationDetails =
         const AndroidNotificationDetails("channelId", "channelName",
             importance: Importance.max, priority: Priority.high);
-    NotificationDetails notificationDetails = NotificationDetails(
-      android: androidNotificationDetails
-    );
-    
-    await _flutterLocalNotificationsPlugin.periodicallyShow(0, title, body,RepeatInterval.everyMinute, notificationDetails);
+    NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+
+    await _flutterLocalNotificationsPlugin.periodicallyShow(
+        0, title, body, RepeatInterval.everyMinute, notificationDetails);
   }
 
-  
-
-  void stopNotifications() async {
-    _flutterLocalNotificationsPlugin.cancel(0);
+  void stopNotifications(int id,) async {
+    _flutterLocalNotificationsPlugin.cancel(id);
   }
 }

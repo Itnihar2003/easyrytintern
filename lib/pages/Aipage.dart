@@ -357,10 +357,7 @@ class _aiState extends State<ai> {
             content1: aimessage));
       });
       setdata1();
-    } else {
-      Get.snackbar("Error", "Plese fill all data",
-          backgroundColor: Colors.grey);
-    }
+    } 
   }
 
   late ScrollController _scrollController;
@@ -390,8 +387,8 @@ class _aiState extends State<ai> {
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
-        adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        adUnitId: "ca-app-pub-1396556165266132/1772804526",
         request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (RewardedAd ad) {

@@ -43,6 +43,9 @@ class _detailState extends State<detail> {
   Notificationservice notificationservice = Notificationservice();
   @override
   void initState() {
+    Timer.periodic(Duration(milliseconds: 500), (timer) {
+      finalid++;
+    });
     startrewardad();
     update1();
     update();
@@ -107,6 +110,8 @@ class _detailState extends State<detail> {
     });
   }
 
+  late Color selectedcolour;
+  bool isselected = false;
   update1() async {
     List<data4> delete = await getdata1();
     setState(() {
@@ -125,8 +130,8 @@ class _detailState extends State<detail> {
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
-        adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        adUnitId: "ca-app-pub-1396556165266132/1772804526",
         request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (RewardedAd ad) {
@@ -155,7 +160,7 @@ class _detailState extends State<detail> {
     );
   }
 
-  save() {
+  save(int id) {
     if (pop.text != "" &&
         pop1.text != "" &&
         dropdownValue != "" &&
@@ -167,6 +172,7 @@ class _detailState extends State<detail> {
           priority: dropdownValue.toString(),
           duedate: date1.text.trim(),
           check: check,
+          id: id,
         ));
       });
       setdata();
@@ -187,100 +193,254 @@ class _detailState extends State<detail> {
   DateTime selectedDate = DateTime.now();
 
   final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
-  show() {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-            insetPadding: const EdgeInsets.all(7),
-            surfaceTintColor: Colors.transparent,
-            content: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Tittle",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
-                    TextField(
+
+  show1() {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) => Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Create Task",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                size: 30,
+                color: Colors.black,
+              )),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
+          child: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Tittle",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.09),
+                            blurRadius: 3,
+                            spreadRadius: 2,
+                            offset: Offset(0, 0),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white),
+                    child: TextField(
                       controller: pop,
                       decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.white)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.white)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.all(15.0),
                           hintText: "What whould you like to do?",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12))),
+                          hintStyle: TextStyle(
+                            fontSize: 14,
+                          )),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      "Description",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
-                    TextField(
-                      maxLines: 5,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    "Description",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.09),
+                            blurRadius: 3,
+                            spreadRadius: 2,
+                            offset: Offset(0, 0),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white),
+                    child: TextField(
+                      maxLines: 3,
                       controller: pop1,
                       decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.white)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.white)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.all(15.0),
                           hintText: "Description",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12))),
+                          hintStyle: TextStyle(
+                            fontSize: 14,
+                          )),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      "Priority",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.priority_high),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    "Priority",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.09),
+                            blurRadius: 3,
+                            spreadRadius: 2,
+                            offset: Offset(0, 0),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white),
+                    child: DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.white)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.white)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.all(15.0),
+                          hintText: "Priority",
+                          hintStyle: TextStyle(
+                            fontSize: 14,
+                          )),
+                      value: dropdownValue,
+                      items: [
+                        DropdownMenuItem(
+                          value: 'Option 1',
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.bookmark,
+                                color: Colors.red, // Set color for Option 1
                               ),
-                            ),
-                            hint: const Text('Choose a Priority'),
-                            value: dropdownValue,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdownValue = newValue!;
-                              });
-                            },
-                            items: <String>[
-                              "Priority 1",
-                              "Priority 2",
-                              "Priority 3",
-                              "Priority 4"
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          )
-                        ]),
-                    const SizedBox(
-                      height: 20,
+                              SizedBox(width: 10),
+                              Text('Option 1'),
+                            ],
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Option 2',
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.bookmark,
+                                color: Colors.yellow, // Set color for Option 2
+                              ),
+                              SizedBox(width: 10),
+                              Text('Option 2'),
+                            ],
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Option 3',
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.bookmark,
+                                color: Colors.blue, // Set color for Option 3
+                              ),
+                              SizedBox(width: 10),
+                              Text('Option 3'),
+                            ],
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Option 4',
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.bookmark_border,
+                                // Set color for Option 3
+                              ),
+                              SizedBox(width: 10),
+                              Text('Option 4'),
+                            ],
+                          ),
+                        ),
+                      ],
+                      onChanged: (String? value) {
+                        setState(() {
+                          dropdownValue = value;
+                        });
+                      },
                     ),
-                    const Text(
-                      "DueDate",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
-                    TextField(
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    "DueDate",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.09),
+                            blurRadius: 3,
+                            spreadRadius: 2,
+                            offset: Offset(0, 0),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white),
+                    child: TextField(
                       controller: date1,
                       decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.white)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: Colors.white)),
+                          filled: true,
+                          fillColor: Colors.white,
+                          contentPadding: EdgeInsets.all(15.0),
                           hintText: "Enter Date",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12)),
+                          prefixIcon: Icon(Icons.calendar_month_outlined),
+                          hintStyle: TextStyle(
+                            fontSize: 14,
+                          ),
                           suffixIcon: IconButton(
                               onPressed: () async {
                                 showCupertinoModalPopup(
@@ -334,22 +494,49 @@ class _detailState extends State<detail> {
                               },
                               icon: const Icon(Icons.calendar_month))),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      "Reminder",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black),
-                    ),
-                    Column(
-                      children: [
-                        TextField(
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    "Reminder",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(0, 0, 0, 0.09),
+                                blurRadius: 3,
+                                spreadRadius: 2,
+                                offset: Offset(0, 0),
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white),
+                        child: TextField(
                           controller: datetimecontroler,
                           decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              filled: true,
+                              fillColor: Colors.white,
+                              prefixIcon: Icon(Icons.menu),
+                              contentPadding: EdgeInsets.all(15.0),
                               hintText: "Enter Date",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12)),
+                              hintStyle: TextStyle(
+                                fontSize: 14,
+                              ),
                               suffixIcon: IconButton(
                                   onPressed: () async {
                                     showCupertinoModalPopup(
@@ -380,13 +567,14 @@ class _detailState extends State<detail> {
                                                     scheduleTime = date;
                                                     debugPrint(
                                                         'notification scheduked fir $scheduleTime');
-                                                    notificationservice.scheduleNotification(
-                                                        title:
-                                                            'complete your task',
-                                                        body: '$scheduleTime',
-                                                        scheduledNotificationDateTime:
-                                                            scheduleTime,
-                                                        id: finalid);
+                                                    notificationservice
+                                                        .scheduleNotification(
+                                                            title:
+                                                                'complete your task',
+                                                            body: pop.text,
+                                                            scheduledNotificationDateTime:
+                                                                scheduleTime,
+                                                            id: finalid);
                                                   },
                                                 ),
                                               ),
@@ -413,67 +601,62 @@ class _detailState extends State<detail> {
                                   },
                                   icon: const Icon(Icons.calendar_month))),
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            showreward();
-                            finalid++;
-                            for (int i = 0; i <= 16; i++) {
-                              val = val + datetime.toString()[i];
-                            }
-                            save();
-                            remindertime1 = finaltime;
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          showreward();
 
-                            print(remindertime1);
-                            Navigator.pop(context);
-                            pop.clear();
-                            pop1.clear();
+                          finalid++;
+                          for (int i = 0; i <= 16; i++) {
+                            val = val + datetime.toString()[i];
+                          }
+                          save(finalid);
+                          remindertime1 = finaltime;
 
-                            date1.clear();
-                            datetimecontroler.clear();
-                          },
-                          child: const SizedBox(
-                            width: 250,
-                            height: 50,
-                            child: Center(
-                                child: Text(
-                              "submit",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            )),
+                          print(remindertime1);
+                          Navigator.pop(context);
+                          pop.clear();
+                          pop1.clear();
+
+                          date1.clear();
+                          datetimecontroler.clear();
+                        },
+                        child: const SizedBox(
+                          width: 250,
+                          height: 50,
+                          child: Center(
+                              child: Text(
+                            "submit",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
                           )),
-                    )
-                  ],
-                ),
+                        )),
+                  )
+                ],
               ),
             ),
-            title: Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      size: 30,
-                      color: Colors.black,
-                    )),
-                const Text(
-                  "Create Task",
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                )
-              ],
-            )));
+          ),
+        ),
+      ),
+    );
   }
 
+  List domain = [
+    "All",
+    "Work",
+    "Personal",
+    "Professional",
+    "Industry",
+    "Office"
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -525,12 +708,36 @@ class _detailState extends State<detail> {
         title: const Text(
           "Tittle",
           style: TextStyle(
-              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black),
+              fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
         ),
         backgroundColor: Colors.white,
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 25,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: domain.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 7),
+                    child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(domain[index]),
+                      ),
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 241, 236, 236),
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
           Expanded(
               child: Container(
             child: ListView.builder(
@@ -549,7 +756,7 @@ class _detailState extends State<detail> {
                             ),
                           ],
                           borderRadius: BorderRadius.circular(15),
-                          color: const Color.fromARGB(255, 244, 242, 242)),
+                          color: Colors.white),
                       child: InkWell(
                         onTap: () {
                           Navigator.push(
@@ -563,56 +770,89 @@ class _detailState extends State<detail> {
                                         duedatevalue: data1s[index].duedate,
                                       )));
                         },
-                        child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListTile(
-                              tileColor: Colors.white,
-                              leading: Image.asset(
-                                "assets/icons/menu.png",
-                                height: 20,
-                                width: 20,
+                        child: Container(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Image.asset(
+                                    //   "assets/icons/menu.png",
+                                    //   height: 20,
+                                    //   width: 20,
+                                    // ),
+                                    Checkbox(
+                                      value: data1s[index].check,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          data1s[index].check = value!;
+                                          savedeleteitem(data1s[index].tittle);
+                                        });
+                                        data1s.removeAt(index);
+                                        notificationservice.stopNotifications(
+                                            data1s[index].id);
+                                        setdata1();
+                                        setdata();
+                                      },
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          data1s[index].tittle,
+                                          style: const TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
+                                        Text(
+                                          DateFormat("dd-MM-yyyy (hh:mm a )")
+                                              .format(DateFormat(
+                                                      "yyyy-MM-dd hh:mm")
+                                                  .parse(
+                                                      data1s[index].duedate)),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 10,
+                                              color: Color.fromARGB(
+                                                  255, 207, 37, 25)),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                              trailing: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      data1s.removeAt(index);
-                                      setdata();
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    size: 30,
-                                    color: Colors.black,
-                                  )),
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                              Row(
                                 children: [
-                                  Checkbox(
-                                    value: data1s[index].check,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        data1s[index].check = value!;
-                                        savedeleteitem(data1s[index].tittle);
-                                      });
-                                      data1s.removeAt(index);
-                                      setdata1();
-                                      setdata();
-                                    },
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        data1s[index].tittle,
-                                        style: const TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
-                                      ),
-                                    ],
-                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        notificationservice.stopNotifications(
+                                            data1s[index].id);
+                                        setState(() {
+                                          data1s.removeAt(index);
+                                          setdata();
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        size: 25,
+                                        color: Colors.black,
+                                      )),
                                 ],
-                              ),
-                            )),
+                              )
+                            ],
+                          ),
+                        ),
                       )),
                 );
               },
@@ -668,8 +908,7 @@ class _detailState extends State<detail> {
           backgroundColor: Colors.black,
           child: IconButton(
               onPressed: () {
-                showreward();
-                show();
+                show1();
                 print(datetime.toString());
               },
               icon: const Icon(

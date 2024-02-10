@@ -4,22 +4,21 @@ class data {
   String priority;
   String duedate;
   bool check;
+  int id;
 
   data({
     required this.tittle,
     required this.content,
     required this.priority,
     required this.duedate,
-    required this.check,
-   
+    required this.check,required this.id,
   });
   factory data.fromJson(Map<String, dynamic> json) => data(
         tittle: json["tittle"],
         content: json["content"],
         priority: json["priority"],
         duedate: json["duedate"],
-        check: json["check"],
-       
+        check: json["check"], id: json["id"] ,
       );
 
   Map<String, dynamic> toJson() => {
@@ -27,7 +26,6 @@ class data {
         "content": content,
         "priority": priority,
         "duedate": duedate,
-        "check": check,
-       
+        "check": check,"id":id
       };
 }
