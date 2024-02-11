@@ -15,7 +15,7 @@
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
 
     <application
-        android:label="Palm -AI, Gpt, Notes, AI Chat"
+        android:label="NotaAI - Ask AI Chat to Write"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

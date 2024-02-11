@@ -95,7 +95,7 @@ flutter_launcher_icons:
   android: "launcher_icon"
   # android: true
   min_sdk_android: 21
-  image_path: "assets/Group 53.png"
+  image_path: "assets/applogo.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

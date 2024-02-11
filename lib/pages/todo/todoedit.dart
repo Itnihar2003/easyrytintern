@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:dropdownfield2/dropdownfield2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todoaiapp/pages/todo/data.dart';
 import 'package:todoaiapp/pages/todo/tododetail.dart';
 
 class edit extends StatefulWidget {
@@ -9,7 +13,7 @@ class edit extends StatefulWidget {
   final int index;
   final String priorityvalue;
   final String duedatevalue;
-
+  final List<data> edittodo;
   const edit({
     super.key,
     required this.tittlevalue,
@@ -17,6 +21,7 @@ class edit extends StatefulWidget {
     required this.index,
     required this.priorityvalue,
     required this.duedatevalue,
+    required this.edittodo,
   });
 
   @override
@@ -44,6 +49,17 @@ class _editState extends State<edit> {
   TextEditingController newpop1 = TextEditingController();
   TextEditingController newdate = TextEditingController();
   // TextEditingController newpriority = TextEditingController();
+  String tittle = "";
+  String content = "";
+  String category = "";
+  String duedate = "";
+  setdata() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    List<String> data1List =
+        widget.edittodo.map((data) => jsonEncode(data.toJson())).toList();
+    pref.setStringList('myData', data1List);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +98,17 @@ class _editState extends State<edit> {
                                 ],
                                 borderRadius: BorderRadius.circular(15),
                                 color: Colors.white),
-                            child: TextField(
+                            child: TextFormField(
+                              // initialValue: widget.tittlevalue,
+                              // onChanged: (value) {
+                              //   setState(() {
+                              //     if (value != "") {
+                              //       tittle = value;
+                              //     } else {
+                              //       tittle = widget.tittlevalue;
+                              //     }
+                              //   });
+                              // },
                               controller: newpop,
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -126,8 +152,18 @@ class _editState extends State<edit> {
                                 ],
                                 borderRadius: BorderRadius.circular(15),
                                 color: Colors.white),
-                            child: TextField(
+                            child: TextFormField(
                               maxLines: 3,
+                              // initialValue: widget.contentvalue,
+                              // onChanged: (value) {
+                              //   setState(() {
+                              //     if (value != "") {
+                              //       content = value;
+                              //     } else {
+                              //       content = widget.contentvalue;
+                              //     }
+                              //   });
+                              // },
                               controller: newpop1,
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -151,7 +187,7 @@ class _editState extends State<edit> {
                             height: 20,
                           ),
                           const Text(
-                            "Priority",
+                            "Category",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
@@ -184,64 +220,45 @@ class _editState extends State<edit> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   contentPadding: EdgeInsets.all(15.0),
-                                  hintText: "Priority",
+                                  hintText: "Category",
                                   hintStyle: TextStyle(
                                     fontSize: 14,
                                   )),
                               value: dropdownValue,
                               items: [
                                 DropdownMenuItem(
-                                  value: 'Option 1',
+                                  value: "Work",
                                   child: Row(
                                     children: <Widget>[
-                                      Icon(
-                                        Icons.bookmark,
-                                        color: Colors
-                                            .red, // Set color for Option 1
-                                      ),
                                       SizedBox(width: 10),
-                                      Text('Option 1'),
+                                      Text("Work"),
                                     ],
                                   ),
                                 ),
                                 DropdownMenuItem(
-                                  value: 'Option 2',
+                                  value: "Personal",
                                   child: Row(
                                     children: <Widget>[
-                                      Icon(
-                                        Icons.bookmark,
-                                        color: Colors
-                                            .yellow, // Set color for Option 2
-                                      ),
                                       SizedBox(width: 10),
-                                      Text('Option 2'),
+                                      Text("Personal"),
                                     ],
                                   ),
                                 ),
                                 DropdownMenuItem(
-                                  value: 'Option 3',
+                                  value: "Wishlist",
                                   child: Row(
                                     children: <Widget>[
-                                      Icon(
-                                        Icons.bookmark,
-                                        color: Colors
-                                            .blue, // Set color for Option 3
-                                      ),
                                       SizedBox(width: 10),
-                                      Text('Option 3'),
+                                      Text("Wishlist"),
                                     ],
                                   ),
                                 ),
                                 DropdownMenuItem(
-                                  value: 'Option 4',
+                                  value: "Birthday",
                                   child: Row(
                                     children: <Widget>[
-                                      Icon(
-                                        Icons.bookmark_border,
-                                        // Set color for Option 3
-                                      ),
                                       SizedBox(width: 10),
-                                      Text('Option 4'),
+                                      Text("Birthday"),
                                     ],
                                   ),
                                 ),
@@ -277,8 +294,18 @@ class _editState extends State<edit> {
                                 ],
                                 borderRadius: BorderRadius.circular(15),
                                 color: Colors.white),
-                            child: TextField(
+                            child: TextFormField(
                               controller: newdate,
+                              // initialValue: widget.duedatevalue,
+                              // onChanged: (value) {
+                              //   setState(() {
+                              //     if (value != "") {
+                              //       duedate = value;
+                              //     } else {
+                              //       duedate = widget.duedatevalue;
+                              //     }
+                              //   });
+                              // },
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
@@ -291,7 +318,7 @@ class _editState extends State<edit> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   contentPadding: EdgeInsets.all(15.0),
-                                  hintText: "Description",
+                                  hintText: "Enter Date",
                                   hintStyle: TextStyle(
                                     fontSize: 14,
                                   ),
@@ -365,6 +392,17 @@ class _editState extends State<edit> {
                           Center(
                             child: ElevatedButton(
                                 onPressed: () {
+                                  setState(() {
+                                    selectedindex = widget.index;
+                                    widget.edittodo[selectedindex].tittle =
+                                        tittle;
+                                    widget.edittodo[selectedindex].content =
+                                        content;
+                                    widget.edittodo[selectedindex].priority =
+                                        dropdownValue!;
+                                    widget.edittodo[selectedindex].duedate =
+                                        duedate;
+                                  });
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) => detail(

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'dart:ui';
 import 'package:dropdownfield2/dropdownfield2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ import 'package:todoaiapp/pages/todo/deletedata.dart';
 import 'package:todoaiapp/pages/todo/notification.dart';
 
 import 'package:todoaiapp/pages/todo/todoedit.dart';
+import 'package:todoaiapp/pages/todo/workdata.dart';
 
 var remindertime1 = "";
 
@@ -45,10 +46,12 @@ class _detailState extends State<detail> {
   void initState() {
     Timer.periodic(Duration(milliseconds: 500), (timer) {
       finalid++;
+      upload();
     });
     startrewardad();
     update1();
     update();
+    update2();
     super.initState();
     notificationservice.initialisenotification();
   }
@@ -69,11 +72,19 @@ class _detailState extends State<detail> {
     pref.setStringList('myData', data1List);
   }
 
+  List<workdata> worklist = [];
   setdata1() async {
     SharedPreferences pref1 = await SharedPreferences.getInstance();
     List<String> deleteList =
         deletedata.map((data4) => jsonEncode(data4.toJson())).toList();
     pref1.setStringList('myData1', deleteList);
+  }
+
+  setdata2() async {
+    SharedPreferences pref1 = await SharedPreferences.getInstance();
+    List<String> workall =
+        worklist.map((data5) => jsonEncode(data5.toJson())).toList();
+    pref1.setStringList('myData2', workall);
   }
 
   DateTime datetime = DateTime.now();
@@ -103,6 +114,18 @@ class _detailState extends State<detail> {
     }
   }
 
+  getdata2() async {
+    SharedPreferences pref1 = await SharedPreferences.getInstance();
+    List<String>? workall = pref1.getStringList('myData2');
+    if (workall != null) {
+      List<workdata> finaldata2 = workall
+          //here data and data1 are not same
+          .map((data5) => workdata.fromJson(json.decode(data5)))
+          .toList();
+      return finaldata2;
+    }
+  }
+
   update() async {
     List<data> sdata = await getdata();
     setState(() {
@@ -116,6 +139,13 @@ class _detailState extends State<detail> {
     List<data4> delete = await getdata1();
     setState(() {
       deletedata = delete;
+    });
+  }
+
+  update2() async {
+    List<workdata> work = await getdata2();
+    setState(() {
+      worklist = work;
     });
   }
 
@@ -160,6 +190,23 @@ class _detailState extends State<detail> {
     );
   }
 
+  save2(int id) {
+    if (pop.text != "" &&
+        pop1.text != "" &&
+        dropdownValue != "" &&
+        date1.text != "") {
+      worklist.add(workdata(
+        tittle: pop.text.trim(),
+        content: pop1.text.trim(),
+        priority: dropdownValue.toString(),
+        duedate: date1.text.trim(),
+        check: check,
+        id: id,
+      ));
+      setdata2();
+    }
+  }
+
   save(int id) {
     if (pop.text != "" &&
         pop1.text != "" &&
@@ -182,6 +229,17 @@ class _detailState extends State<detail> {
     }
   }
 
+  upload() {
+    setState(() {
+      selectedindex = widget.finalindex;
+      data1s[selectedindex].tittle = widget.finaltittle;
+      data1s[selectedindex].content = widget.finalcontent;
+      data1s[selectedindex].priority = widget.finalpriority;
+      data1s[selectedindex].duedate = widget.finalduedate;
+    });
+    setdata();
+  }
+
   String priorityid = "";
 
   bool check = false;
@@ -196,6 +254,7 @@ class _detailState extends State<detail> {
 
   show1() {
     showGeneralDialog(
+      barrierColor: Colors.transparent,
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) => Scaffold(
         appBar: AppBar(
@@ -305,7 +364,7 @@ class _detailState extends State<detail> {
                     height: 20,
                   ),
                   const Text(
-                    "Priority",
+                    "Category",
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black),
                   ),
@@ -335,61 +394,45 @@ class _detailState extends State<detail> {
                           filled: true,
                           fillColor: Colors.white,
                           contentPadding: EdgeInsets.all(15.0),
-                          hintText: "Priority",
+                          hintText: "Category",
                           hintStyle: TextStyle(
                             fontSize: 14,
                           )),
                       value: dropdownValue,
                       items: [
                         DropdownMenuItem(
-                          value: 'Option 1',
+                          value: "Work",
                           child: Row(
                             children: <Widget>[
-                              Icon(
-                                Icons.bookmark,
-                                color: Colors.red, // Set color for Option 1
-                              ),
                               SizedBox(width: 10),
-                              Text('Option 1'),
+                              Text("Work"),
                             ],
                           ),
                         ),
                         DropdownMenuItem(
-                          value: 'Option 2',
+                          value: "Personal",
                           child: Row(
                             children: <Widget>[
-                              Icon(
-                                Icons.bookmark,
-                                color: Colors.yellow, // Set color for Option 2
-                              ),
                               SizedBox(width: 10),
-                              Text('Option 2'),
+                              Text("Personal"),
                             ],
                           ),
                         ),
                         DropdownMenuItem(
-                          value: 'Option 3',
+                          value: "Wishlist",
                           child: Row(
                             children: <Widget>[
-                              Icon(
-                                Icons.bookmark,
-                                color: Colors.blue, // Set color for Option 3
-                              ),
                               SizedBox(width: 10),
-                              Text('Option 3'),
+                              Text("Wishlist"),
                             ],
                           ),
                         ),
                         DropdownMenuItem(
-                          value: 'Option 4',
+                          value: "Birthday",
                           child: Row(
                             children: <Widget>[
-                              Icon(
-                                Icons.bookmark_border,
-                                // Set color for Option 3
-                              ),
                               SizedBox(width: 10),
-                              Text('Option 4'),
+                              Text("Birthday"),
                             ],
                           ),
                         ),
@@ -422,7 +465,7 @@ class _detailState extends State<detail> {
                             offset: Offset(0, 0),
                           ),
                         ],
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(12),
                         color: Colors.white),
                     child: TextField(
                       controller: date1,
@@ -531,7 +574,7 @@ class _detailState extends State<detail> {
                                   borderSide: BorderSide(color: Colors.white)),
                               filled: true,
                               fillColor: Colors.white,
-                              prefixIcon: Icon(Icons.menu),
+                              prefixIcon: Icon(Icons.calendar_month_outlined),
                               contentPadding: EdgeInsets.all(15.0),
                               hintText: "Enter Date",
                               hintStyle: TextStyle(
@@ -649,103 +692,765 @@ class _detailState extends State<detail> {
     );
   }
 
-  List domain = [
-    "All",
-    "Work",
-    "Personal",
-    "Professional",
-    "Industry",
-    "Office"
-  ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => home(
-                      datas: [],
+    return DefaultTabController(
+      length: 5,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => home(
+                        datas: [],
+                      ),
                     ),
-                  ),
-                  (Route) => false);
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              size: 25,
-            )),
-        automaticallyImplyLeading: false,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    selectedindex = widget.finalindex;
-                    data1s[selectedindex].tittle = widget.finaltittle;
-                    data1s[selectedindex].content = widget.finalcontent;
-                    data1s[selectedindex].priority = widget.finalpriority;
-                    data1s[selectedindex].duedate = widget.finalduedate;
-                  });
-                  setdata();
-                },
-                icon: const Column(
-                  children: [
-                    Icon(
-                      Icons.refresh,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                    Text(
-                      "Upload",
-                      style: TextStyle(fontSize: 12),
-                    )
-                  ],
-                )),
-          )
-        ],
-        title: const Text(
-          "Tittle",
-          style: TextStyle(
-              fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
+                    (Route) => false);
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                size: 25,
+              )),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
         ),
-        backgroundColor: Colors.white,
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 25,
+        body: Column(
+          children: [
+            TabBar(
+                labelColor: Colors.black,
+                unselectedLabelColor: const Color.fromARGB(255, 137, 137, 136),
+                isScrollable: true,
+                labelPadding: EdgeInsets.only(
+                  right: 30,
+                ),
+                tabs: [
+                  Tab(
+                    text: "All",
+                  ),
+                  Tab(
+                    text: "Work",
+                  ),
+                  Tab(
+                    text: "Personal",
+                  ),
+                  Tab(
+                    text: "Wishlist",
+                  ),
+                  Tab(
+                    text: "Birthday",
+                  )
+                ]),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 450,
+              child: TabBarView(children: [
+                Container(
+                  height: 450,
+                  width: MediaQuery.of(context).size.width,
+                  child: ListView.builder(
+                    itemCount: data1s.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                            decoration: BoxDecoration(
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color.fromRGBO(0, 0, 0, 0.09),
+                                    blurRadius: 3,
+                                    spreadRadius: 1,
+                                    offset: Offset(-5, 5),
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => edit(
+                                              index: index,
+                                              tittlevalue: data1s[index].tittle,
+                                              contentvalue:
+                                                  data1s[index].content,
+                                              priorityvalue:
+                                                  data1s[index].priority,
+                                              duedatevalue:
+                                                  data1s[index].duedate,
+                                              edittodo: data1s,
+                                            )));
+                              },
+                              child: Container(
+                                height: 60,
+                                width: MediaQuery.of(context).size.width,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          // Image.asset(
+                                          //   "assets/icons/menu.png",
+                                          //   height: 20,
+                                          //   width: 20,
+                                          // ),
+                                          Checkbox(
+                                            value: data1s[index].check,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                data1s[index].check = value!;
+                                                savedeleteitem(
+                                                    data1s[index].tittle);
+                                              });
+                                              data1s.removeAt(index);
+                                              notificationservice
+                                                  .stopNotifications(
+                                                      data1s[index].id);
+                                              setdata1();
+                                              setdata();
+                                            },
+                                          ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                data1s[index].tittle,
+                                                style: const TextStyle(
+                                                    fontSize: 17,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black),
+                                              ),
+                                              Text(
+                                                DateFormat(
+                                                        "dd-MM-yyyy (hh:mm a )")
+                                                    .format(DateFormat(
+                                                            "yyyy-MM-dd hh:mm")
+                                                        .parse(data1s[index]
+                                                            .duedate)),
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 10,
+                                                    color: Color.fromARGB(
+                                                        255, 207, 37, 25)),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              notificationservice
+                                                  .stopNotifications(
+                                                      data1s[index].id);
+                                              setState(() {
+                                                data1s.removeAt(index);
+                                                setdata();
+                                              });
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              size: 25,
+                                              color: Colors.black,
+                                            )),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )),
+                      );
+                    },
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 450,
+                  child: ListView.builder(
+                    itemCount: data1s.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (data1s[index].priority == "Work") {
+                        return Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(0, 0, 0, 0.09),
+                                      blurRadius: 3,
+                                      spreadRadius: 1,
+                                      offset: Offset(-5, 5),
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Colors.white),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => edit(
+                                                edittodo: data1s,
+                                                index: index,
+                                                tittlevalue:
+                                                    data1s[index].tittle,
+                                                contentvalue:
+                                                    data1s[index].content,
+                                                priorityvalue:
+                                                    data1s[index].priority,
+                                                duedatevalue:
+                                                    data1s[index].duedate,
+                                              )));
+                                },
+                                child: Container(
+                                  height: 60,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            // Image.asset(
+                                            //   "assets/icons/menu.png",
+                                            //   height: 20,
+                                            //   width: 20,
+                                            // ),
+                                            Checkbox(
+                                              value: data1s[index].check,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  data1s[index].check = value!;
+                                                  savedeleteitem(
+                                                      data1s[index].tittle);
+                                                });
+                                                data1s.removeAt(index);
+                                                notificationservice
+                                                    .stopNotifications(
+                                                        data1s[index].id);
+                                                setdata1();
+                                                setdata();
+                                              },
+                                            ),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  data1s[index].tittle,
+                                                  style: const TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black),
+                                                ),
+                                                Text(
+                                                  DateFormat(
+                                                          "dd-MM-yyyy (hh:mm a )")
+                                                      .format(DateFormat(
+                                                              "yyyy-MM-dd hh:mm")
+                                                          .parse(data1s[index]
+                                                              .duedate)),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 10,
+                                                      color: Color.fromARGB(
+                                                          255, 207, 37, 25)),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                notificationservice
+                                                    .stopNotifications(
+                                                        data1s[index].id);
+                                                setState(() {
+                                                  data1s.removeAt(index);
+                                                  setdata();
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                size: 25,
+                                                color: Colors.black,
+                                              )),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )),
+                        );
+                      } else {
+                        return SizedBox(
+                          height: 0,
+                        );
+                      }
+                    },
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 450,
+                  child: ListView.builder(
+                    itemCount: data1s.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (data1s[index].priority == "Personal") {
+                        return Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(0, 0, 0, 0.09),
+                                      blurRadius: 3,
+                                      spreadRadius: 1,
+                                      offset: Offset(-5, 5),
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Colors.white),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => edit(
+                                                edittodo: data1s,
+                                                index: index,
+                                                tittlevalue:
+                                                    data1s[index].tittle,
+                                                contentvalue:
+                                                    data1s[index].content,
+                                                priorityvalue:
+                                                    data1s[index].priority,
+                                                duedatevalue:
+                                                    data1s[index].duedate,
+                                              )));
+                                },
+                                child: Container(
+                                  height: 60,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            // Image.asset(
+                                            //   "assets/icons/menu.png",
+                                            //   height: 20,
+                                            //   width: 20,
+                                            // ),
+                                            Checkbox(
+                                              value: data1s[index].check,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  data1s[index].check = value!;
+                                                  savedeleteitem(
+                                                      data1s[index].tittle);
+                                                });
+                                                data1s.removeAt(index);
+                                                notificationservice
+                                                    .stopNotifications(
+                                                        data1s[index].id);
+                                                setdata1();
+                                                setdata();
+                                              },
+                                            ),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  data1s[index].tittle,
+                                                  style: const TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black),
+                                                ),
+                                                Text(
+                                                  DateFormat(
+                                                          "dd-MM-yyyy (hh:mm a )")
+                                                      .format(DateFormat(
+                                                              "yyyy-MM-dd hh:mm")
+                                                          .parse(data1s[index]
+                                                              .duedate)),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 10,
+                                                      color: Color.fromARGB(
+                                                          255, 207, 37, 25)),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                notificationservice
+                                                    .stopNotifications(
+                                                        data1s[index].id);
+                                                setState(() {
+                                                  data1s.removeAt(index);
+                                                  setdata();
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                size: 25,
+                                                color: Colors.black,
+                                              )),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )),
+                        );
+                      } else {
+                        return SizedBox(
+                          height: 0,
+                        );
+                      }
+                    },
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 450,
+                  child: ListView.builder(
+                    itemCount: data1s.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (data1s[index].priority == "Wishlist") {
+                        return Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(0, 0, 0, 0.09),
+                                      blurRadius: 3,
+                                      spreadRadius: 1,
+                                      offset: Offset(-5, 5),
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Colors.white),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => edit(
+                                                edittodo: data1s,
+                                                index: index,
+                                                tittlevalue:
+                                                    data1s[index].tittle,
+                                                contentvalue:
+                                                    data1s[index].content,
+                                                priorityvalue:
+                                                    data1s[index].priority,
+                                                duedatevalue:
+                                                    data1s[index].duedate,
+                                              )));
+                                },
+                                child: Container(
+                                  height: 60,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            // Image.asset(
+                                            //   "assets/icons/menu.png",
+                                            //   height: 20,
+                                            //   width: 20,
+                                            // ),
+                                            Checkbox(
+                                              value: data1s[index].check,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  data1s[index].check = value!;
+                                                  savedeleteitem(
+                                                      data1s[index].tittle);
+                                                });
+                                                data1s.removeAt(index);
+                                                notificationservice
+                                                    .stopNotifications(
+                                                        data1s[index].id);
+                                                setdata1();
+                                                setdata();
+                                              },
+                                            ),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  data1s[index].tittle,
+                                                  style: const TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Colors.black),
+                                                ),
+                                                Text(
+                                                  DateFormat(
+                                                          "dd-MM-yyyy (hh:mm a )")
+                                                      .format(DateFormat(
+                                                              "yyyy-MM-dd hh:mm")
+                                                          .parse(data1s[index]
+                                                              .duedate)),
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 10,
+                                                      color: Color.fromARGB(
+                                                          255, 207, 37, 25)),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                notificationservice
+                                                    .stopNotifications(
+                                                        data1s[index].id);
+                                                setState(() {
+                                                  data1s.removeAt(index);
+                                                  setdata();
+                                                });
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                size: 25,
+                                                color: Colors.black,
+                                              )),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )),
+                        );
+                      } else {
+                        return SizedBox(
+                          height: 0,
+                        );
+                      }
+                    },
+                  ),
+                ),
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 450,
+                    child: ListView.builder(
+                      itemCount: data1s.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (data1s[index].priority == "Birthday") {
+                          return Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.09),
+                                        blurRadius: 3,
+                                        spreadRadius: 1,
+                                        offset: Offset(-5, 5),
+                                      ),
+                                    ],
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.white),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => edit(
+                                                  edittodo: data1s,
+                                                  index: index,
+                                                  tittlevalue:
+                                                      data1s[index].tittle,
+                                                  contentvalue:
+                                                      data1s[index].content,
+                                                  priorityvalue:
+                                                      data1s[index].priority,
+                                                  duedatevalue:
+                                                      data1s[index].duedate,
+                                                )));
+                                  },
+                                  child: Container(
+                                    height: 60,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              // Image.asset(
+                                              //   "assets/icons/menu.png",
+                                              //   height: 20,
+                                              //   width: 20,
+                                              // ),
+                                              Checkbox(
+                                                value: data1s[index].check,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    data1s[index].check =
+                                                        value!;
+                                                    savedeleteitem(
+                                                        data1s[index].tittle);
+                                                  });
+                                                  data1s.removeAt(index);
+                                                  notificationservice
+                                                      .stopNotifications(
+                                                          data1s[index].id);
+                                                  setdata1();
+                                                  setdata();
+                                                },
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    data1s[index].tittle,
+                                                    style: const TextStyle(
+                                                        fontSize: 17,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.black),
+                                                  ),
+                                                  Text(
+                                                    DateFormat(
+                                                            "dd-MM-yyyy (hh:mm a )")
+                                                        .format(DateFormat(
+                                                                "yyyy-MM-dd hh:mm")
+                                                            .parse(data1s[index]
+                                                                .duedate)),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 10,
+                                                        color: Color.fromARGB(
+                                                            255, 207, 37, 25)),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                                onPressed: () {
+                                                  notificationservice
+                                                      .stopNotifications(
+                                                          data1s[index].id);
+                                                  setState(() {
+                                                    data1s.removeAt(index);
+                                                    setdata();
+                                                  });
+                                                },
+                                                icon: const Icon(
+                                                  Icons.delete,
+                                                  size: 25,
+                                                  color: Colors.black,
+                                                )),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )),
+                          );
+                        } else {
+                          return SizedBox(
+                            height: 0,
+                          );
+                        }
+                      },
+                    )),
+              ]),
+            ),
+            Text("Completed Tasks"),
+            Container(
               child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: domain.length,
+                itemCount: deletedata.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 7),
+                    padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Text(domain[index]),
-                      ),
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 241, 236, 236),
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          Expanded(
-              child: Container(
-            child: ListView.builder(
-              itemCount: data1s.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
                       decoration: BoxDecoration(
                           boxShadow: const [
                             BoxShadow(
@@ -756,166 +1461,47 @@ class _detailState extends State<detail> {
                             ),
                           ],
                           borderRadius: BorderRadius.circular(15),
-                          color: Colors.white),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => edit(
-                                        index: index,
-                                        tittlevalue: data1s[index].tittle,
-                                        contentvalue: data1s[index].content,
-                                        priorityvalue: data1s[index].priority,
-                                        duedatevalue: data1s[index].duedate,
-                                      )));
-                        },
-                        child: Container(
-                          height: 60,
-                          width: MediaQuery.of(context).size.width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    // Image.asset(
-                                    //   "assets/icons/menu.png",
-                                    //   height: 20,
-                                    //   width: 20,
-                                    // ),
-                                    Checkbox(
-                                      value: data1s[index].check,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          data1s[index].check = value!;
-                                          savedeleteitem(data1s[index].tittle);
-                                        });
-                                        data1s.removeAt(index);
-                                        notificationservice.stopNotifications(
-                                            data1s[index].id);
-                                        setdata1();
-                                        setdata();
-                                      },
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          data1s[index].tittle,
-                                          style: const TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        ),
-                                        Text(
-                                          DateFormat("dd-MM-yyyy (hh:mm a )")
-                                              .format(DateFormat(
-                                                      "yyyy-MM-dd hh:mm")
-                                                  .parse(
-                                                      data1s[index].duedate)),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 10,
-                                              color: Color.fromARGB(
-                                                  255, 207, 37, 25)),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {
-                                        notificationservice.stopNotifications(
-                                            data1s[index].id);
-                                        setState(() {
-                                          data1s.removeAt(index);
-                                          setdata();
-                                        });
-                                      },
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        size: 25,
-                                        color: Colors.black,
-                                      )),
-                                ],
-                              )
-                            ],
-                          ),
+                          color: const Color.fromARGB(255, 244, 242, 242)),
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.add_task_rounded,
+                          color: Colors.green,
                         ),
-                      )),
-                );
-              },
-            ),
-          )),
-          Text("Completed Tasks"),
-          Container(
-            child: ListView.builder(
-              itemCount: deletedata.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color.fromRGBO(0, 0, 0, 0.09),
-                            blurRadius: 3,
-                            spreadRadius: 1,
-                            offset: Offset(-5, 5),
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(15),
-                        color: const Color.fromARGB(255, 244, 242, 242)),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.add_task_rounded,
-                        color: Colors.green,
-                      ),
-                      trailing: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              deletedata.removeAt(index);
-                              setdata1();
-                            });
-                          },
-                          icon: Icon(Icons.delete)),
-                      title: Text(
-                        deletedata[index].tittle,
-                        style: TextStyle(color: Colors.grey),
+                        trailing: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                deletedata.removeAt(index);
+                                setdata1();
+                              });
+                            },
+                            icon: Icon(Icons.delete)),
+                        title: Text(
+                          deletedata[index].tittle,
+                          style: TextStyle(color: Colors.grey),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-            height: 200,
-          )
-        ],
+                  );
+                },
+              ),
+              height: 200,
+            )
+          ],
+        ),
+        floatingActionButton: CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.black,
+            child: IconButton(
+                onPressed: () {
+                  show1();
+                  print(datetime.toString());
+                },
+                icon: const Icon(
+                  color: Colors.white,
+                  Icons.add,
+                  size: 30,
+                ))),
       ),
-      floatingActionButton: CircleAvatar(
-          radius: 30,
-          backgroundColor: Colors.black,
-          child: IconButton(
-              onPressed: () {
-                show1();
-                print(datetime.toString());
-              },
-              icon: const Icon(
-                color: Colors.white,
-                Icons.add,
-                size: 30,
-              ))),
     );
   }
 }

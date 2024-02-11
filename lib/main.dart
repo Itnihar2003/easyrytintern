@@ -25,7 +25,7 @@ void main(List<String> args) async {
   inviewed = pref.getInt("onboard");
   runApp(
     GetMaterialApp(
-      title: 'Palm - AI, Gpt, Notes, AI Chat',
+      title: 'NotaAI - Ask AI Chat to Write',
       debugShowCheckedModeBanner: false,
       home: inviewed != 0 ? intro1() : splashtwo(),
     ),

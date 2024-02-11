@@ -1,28 +1,25 @@
-class data {
+
+class workdata {
   String tittle;
   String content;
   String priority;
   String duedate;
   bool check;
-  //  String category;
   int id;
 
-  data({
+  workdata({
     required this.tittle,
     required this.content,
     required this.priority,
     required this.duedate,
-    required this.check,
-    required this.id,
-    // required this.category
+    required this.check,required this.id,
   });
-  factory data.fromJson(Map<String, dynamic> json) => data(
+  factory workdata.fromJson(Map<String, dynamic> json) => workdata(
         tittle: json["tittle"],
         content: json["content"],
         priority: json["priority"],
         duedate: json["duedate"],
-        check: json["check"],
-        id: json["id"],
+        check: json["check"], id: json["id"] ,
       );
 
   Map<String, dynamic> toJson() => {
@@ -30,7 +27,6 @@ class data {
         "content": content,
         "priority": priority,
         "duedate": duedate,
-        "check": check,
-        "id": id,
+        "check": check,"id":id
       };
 }
