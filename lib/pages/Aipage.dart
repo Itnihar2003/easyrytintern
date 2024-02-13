@@ -357,7 +357,7 @@ class _aiState extends State<ai> {
             content1: aimessage));
       });
       setdata1();
-    } 
+    }
   }
 
   late ScrollController _scrollController;
@@ -804,9 +804,9 @@ class _aiState extends State<ai> {
   List messages = [];
   Future<String> sendMessageToChatGpt(String message) async {
     final userData = {"userPrompt": message};
-
+//"https://chatgpt-xb9q.onrender.com/gpt"
     http.Response response = await http.post(
-      Uri.parse("https://chatgpt-xb9q.onrender.com/gpt"),
+      Uri.parse("http://35.89.244.42/api/gpt"),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(userData),
     );
@@ -1638,7 +1638,7 @@ class _aiState extends State<ai> {
             ],
           ),
           floatingActionButton: Padding(
-              padding: const EdgeInsets.only(bottom: 100, right: 5),
+              padding: const EdgeInsets.only(bottom: 80, right: 5),
               child: InkWell(
                 onTap: () {
                   int a = messages.length;

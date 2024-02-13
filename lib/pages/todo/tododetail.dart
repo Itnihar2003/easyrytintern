@@ -17,6 +17,7 @@ import 'package:todoaiapp/pages/todo/notification.dart';
 
 import 'package:todoaiapp/pages/todo/todoedit.dart';
 import 'package:todoaiapp/pages/todo/workdata.dart';
+import 'dart:math' as math show sin, pi, sqrt;
 
 var remindertime1 = "";
 
@@ -26,13 +27,15 @@ class detail extends StatefulWidget {
   final finalindex;
   final finalpriority;
   final finalduedate;
+  final reminder;
   const detail(
       {super.key,
       this.finalindex,
       this.finalcontent,
       this.finaltittle,
       this.finalpriority,
-      this.finalduedate});
+      this.finalduedate,
+      this.reminder});
 
   @override
   State<detail> createState() => _detailState();
@@ -190,23 +193,6 @@ class _detailState extends State<detail> {
     );
   }
 
-  save2(int id) {
-    if (pop.text != "" &&
-        pop1.text != "" &&
-        dropdownValue != "" &&
-        date1.text != "") {
-      worklist.add(workdata(
-        tittle: pop.text.trim(),
-        content: pop1.text.trim(),
-        priority: dropdownValue.toString(),
-        duedate: date1.text.trim(),
-        check: check,
-        id: id,
-      ));
-      setdata2();
-    }
-  }
-
   save(int id) {
     if (pop.text != "" &&
         pop1.text != "" &&
@@ -220,6 +206,7 @@ class _detailState extends State<detail> {
           duedate: date1.text.trim(),
           check: check,
           id: id,
+          reminder: datetimecontroler.text.toString(),
         ));
       });
       setdata();
@@ -236,6 +223,7 @@ class _detailState extends State<detail> {
       data1s[selectedindex].content = widget.finalcontent;
       data1s[selectedindex].priority = widget.finalpriority;
       data1s[selectedindex].duedate = widget.finalduedate;
+      data1s[selectedindex].reminder = widget.reminder;
     });
     setdata();
   }
@@ -248,6 +236,7 @@ class _detailState extends State<detail> {
   String finaltime = "";
   int finalid = 0;
   String? dropdownValue;
+
   DateTime selectedDate = DateTime.now();
 
   final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
@@ -506,7 +495,9 @@ class _detailState extends State<detail> {
                                               backgroundColor: Colors.white,
                                               onDateTimeChanged: (date) {
                                                 setState(() {
-                                                  date1.text = date.toString();
+                                                  date1.text = DateFormat(
+                                                          "dd-MM-yyyy (hh:mm a )")
+                                                      .format(date);
                                                 });
                                                 duetime = date;
                                                 debugPrint(
@@ -604,8 +595,10 @@ class _detailState extends State<detail> {
                                                   backgroundColor: Colors.white,
                                                   onDateTimeChanged: (date) {
                                                     setState(() {
-                                                      datetimecontroler.text =
-                                                          date.toString();
+                                                      datetimecontroler
+                                                          .text = DateFormat(
+                                                              "dd-MM-yyyy (hh:mm a )")
+                                                          .format(date);
                                                     });
                                                     scheduleTime = date;
                                                     debugPrint(
@@ -642,7 +635,7 @@ class _detailState extends State<detail> {
                                       },
                                     );
                                   },
-                                  icon: const Icon(Icons.calendar_month))),
+                                  icon: const Icon(Icons.alarm))),
                         ),
                       ),
                     ],
@@ -653,7 +646,7 @@ class _detailState extends State<detail> {
                   Center(
                     child: ElevatedButton(
                         onPressed: () {
-                          showreward();
+                          // showreward();
 
                           finalid++;
                           for (int i = 0; i <= 16; i++) {
@@ -718,6 +711,11 @@ class _detailState extends State<detail> {
         body: Column(
           children: [
             TabBar(
+                splashFactory: NoSplash.splashFactory,
+                automaticIndicatorColorAdjustment: false,
+                indicatorColor: Colors.black,
+                mouseCursor: MaterialStateMouseCursor.textable,
+                dividerColor: Colors.white,
                 labelColor: Colors.black,
                 unselectedLabelColor: const Color.fromARGB(255, 137, 137, 136),
                 isScrollable: true,
@@ -744,569 +742,15 @@ class _detailState extends State<detail> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 450,
-              child: TabBarView(children: [
-                Container(
-                  height: 450,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
-                    itemCount: data1s.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                            decoration: BoxDecoration(
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromRGBO(0, 0, 0, 0.09),
-                                    blurRadius: 3,
-                                    spreadRadius: 1,
-                                    offset: Offset(-5, 5),
-                                  ),
-                                ],
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => edit(
-                                              index: index,
-                                              tittlevalue: data1s[index].tittle,
-                                              contentvalue:
-                                                  data1s[index].content,
-                                              priorityvalue:
-                                                  data1s[index].priority,
-                                              duedatevalue:
-                                                  data1s[index].duedate,
-                                              edittodo: data1s,
-                                            )));
-                              },
-                              child: Container(
-                                height: 60,
-                                width: MediaQuery.of(context).size.width,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          // Image.asset(
-                                          //   "assets/icons/menu.png",
-                                          //   height: 20,
-                                          //   width: 20,
-                                          // ),
-                                          Checkbox(
-                                            value: data1s[index].check,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                data1s[index].check = value!;
-                                                savedeleteitem(
-                                                    data1s[index].tittle);
-                                              });
-                                              data1s.removeAt(index);
-                                              notificationservice
-                                                  .stopNotifications(
-                                                      data1s[index].id);
-                                              setdata1();
-                                              setdata();
-                                            },
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                data1s[index].tittle,
-                                                style: const TextStyle(
-                                                    fontSize: 17,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black),
-                                              ),
-                                              Text(
-                                                DateFormat(
-                                                        "dd-MM-yyyy (hh:mm a )")
-                                                    .format(DateFormat(
-                                                            "yyyy-MM-dd hh:mm")
-                                                        .parse(data1s[index]
-                                                            .duedate)),
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 10,
-                                                    color: Color.fromARGB(
-                                                        255, 207, 37, 25)),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                            onPressed: () {
-                                              notificationservice
-                                                  .stopNotifications(
-                                                      data1s[index].id);
-                                              setState(() {
-                                                data1s.removeAt(index);
-                                                setdata();
-                                              });
-                                            },
-                                            icon: const Icon(
-                                              Icons.delete,
-                                              size: 25,
-                                              color: Colors.black,
-                                            )),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )),
-                      );
-                    },
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 450,
-                  child: ListView.builder(
-                    itemCount: data1s.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (data1s[index].priority == "Work") {
-                        return Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, 0.09),
-                                      blurRadius: 3,
-                                      spreadRadius: 1,
-                                      offset: Offset(-5, 5),
-                                    ),
-                                  ],
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.white),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => edit(
-                                                edittodo: data1s,
-                                                index: index,
-                                                tittlevalue:
-                                                    data1s[index].tittle,
-                                                contentvalue:
-                                                    data1s[index].content,
-                                                priorityvalue:
-                                                    data1s[index].priority,
-                                                duedatevalue:
-                                                    data1s[index].duedate,
-                                              )));
-                                },
-                                child: Container(
-                                  height: 60,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            // Image.asset(
-                                            //   "assets/icons/menu.png",
-                                            //   height: 20,
-                                            //   width: 20,
-                                            // ),
-                                            Checkbox(
-                                              value: data1s[index].check,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  data1s[index].check = value!;
-                                                  savedeleteitem(
-                                                      data1s[index].tittle);
-                                                });
-                                                data1s.removeAt(index);
-                                                notificationservice
-                                                    .stopNotifications(
-                                                        data1s[index].id);
-                                                setdata1();
-                                                setdata();
-                                              },
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  data1s[index].tittle,
-                                                  style: const TextStyle(
-                                                      fontSize: 17,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.black),
-                                                ),
-                                                Text(
-                                                  DateFormat(
-                                                          "dd-MM-yyyy (hh:mm a )")
-                                                      .format(DateFormat(
-                                                              "yyyy-MM-dd hh:mm")
-                                                          .parse(data1s[index]
-                                                              .duedate)),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 10,
-                                                      color: Color.fromARGB(
-                                                          255, 207, 37, 25)),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {
-                                                notificationservice
-                                                    .stopNotifications(
-                                                        data1s[index].id);
-                                                setState(() {
-                                                  data1s.removeAt(index);
-                                                  setdata();
-                                                });
-                                              },
-                                              icon: const Icon(
-                                                Icons.delete,
-                                                size: 25,
-                                                color: Colors.black,
-                                              )),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )),
-                        );
-                      } else {
-                        return SizedBox(
-                          height: 0,
-                        );
-                      }
-                    },
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 450,
-                  child: ListView.builder(
-                    itemCount: data1s.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (data1s[index].priority == "Personal") {
-                        return Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, 0.09),
-                                      blurRadius: 3,
-                                      spreadRadius: 1,
-                                      offset: Offset(-5, 5),
-                                    ),
-                                  ],
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.white),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => edit(
-                                                edittodo: data1s,
-                                                index: index,
-                                                tittlevalue:
-                                                    data1s[index].tittle,
-                                                contentvalue:
-                                                    data1s[index].content,
-                                                priorityvalue:
-                                                    data1s[index].priority,
-                                                duedatevalue:
-                                                    data1s[index].duedate,
-                                              )));
-                                },
-                                child: Container(
-                                  height: 60,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            // Image.asset(
-                                            //   "assets/icons/menu.png",
-                                            //   height: 20,
-                                            //   width: 20,
-                                            // ),
-                                            Checkbox(
-                                              value: data1s[index].check,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  data1s[index].check = value!;
-                                                  savedeleteitem(
-                                                      data1s[index].tittle);
-                                                });
-                                                data1s.removeAt(index);
-                                                notificationservice
-                                                    .stopNotifications(
-                                                        data1s[index].id);
-                                                setdata1();
-                                                setdata();
-                                              },
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  data1s[index].tittle,
-                                                  style: const TextStyle(
-                                                      fontSize: 17,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.black),
-                                                ),
-                                                Text(
-                                                  DateFormat(
-                                                          "dd-MM-yyyy (hh:mm a )")
-                                                      .format(DateFormat(
-                                                              "yyyy-MM-dd hh:mm")
-                                                          .parse(data1s[index]
-                                                              .duedate)),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 10,
-                                                      color: Color.fromARGB(
-                                                          255, 207, 37, 25)),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {
-                                                notificationservice
-                                                    .stopNotifications(
-                                                        data1s[index].id);
-                                                setState(() {
-                                                  data1s.removeAt(index);
-                                                  setdata();
-                                                });
-                                              },
-                                              icon: const Icon(
-                                                Icons.delete,
-                                                size: 25,
-                                                color: Colors.black,
-                                              )),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )),
-                        );
-                      } else {
-                        return SizedBox(
-                          height: 0,
-                        );
-                      }
-                    },
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 450,
-                  child: ListView.builder(
-                    itemCount: data1s.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (data1s[index].priority == "Wishlist") {
-                        return Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, 0.09),
-                                      blurRadius: 3,
-                                      spreadRadius: 1,
-                                      offset: Offset(-5, 5),
-                                    ),
-                                  ],
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.white),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => edit(
-                                                edittodo: data1s,
-                                                index: index,
-                                                tittlevalue:
-                                                    data1s[index].tittle,
-                                                contentvalue:
-                                                    data1s[index].content,
-                                                priorityvalue:
-                                                    data1s[index].priority,
-                                                duedatevalue:
-                                                    data1s[index].duedate,
-                                              )));
-                                },
-                                child: Container(
-                                  height: 60,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            // Image.asset(
-                                            //   "assets/icons/menu.png",
-                                            //   height: 20,
-                                            //   width: 20,
-                                            // ),
-                                            Checkbox(
-                                              value: data1s[index].check,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  data1s[index].check = value!;
-                                                  savedeleteitem(
-                                                      data1s[index].tittle);
-                                                });
-                                                data1s.removeAt(index);
-                                                notificationservice
-                                                    .stopNotifications(
-                                                        data1s[index].id);
-                                                setdata1();
-                                                setdata();
-                                              },
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  data1s[index].tittle,
-                                                  style: const TextStyle(
-                                                      fontSize: 17,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.black),
-                                                ),
-                                                Text(
-                                                  DateFormat(
-                                                          "dd-MM-yyyy (hh:mm a )")
-                                                      .format(DateFormat(
-                                                              "yyyy-MM-dd hh:mm")
-                                                          .parse(data1s[index]
-                                                              .duedate)),
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 10,
-                                                      color: Color.fromARGB(
-                                                          255, 207, 37, 25)),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {
-                                                notificationservice
-                                                    .stopNotifications(
-                                                        data1s[index].id);
-                                                setState(() {
-                                                  data1s.removeAt(index);
-                                                  setdata();
-                                                });
-                                              },
-                                              icon: const Icon(
-                                                Icons.delete,
-                                                size: 25,
-                                                color: Colors.black,
-                                              )),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )),
-                        );
-                      } else {
-                        return SizedBox(
-                          height: 0,
-                        );
-                      }
-                    },
-                  ),
-                ),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 450,
-                    child: ListView.builder(
-                      itemCount: data1s.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (data1s[index].priority == "Birthday") {
+              child: TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [
+                    Container(
+                      height: 450,
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView.builder(
+                        itemCount: data1s.length,
+                        itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Container(
@@ -1327,7 +771,6 @@ class _detailState extends State<detail> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => edit(
-                                                  edittodo: data1s,
                                                   index: index,
                                                   tittlevalue:
                                                       data1s[index].tittle,
@@ -1337,6 +780,10 @@ class _detailState extends State<detail> {
                                                       data1s[index].priority,
                                                   duedatevalue:
                                                       data1s[index].duedate,
+                                                  edittodo: data1s,
+                                                  reminder:
+                                                      data1s[index].reminder,
+                                                  id: data1s[index].id,
                                                 )));
                                   },
                                   child: Container(
@@ -1384,7 +831,16 @@ class _detailState extends State<detail> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    data1s[index].tittle,
+                                                    data1s[index]
+                                                                .tittle
+                                                                .length >
+                                                            20
+                                                        ? data1s[index]
+                                                                .tittle
+                                                                .substring(
+                                                                    0, 20) +
+                                                            "..."
+                                                        : data1s[index].tittle,
                                                     style: const TextStyle(
                                                         fontSize: 17,
                                                         fontWeight:
@@ -1392,12 +848,7 @@ class _detailState extends State<detail> {
                                                         color: Colors.black),
                                                   ),
                                                   Text(
-                                                    DateFormat(
-                                                            "dd-MM-yyyy (hh:mm a )")
-                                                        .format(DateFormat(
-                                                                "yyyy-MM-dd hh:mm")
-                                                            .parse(data1s[index]
-                                                                .duedate)),
+                                                    data1s[index].duedate,
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.w500,
@@ -1434,14 +885,630 @@ class _detailState extends State<detail> {
                                   ),
                                 )),
                           );
-                        } else {
-                          return SizedBox(
-                            height: 0,
-                          );
-                        }
-                      },
-                    )),
-              ]),
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 450,
+                      child: ListView.builder(
+                        itemCount: data1s.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (data1s[index].priority == "Work") {
+                            return Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromRGBO(0, 0, 0, 0.09),
+                                          blurRadius: 3,
+                                          spreadRadius: 1,
+                                          offset: Offset(-5, 5),
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => edit(
+                                                    edittodo: data1s,
+                                                    index: index,
+                                                    tittlevalue:
+                                                        data1s[index].tittle,
+                                                    contentvalue:
+                                                        data1s[index].content,
+                                                    priorityvalue:
+                                                        data1s[index].priority,
+                                                    duedatevalue:
+                                                        data1s[index].duedate,
+                                                    reminder:
+                                                        data1s[index].reminder,
+                                                    id: data1s[index].id,
+                                                  )));
+                                    },
+                                    child: Container(
+                                      height: 60,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                // Image.asset(
+                                                //   "assets/icons/menu.png",
+                                                //   height: 20,
+                                                //   width: 20,
+                                                // ),
+                                                Checkbox(
+                                                  value: data1s[index].check,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      data1s[index].check =
+                                                          value!;
+                                                      savedeleteitem(
+                                                          data1s[index].tittle);
+                                                    });
+                                                    data1s.removeAt(index);
+                                                    notificationservice
+                                                        .stopNotifications(
+                                                            data1s[index].id);
+                                                    setdata1();
+                                                    setdata();
+                                                  },
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      data1s[index]
+                                                                  .tittle
+                                                                  .length >
+                                                              20
+                                                          ? data1s[index]
+                                                                  .tittle
+                                                                  .substring(
+                                                                      0, 20) +
+                                                              "..."
+                                                          : data1s[index]
+                                                              .tittle,
+                                                      style: const TextStyle(
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Colors.black),
+                                                    ),
+                                                    Text(
+                                                      data1s[index].duedate,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 10,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              207,
+                                                              37,
+                                                              25)),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {
+                                                    notificationservice
+                                                        .stopNotifications(
+                                                            data1s[index].id);
+                                                    setState(() {
+                                                      data1s.removeAt(index);
+                                                      setdata();
+                                                    });
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete,
+                                                    size: 25,
+                                                    color: Colors.black,
+                                                  )),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                            );
+                          } else {
+                            return SizedBox(
+                              height: 0,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 450,
+                      child: ListView.builder(
+                        itemCount: data1s.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (data1s[index].priority == "Personal") {
+                            return Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromRGBO(0, 0, 0, 0.09),
+                                          blurRadius: 3,
+                                          spreadRadius: 1,
+                                          offset: Offset(-5, 5),
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => edit(
+                                                    edittodo: data1s,
+                                                    index: index,
+                                                    tittlevalue:
+                                                        data1s[index].tittle,
+                                                    contentvalue:
+                                                        data1s[index].content,
+                                                    priorityvalue:
+                                                        data1s[index].priority,
+                                                    duedatevalue:
+                                                        data1s[index].duedate,
+                                                    reminder:
+                                                        data1s[index].reminder,
+                                                    id: data1s[index].id,
+                                                  )));
+                                    },
+                                    child: Container(
+                                      height: 60,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                // Image.asset(
+                                                //   "assets/icons/menu.png",
+                                                //   height: 20,
+                                                //   width: 20,
+                                                // ),
+                                                Checkbox(
+                                                  value: data1s[index].check,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      data1s[index].check =
+                                                          value!;
+                                                      savedeleteitem(
+                                                          data1s[index].tittle);
+                                                    });
+                                                    data1s.removeAt(index);
+                                                    notificationservice
+                                                        .stopNotifications(
+                                                            data1s[index].id);
+                                                    setdata1();
+                                                    setdata();
+                                                  },
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      data1s[index]
+                                                                  .tittle
+                                                                  .length >
+                                                              20
+                                                          ? data1s[index]
+                                                                  .tittle
+                                                                  .substring(
+                                                                      0, 20) +
+                                                              "..."
+                                                          : data1s[index]
+                                                              .tittle,
+                                                      style: const TextStyle(
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Colors.black),
+                                                    ),
+                                                    Text(
+                                                      data1s[index].duedate,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 10,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              207,
+                                                              37,
+                                                              25)),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {
+                                                    notificationservice
+                                                        .stopNotifications(
+                                                            data1s[index].id);
+                                                    setState(() {
+                                                      data1s.removeAt(index);
+                                                      setdata();
+                                                    });
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete,
+                                                    size: 25,
+                                                    color: Colors.black,
+                                                  )),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                            );
+                          } else {
+                            return SizedBox(
+                              height: 0,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 450,
+                      child: ListView.builder(
+                        itemCount: data1s.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (data1s[index].priority == "Wishlist") {
+                            return Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromRGBO(0, 0, 0, 0.09),
+                                          blurRadius: 3,
+                                          spreadRadius: 1,
+                                          offset: Offset(-5, 5),
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => edit(
+                                                    edittodo: data1s,
+                                                    index: index,
+                                                    tittlevalue:
+                                                        data1s[index].tittle,
+                                                    contentvalue:
+                                                        data1s[index].content,
+                                                    priorityvalue:
+                                                        data1s[index].priority,
+                                                    duedatevalue:
+                                                        data1s[index].duedate,
+                                                    reminder:
+                                                        data1s[index].reminder,
+                                                    id: data1s[index].id,
+                                                  )));
+                                    },
+                                    child: Container(
+                                      height: 60,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                // Image.asset(
+                                                //   "assets/icons/menu.png",
+                                                //   height: 20,
+                                                //   width: 20,
+                                                // ),
+                                                Checkbox(
+                                                  value: data1s[index].check,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      data1s[index].check =
+                                                          value!;
+                                                      savedeleteitem(
+                                                          data1s[index].tittle);
+                                                    });
+                                                    data1s.removeAt(index);
+                                                    notificationservice
+                                                        .stopNotifications(
+                                                            data1s[index].id);
+                                                    setdata1();
+                                                    setdata();
+                                                  },
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      data1s[index]
+                                                                  .tittle
+                                                                  .length >
+                                                              20
+                                                          ? data1s[index]
+                                                                  .tittle
+                                                                  .substring(
+                                                                      0, 20) +
+                                                              "..."
+                                                          : data1s[index]
+                                                              .tittle,
+                                                      style: const TextStyle(
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Colors.black),
+                                                    ),
+                                                    Text(
+                                                      data1s[index].duedate,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 10,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              207,
+                                                              37,
+                                                              25)),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {
+                                                    notificationservice
+                                                        .stopNotifications(
+                                                            data1s[index].id);
+                                                    setState(() {
+                                                      data1s.removeAt(index);
+                                                      setdata();
+                                                    });
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.delete,
+                                                    size: 25,
+                                                    color: Colors.black,
+                                                  )),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                            );
+                          } else {
+                            return SizedBox(
+                              height: 0,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 450,
+                        child: ListView.builder(
+                          itemCount: data1s.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (data1s[index].priority == "Birthday") {
+                              return Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color:
+                                                Color.fromRGBO(0, 0, 0, 0.09),
+                                            blurRadius: 3,
+                                            spreadRadius: 1,
+                                            offset: Offset(-5, 5),
+                                          ),
+                                        ],
+                                        borderRadius: BorderRadius.circular(15),
+                                        color: Colors.white),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => edit(
+                                                      edittodo: data1s,
+                                                      index: index,
+                                                      tittlevalue:
+                                                          data1s[index].tittle,
+                                                      contentvalue:
+                                                          data1s[index].content,
+                                                      priorityvalue:
+                                                          data1s[index]
+                                                              .priority,
+                                                      duedatevalue:
+                                                          data1s[index].duedate,
+                                                      reminder: data1s[index]
+                                                          .reminder,
+                                                      id: data1s[index].id,
+                                                    )));
+                                      },
+                                      child: Container(
+                                        height: 60,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  // Image.asset(
+                                                  //   "assets/icons/menu.png",
+                                                  //   height: 20,
+                                                  //   width: 20,
+                                                  // ),
+                                                  Checkbox(
+                                                    value: data1s[index].check,
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        data1s[index].check =
+                                                            value!;
+                                                        savedeleteitem(
+                                                            data1s[index]
+                                                                .tittle);
+                                                      });
+                                                      data1s.removeAt(index);
+                                                      notificationservice
+                                                          .stopNotifications(
+                                                              data1s[index].id);
+                                                      setdata1();
+                                                      setdata();
+                                                    },
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        data1s[index]
+                                                                    .tittle
+                                                                    .length >
+                                                                20
+                                                            ? data1s[index]
+                                                                    .tittle
+                                                                    .substring(
+                                                                        0, 20) +
+                                                                "..."
+                                                            : data1s[index]
+                                                                .tittle,
+                                                        style: const TextStyle(
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                      Text(
+                                                        data1s[index].duedate,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 10,
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    207,
+                                                                    37,
+                                                                    25)),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () {
+                                                      notificationservice
+                                                          .stopNotifications(
+                                                              data1s[index].id);
+                                                      setState(() {
+                                                        data1s.removeAt(index);
+                                                        setdata();
+                                                      });
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.delete,
+                                                      size: 25,
+                                                      color: Colors.black,
+                                                    )),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    )),
+                              );
+                            } else {
+                              return SizedBox(
+                                height: 0,
+                              );
+                            }
+                          },
+                        )),
+                  ]),
             ),
             Text("Completed Tasks"),
             Container(
@@ -1488,19 +1555,42 @@ class _detailState extends State<detail> {
             )
           ],
         ),
-        floatingActionButton: CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.black,
-            child: IconButton(
-                onPressed: () {
-                  show1();
-                  print(datetime.toString());
-                },
-                icon: const Icon(
-                  color: Colors.white,
-                  Icons.add,
-                  size: 30,
-                ))),
+        floatingActionButton: Stack(
+          children: [
+            WaveAnimation(
+              size: 60.0,
+              color: Color.fromARGB(255, 172, 172, 172),
+              centerChild: Stack(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button tap
+                      show1();
+                    },
+                    child: Text(""),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 17,
+              left: 18,
+              child: CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.black,
+                  child: IconButton(
+                      onPressed: () {
+                        show1();
+                        print(datetime.toString());
+                      },
+                      icon: const Icon(
+                        color: Colors.white,
+                        Icons.add,
+                        size: 30,
+                      ))),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -1555,3 +1645,122 @@ Future _selectDateTime(BuildContext context) => showDatePicker(
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
     );
+
+class WaveAnimation extends StatefulWidget {
+  final double size;
+  final Color color;
+  final Widget centerChild;
+
+  const WaveAnimation({
+    this.size = 80.0,
+    this.color = Colors.red,
+    required this.centerChild,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  WaveAnimationState createState() => WaveAnimationState();
+}
+
+class WaveAnimationState extends State<WaveAnimation>
+    with TickerProviderStateMixin {
+  late AnimationController animCtr;
+
+  @override
+  void initState() {
+    super.initState();
+    animCtr = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    )..repeat();
+  }
+
+  Widget getAnimatedWidget() {
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.size),
+          gradient: RadialGradient(
+            colors: [
+              widget.color,
+              Color.lerp(widget.color, Colors.black, .05)!
+            ],
+          ),
+        ),
+        child: ScaleTransition(
+          scale: Tween(begin: 0.95, end: 1.0).animate(
+            CurvedAnimation(
+              parent: animCtr,
+              curve: CurveWave(),
+            ),
+          ),
+          child: Container(
+            width: widget.size * 0.4,
+            height: widget.size * 0.4,
+            margin: const EdgeInsets.all(6),
+            child: widget.centerChild,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(context) {
+    return CustomPaint(
+      painter: CirclePainter(animCtr, color: widget.color),
+      child: SizedBox(
+        width: widget.size * 1.6,
+        height: widget.size * 1.6,
+        child: getAnimatedWidget(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    animCtr.dispose();
+    super.dispose();
+  }
+}
+
+class CirclePainter extends CustomPainter {
+  final Color color;
+  final Animation<double> animation;
+
+  CirclePainter(
+    this.animation, {
+    required this.color,
+  }) : super(repaint: animation);
+
+  void circle(Canvas canvas, Rect rect, double value) {
+    final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
+    final Color rippleColor = color.withOpacity(opacity);
+    final double size = rect.width / 2;
+    final double area = size * size;
+    final double radius = math.sqrt(area * value / 4);
+    final Paint paint = Paint()..color = rippleColor;
+    canvas.drawCircle(rect.center, radius, paint);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
+    for (int wave = 3; wave >= 0; wave--) {
+      circle(canvas, rect, wave + animation.value);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CirclePainter oldDelegate) => true;
+}
+
+class CurveWave extends Curve {
+  @override
+  double transform(double t) {
+    if (t == 0 || t == 1) {
+      return 0.01;
+    }
+    return math.sin(t * math.pi);
+  }
+}

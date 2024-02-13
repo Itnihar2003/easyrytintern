@@ -19,6 +19,7 @@ import 'package:todoaiapp/pages/home/homepage.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
 import 'package:todoaiapp/pages/ocrfinal/ocr3.dart';
 import 'package:todoaiapp/pages/ocrfinal/ocrhome.dart';
+import 'dart:math' as math show sin, pi, sqrt;
 
 class TextViewer extends StatefulWidget {
   var data;
@@ -848,7 +849,7 @@ class _TextViewerState extends State<TextViewer> {
                               ),
                             ),
                             Container(
-                              height: MediaQuery.of(context).size.height / 2,
+                              height: 450,
                               width: MediaQuery.of(context).size.width,
                               padding: const EdgeInsets.all(30.0),
                               child: TextFormField(
@@ -872,247 +873,180 @@ class _TextViewerState extends State<TextViewer> {
                             ),
                           ],
                         ),
-
-              //             Container(
-              //   padding: const EdgeInsets.all(20),
-              //   margin: const EdgeInsets.all(20),
-              //   decoration: BoxDecoration(
-              //       color: Colors.white,
-              //       borderRadius: BorderRadius.circular(10),
-              //      ),
-              //   child: Center(
-              //     child: SelectableText(
-              //       "${_textController.text.toString()}",
-              //       style: const TextStyle(
-              //           color: Colors.black,
-              //           fontSize: 15,
-              //           fontWeight: FontWeight.w500),
-              //     ),
-              //   ),
-              // ),
-              // : Container(
-              //     // height: 550,
-              //     // width: 310,
-              //     height: MediaQuery.of(context).size.height,
-              //     width: MediaQuery.of(context).size.width,
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(20),
-              //       border: Border.all(width: 0.2),
-              //       color: Colors.white,
-              //     ),
-
-              //     child: Padding(
-              //       padding: const EdgeInsets.all(8.0),
-              //       child: Text("${_textController.text.toString()}"),
-              //     ),
-              //   ),
-              // SizedBox(
-              //   height: size.height * 0.07,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              //   child: Container(
-              //     // decoration: BoxDecoration(
-              //     //   borderRadius: BorderRadius.circular(25),
-              //     //   border: Border.all(width: 0.2),
-              //     //   color: Color(0xffC3C0C6),
-              //     // ),
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(25),
-              //       image: DecorationImage(
-              //         image: AssetImage(
-              //           'assets/images/black.png',
-              //         ),
-              //         fit: BoxFit.cover,
-              //       ),
-              //     ),
-              //     height: size.height * 0.07,
-              //     width: size.width * 0.85,
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //       children: [
-              //         // InkWell(
-              //         //   onTap: () {
-              //         //     // Navigator.pushAndRemoveUntil(
-              //         //     //   context,
-              //         //     //   MaterialPageRoute(
-              //         //     //     builder: (context) => EditTextViewer(
-              //         //     //       data: _textController.text.toString(),
-              //         //     //     ),
-              //         //     //   ),
-              //         //     //   (route) => false,
-              //         //     // );
-              //         //     setState(() {
-              //         //       send = false;
-              //         //       edit = !edit;
-              //         //       camera = false;
-              //         //       save = false;
-              //         //     });
-              //         //   },
-              //         //   child: AnimatedContainer(
-              //         //     duration: Duration(milliseconds: 800),
-              //         //     // height: 27,
-              //         //     // width: 27,
-              //         //     height: size.height * 0.04,
-              //         //     width: size.width * 0.11,
-              //         //     decoration: BoxDecoration(
-              //         //       color: edit ? Colors.white : Colors.transparent,
-              //         //       borderRadius: BorderRadius.circular(8),
-              //         //       // border: Border.all(
-              //         //       //   width: 1,
-              //         //       //   color: edit ? Colors.blue : Colors.white,
-              //         //       // ),
-              //         //     ),
-              //         //     child: Padding(
-              //         //       padding: const EdgeInsets.all(5.0),
-              //         //       child: Image.asset(
-              //         //         'assets/images/EDIT.png',
-              //         //         // scale: 1,
-              //         //         color: edit ? Colors.black : Colors.white,
-              //         //       ),
-              //         //     ),
-              //         //   ),
-              //         // ),
-              //         // InkWell(
-              //         //   onTap: () {
-              //         //     setState(() {
-              //         //       shareText();
-              //         //       send = !send;
-              //         //       edit = false;
-              //         //       camera = false;
-              //         //       save = false;
-              //         //     });
-              //         //   },
-              //         //   child: AnimatedContainer(
-              //         //     duration: Duration(milliseconds: 800),
-              //         //     // height: 27,
-              //         //     // width: 27,
-              //         //     height: size.height * 0.04,
-              //         //     width: size.width * 0.11,
-              //         //     decoration: BoxDecoration(
-              //         //       borderRadius: BorderRadius.circular(8),
-              //         //       color: send ? Colors.white : Colors.transparent,
-              //         //     ),
-              //         //     child: Padding(
-              //         //       padding: const EdgeInsets.all(5.0),
-              //         //       child: Image.asset(
-              //         //         'assets/images/SHARE.png',
-              //         //         color: send ? Colors.black : Colors.white,
-              //         //         // scale: 1,
-              //         //         // color: send ? Colors.white : Colors.black,
-              //         //       ),
-              //         //     ),
-              //         //   ),
-              //         // ),
-              //         // InkWell(
-              //         //   onTap: () {
-              //         //     setState(() {
-              //         //       openCustomCamera();
-              //         //       send = false;
-              //         //       edit = false;
-              //         //       camera = !camera;
-              //         //       save = false;
-              //         //     });
-              //         //   },
-              //         //   child: AnimatedContainer(
-              //         //     duration: Duration(milliseconds: 800),
-              //         //     // height: 27,
-              //         //     // width: 27,
-              //         //     height: size.height * 0.04,
-              //         //     width: size.width * 0.11,
-              //         //     decoration: BoxDecoration(
-              //         //       color: camera ? Color(0xff007BF7) : Colors.white,
-              //         //       borderRadius: BorderRadius.circular(8),
-              //         //       // border: Border.all(
-              //         //       //   width: 1,
-              //         //       // ),
-              //         //     ),
-              //         //     child: Image.asset(
-              //         //       'assets/camera/Photo camera.png',
-              //         //       // scale: 1,
-              //         //       color: camera ? Colors.white : Colors.black,
-              //         //     ),
-              //         //     // child: Padding(
-              //         //     //   padding: const EdgeInsets.all(4.0),
-              //         //     //   child: Transform.scale(
-              //         //     //     scale: send ? 1 : 0.7,
-              //         //     //     child: Image.asset(
-              //         //     //       'assets/viewcontent/Photo camera.png',
-              //         //     //       // scale: 1,
-              //         //     //       color: send ? Colors.white : Colors.black,
-              //         //     //     ),
-              //         //     //   ),
-              //         //     // ),
-              //         //   ),
-              //         // ),
-              //         // InkWell(
-              //         //   onTap: () {
-              //         //     setState(() {
-              //         //       send = false;
-              //         //       edit = false;
-              //         //       camera = false;
-              //         //       save = !save;
-              //         //     });
-              //         //     showDialog(
-              //         //       context: context,
-              //         //       builder: (BuildContext context) {
-              //         //         return MyDialog(
-              //         //           textcontroller:
-              //         //               _textController.text.toString(),
-              //         //           langcode: widget.langCode,
-              //         //         );
-              //         //       },
-              //         //     );
-              //         //   },
-              //         //   child: AnimatedContainer(
-              //         //     duration: Duration(milliseconds: 800),
-              //         //     // height: 27,
-              //         //     // width: 27,
-              //         //     height: size.height * 0.04,
-              //         //     width: size.width * 0.11,
-              //         //     decoration: BoxDecoration(
-              //         //       borderRadius: BorderRadius.circular(8),
-              //         //       color: save ? Colors.white : Colors.transparent,
-              //         //     ),
-              //         //     child: Padding(
-              //         //       padding: const EdgeInsets.all(5.0),
-              //         //       child: Image.asset(
-              //         //         'assets/images/SAVE.png',
-              //         //         // scale: 1,
-              //         //         color: save ? Colors.black : Colors.white,
-              //         //       ),
-              //         //     ),
-              //         //   ),
-              //         // ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
-        floatingActionButton: InkWell(
-            onTap: () {
-              showreward();
-              save1("${_textController.text.toString()}");
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => home(
-                      datas: [],
-                    ),
+        floatingActionButton: Stack(
+          children: [
+            WaveAnimation(
+              size: 60.0,
+              color: Color.fromARGB(255, 172, 172, 172),
+              centerChild: Stack(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button tap
+                      showreward();
+                      save1("${_textController.text.toString()}");
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => home(
+                              datas: [],
+                            ),
+                          ),
+                          (Route) => false);
+                    },
+                    child: Text(""),
                   ),
-                  (Route) => false);
-            },
-            child: const CircleAvatar(
-              radius: 25,
-              backgroundColor: Colors.black,
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 30,
+                ],
               ),
-            )),
+            ),
+            Positioned(
+              top: 17,
+              left: 18,
+              child: CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.black,
+                  child: IconButton(
+                      onPressed: () {
+                        showreward();
+                        save1("${_textController.text.toString()}");
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                              builder: (context) => home(
+                                datas: [],
+                              ),
+                            ),
+                            (Route) => false);
+                      },
+                      icon: const Icon(
+                        color: Colors.white,
+                        Icons.add,
+                        size: 30,
+                      ))),
+            )
+          ],
+        ),
       ),
     );
+  }
+}
+
+class WaveAnimation extends StatefulWidget {
+  final double size;
+  final Color color;
+  final Widget centerChild;
+
+  const WaveAnimation({
+    this.size = 80.0,
+    this.color = Colors.red,
+    required this.centerChild,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  WaveAnimationState createState() => WaveAnimationState();
+}
+
+class WaveAnimationState extends State<WaveAnimation>
+    with TickerProviderStateMixin {
+  late AnimationController animCtr;
+
+  @override
+  void initState() {
+    super.initState();
+    animCtr = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    )..repeat();
+  }
+
+  Widget getAnimatedWidget() {
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.size),
+          gradient: RadialGradient(
+            colors: [
+              widget.color,
+              Color.lerp(widget.color, Colors.black, .05)!
+            ],
+          ),
+        ),
+        child: ScaleTransition(
+          scale: Tween(begin: 0.95, end: 1.0).animate(
+            CurvedAnimation(
+              parent: animCtr,
+              curve: CurveWave(),
+            ),
+          ),
+          child: Container(
+            width: widget.size * 0.4,
+            height: widget.size * 0.4,
+            margin: const EdgeInsets.all(6),
+            child: widget.centerChild,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(context) {
+    return CustomPaint(
+      painter: CirclePainter(animCtr, color: widget.color),
+      child: SizedBox(
+        width: widget.size * 1.6,
+        height: widget.size * 1.6,
+        child: getAnimatedWidget(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    animCtr.dispose();
+    super.dispose();
+  }
+}
+
+class CirclePainter extends CustomPainter {
+  final Color color;
+  final Animation<double> animation;
+
+  CirclePainter(
+    this.animation, {
+    required this.color,
+  }) : super(repaint: animation);
+
+  void circle(Canvas canvas, Rect rect, double value) {
+    final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
+    final Color rippleColor = color.withOpacity(opacity);
+    final double size = rect.width / 2;
+    final double area = size * size;
+    final double radius = math.sqrt(area * value / 4);
+    final Paint paint = Paint()..color = rippleColor;
+    canvas.drawCircle(rect.center, radius, paint);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
+    for (int wave = 3; wave >= 0; wave--) {
+      circle(canvas, rect, wave + animation.value);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CirclePainter oldDelegate) => true;
+}
+
+class CurveWave extends Curve {
+  @override
+  double transform(double t) {
+    if (t == 0 || t == 1) {
+      return 0.01;
+    }
+    return math.sin(t * math.pi);
   }
 }

@@ -137,13 +137,48 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     });
   }
 
+  //app update alert
+  Future<void> checkForAppUpdate() async {
+    if (kDebugMode) {
+      print('checking for Update');
+    }
+    InAppUpdate.checkForUpdate().then((info) {
+      setState(() {
+        if (info.updateAvailability == UpdateAvailability.updateAvailable) {
+          if (kDebugMode) {
+            print('Update Available');
+          }
+          updatedApps();
+        } else {
+          if (kDebugMode) {
+            print('it is up to date');
+          }
+        }
+      });
+    }).catchError((e) {
+      if (kDebugMode) {
+        print('check update function error ${e.toString()}');
+      }
+    });
+  }
+
+  void updatedApps() async {
+    await InAppUpdate.startFlexibleUpdate();
+    InAppUpdate.completeFlexibleUpdate().then((_) {}).catchError((e) {
+      if (kDebugMode) {
+        print('update function error ${e.toString()}');
+      }
+    });
+    if (kDebugMode) {
+      print('updating');
+    }
+  }
+
   @override
   void initState() {
     //only for final update on play store
-    checkForUpdate();
+    checkForAppUpdate();
 
-
-    
     Timer.periodic(Duration(minutes: 2), (_) {
       showDialog(
         context: context,
@@ -720,44 +755,6 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     setState(() {
       widget.datas = sdata;
     });
-  }
-
-  //playstoreupdate
-
-  Future<void> checkForUpdate() async {
-    if (kDebugMode) {
-      print('checking for Update');
-    }
-    InAppUpdate.checkForUpdate().then((info) {
-      setState(() {
-        if (info.updateAvailability == UpdateAvailability.updateAvailable) {
-          if (kDebugMode) {
-            print('Update Available');
-          }
-          updatescreen();
-        } else {
-          if (kDebugMode) {
-            print('it is up to date');
-          }
-        }
-      });
-    }).catchError((e) {
-      if (kDebugMode) {
-        print('check update function error ${e.toString()}');
-      }
-    });
-  }
-
-  void updatescreen() async {
-    await InAppUpdate.startFlexibleUpdate();
-    InAppUpdate.completeFlexibleUpdate().then((_) {}).catchError((e) {
-      if (kDebugMode) {
-        print('update function error ${e.toString()}');
-      }
-    });
-    if (kDebugMode) {
-      print('updating');
-    }
   }
 
   late final AnimationController _controller =

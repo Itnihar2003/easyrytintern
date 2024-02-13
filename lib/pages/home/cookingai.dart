@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:ffi';
+
 import 'dart:io';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/main.dart';
 import 'package:todoaiapp/pages/home/homepage.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
+import 'dart:math' as math show sin, pi, sqrt;
 
 class ai2 extends StatefulWidget {
   final String givendata;
@@ -113,8 +114,8 @@ class _aiState extends State<ai2> {
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
-        adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        adUnitId: "ca-app-pub-1396556165266132/1772804526",
         request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (RewardedAd ad) {
@@ -526,7 +527,7 @@ class _aiState extends State<ai2> {
     final userData = {"userPrompt": message};
 
     http.Response response = await http.post(
-      Uri.parse("https://chatgpt-xb9q.onrender.com/gpt"),
+      Uri.parse("http://35.89.244.42/api/gpt"),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(userData),
     );
@@ -1115,7 +1116,32 @@ class _aiState extends State<ai2> {
                 ),
               ),
             ],
-          )),
+          ),
+          floatingActionButton: Padding(
+              padding: const EdgeInsets.only(bottom: 70, right: 10),
+              child: InkWell(
+                onTap: () {
+                  showreward();
+                  int a = messages.length;
+                  for (int i = 0; i < a; i++) {
+                    all = all + "\n" + messages[i];
+                  }
+                  save1(all);
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => home(
+                          datas: [],
+                        ),
+                      ),
+                      (Route) => false);
+                },
+                child: Container(
+                  child: Image.asset(
+                    "assets/p32.png",
+                    width: 35,
+                  ),
+                ),
+              ))),
     );
     // floatingActionButton: Padding(
     //   padding: const EdgeInsets.only(bottom: 50),
@@ -1153,4 +1179,123 @@ class Message {
   final bool isMe;
 
   Message({required this.text, required this.isMe});
+}
+
+class WaveAnimation extends StatefulWidget {
+  final double size;
+  final Color color;
+  final Widget centerChild;
+
+  const WaveAnimation({
+    this.size = 80.0,
+    this.color = Colors.red,
+    required this.centerChild,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  WaveAnimationState createState() => WaveAnimationState();
+}
+
+class WaveAnimationState extends State<WaveAnimation>
+    with TickerProviderStateMixin {
+  late AnimationController animCtr;
+
+  @override
+  void initState() {
+    super.initState();
+    animCtr = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    )..repeat();
+  }
+
+  Widget getAnimatedWidget() {
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.size),
+          gradient: RadialGradient(
+            colors: [
+              widget.color,
+              Color.lerp(widget.color, Colors.black, .05)!
+            ],
+          ),
+        ),
+        child: ScaleTransition(
+          scale: Tween(begin: 0.95, end: 1.0).animate(
+            CurvedAnimation(
+              parent: animCtr,
+              curve: CurveWave(),
+            ),
+          ),
+          child: Container(
+            width: widget.size * 0.4,
+            height: widget.size * 0.4,
+            margin: const EdgeInsets.all(6),
+            child: widget.centerChild,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(context) {
+    return CustomPaint(
+      painter: CirclePainter(animCtr, color: widget.color),
+      child: SizedBox(
+        width: widget.size * 1.6,
+        height: widget.size * 1.6,
+        child: getAnimatedWidget(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    animCtr.dispose();
+    super.dispose();
+  }
+}
+
+class CirclePainter extends CustomPainter {
+  final Color color;
+  final Animation<double> animation;
+
+  CirclePainter(
+    this.animation, {
+    required this.color,
+  }) : super(repaint: animation);
+
+  void circle(Canvas canvas, Rect rect, double value) {
+    final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
+    final Color rippleColor = color.withOpacity(opacity);
+    final double size = rect.width / 2;
+    final double area = size * size;
+    final double radius = math.sqrt(area * value / 4);
+    final Paint paint = Paint()..color = rippleColor;
+    canvas.drawCircle(rect.center, radius, paint);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
+    for (int wave = 3; wave >= 0; wave--) {
+      circle(canvas, rect, wave + animation.value);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CirclePainter oldDelegate) => true;
+}
+
+class CurveWave extends Curve {
+  @override
+  double transform(double t) {
+    if (t == 0 || t == 1) {
+      return 0.01;
+    }
+    return math.sin(t * math.pi);
+  }
 }

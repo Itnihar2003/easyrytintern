@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-
 import 'package:share_plus/share_plus.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:todoaiapp/pages/home/homepage.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
+import 'dart:math' as math show sin, pi, sqrt;
 
 TextEditingController editController = TextEditingController();
 TextEditingController editwritingController = TextEditingController();
@@ -39,7 +39,6 @@ class _editnotesState extends State<editnotes> {
     pref.setStringList('myData2', data2list);
   }
 
-
   String tit = "";
   String finalvalue = "";
   String con = "";
@@ -50,56 +49,110 @@ class _editnotesState extends State<editnotes> {
     con = widget.content;
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 50),
-        child: InkWell(
-            onTap: () {
-              if (finalcontent != "" && finalvalue != "") {
-                setState(() {
-                  selectedindex = widget.id;
-                  widget.edit[widget.id].tittle1 = finalvalue;
-                  widget.edit[widget.id].content1 = finalcontent;
-                  setdata1();
-                });
-              } else if (finalcontent != "" && finalvalue == "") {
-                setState(() {
-                  selectedindex = widget.id;
-                  widget.edit[widget.id].tittle1 = tit;
-                  widget.edit[widget.id].content1 = finalcontent;
-                  setdata1();
-                });
-              } else if (finalcontent == "" && finalvalue != "") {
-                setState(() {
-                  selectedindex = widget.id;
-                  widget.edit[widget.id].tittle1 = finalvalue;
-                  widget.edit[widget.id].content1 = con;
-                  setdata1();
-                });
-              } else {
-                setState(() {
-                  selectedindex = widget.id;
-                  widget.edit[widget.id].tittle1 = tit;
-                  widget.edit[widget.id].content1 = con;
-                  setdata1();
-                });
-              }
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => home(
-                      datas: const [],
-                    ),
-                  ));
-            },
-            child: const CircleAvatar(
-              radius: 25,
-              backgroundColor: Colors.black,
-              child: Icon(
-                Icons.replay_outlined,
-                color: Colors.white,
-                size: 30,
-              ),
-            )),
+      floatingActionButton: Stack(
+        children: [
+          WaveAnimation(
+            size: 60.0,
+            color: Color.fromARGB(255, 172, 172, 172),
+            centerChild: Stack(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // Handle button tap
+                    if (finalcontent != "" && finalvalue != "") {
+                      setState(() {
+                        selectedindex = widget.id;
+                        widget.edit[widget.id].tittle1 = finalvalue;
+                        widget.edit[widget.id].content1 = finalcontent;
+                        setdata1();
+                      });
+                    } else if (finalcontent != "" && finalvalue == "") {
+                      setState(() {
+                        selectedindex = widget.id;
+                        widget.edit[widget.id].tittle1 = tit;
+                        widget.edit[widget.id].content1 = finalcontent;
+                        setdata1();
+                      });
+                    } else if (finalcontent == "" && finalvalue != "") {
+                      setState(() {
+                        selectedindex = widget.id;
+                        widget.edit[widget.id].tittle1 = finalvalue;
+                        widget.edit[widget.id].content1 = con;
+                        setdata1();
+                      });
+                    } else {
+                      setState(() {
+                        selectedindex = widget.id;
+                        widget.edit[widget.id].tittle1 = tit;
+                        widget.edit[widget.id].content1 = con;
+                        setdata1();
+                      });
+                    }
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => home(
+                            datas: const [],
+                          ),
+                        ));
+                  },
+                  child: Text(""),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 17,
+            left: 18,
+            child: CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.black,
+                child: IconButton(
+                    onPressed: () {
+                      if (finalcontent != "" && finalvalue != "") {
+                        setState(() {
+                          selectedindex = widget.id;
+                          widget.edit[widget.id].tittle1 = finalvalue;
+                          widget.edit[widget.id].content1 = finalcontent;
+                          setdata1();
+                        });
+                      } else if (finalcontent != "" && finalvalue == "") {
+                        setState(() {
+                          selectedindex = widget.id;
+                          widget.edit[widget.id].tittle1 = tit;
+                          widget.edit[widget.id].content1 = finalcontent;
+                          setdata1();
+                        });
+                      } else if (finalcontent == "" && finalvalue != "") {
+                        setState(() {
+                          selectedindex = widget.id;
+                          widget.edit[widget.id].tittle1 = finalvalue;
+                          widget.edit[widget.id].content1 = con;
+                          setdata1();
+                        });
+                      } else {
+                        setState(() {
+                          selectedindex = widget.id;
+                          widget.edit[widget.id].tittle1 = tit;
+                          widget.edit[widget.id].content1 = con;
+                          setdata1();
+                        });
+                      }
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => home(
+                              datas: const [],
+                            ),
+                          ));
+                    },
+                    icon: const Icon(
+                      color: Colors.white,
+                      Icons.replay_outlined,
+                      size: 30,
+                    ))),
+          )
+        ],
       ),
       body: SafeArea(
         top: true,
@@ -245,119 +298,125 @@ class _editnotesState extends State<editnotes> {
           ],
         ),
       ),
-      // bottomNavigationBar: Container(
-      //   color: Colors.white,
-      //   height: 120,
-      //   width: 400,
-      //   child: Column(
-      //     children: [
-      //       SingleChildScrollView(
-      //         scrollDirection: Axis.horizontal,
-      //         child: StatefulBuilder(builder: (context, state) {
-      //           return FastColorPicker(
-      //             selectedColor: textColor,
-      //             onColorSelected: (Color color) {
-      //               state(() {});
-      //               onColorChange(color);
-      //             },
-      //           );
-      //         }),
-      //       ),
-      //       SingleChildScrollView(
-      //         scrollDirection: Axis.horizontal,
-      //         child: Row(
-      //           children: [
-      //             ElevatedButton(
-      //               onPressed: () {
-      //                 toggleItalic();
-      //               },
-      //               style: const ButtonStyle(
-      //                 backgroundColor: MaterialStatePropertyAll<Color>(
-      //                   Color.fromARGB(255, 255, 255, 255),
-      //                 ),
-      //                 foregroundColor:
-      //                     MaterialStatePropertyAll<Color>(Colors.black),
-      //               ),
-      //               child: const Text('I',
-      //                   style: TextStyle(
-      //                       fontStyle: FontStyle.italic, fontSize: 16)),
-      //             ),
-      //             ElevatedButton(
-      //               onPressed: () {
-      //                 toggleBold();
-      //               },
-      //               style: const ButtonStyle(
-      //                 backgroundColor: MaterialStatePropertyAll<Color>(
-      //                   Color.fromARGB(255, 255, 255, 255),
-      //                 ),
-      //                 foregroundColor:
-      //                     MaterialStatePropertyAll<Color>(Colors.black),
-      //               ),
-      //               child: const Text('B',
-      //                   style: TextStyle(
-      //                       fontWeight: FontWeight.bold, fontSize: 16)),
-      //             ),
-      //             ElevatedButton(
-      //               onPressed: () {
-      //                 toggleUnderlined();
-      //               },
-      //               style: const ButtonStyle(
-      //                 backgroundColor: MaterialStatePropertyAll<Color>(
-      //                   Color.fromARGB(255, 255, 255, 255),
-      //                 ),
-      //                 foregroundColor:
-      //                     MaterialStatePropertyAll<Color>(Colors.black),
-      //               ),
-      //               child: const Text('U',
-      //                   style: TextStyle(
-      //                       decoration: TextDecoration.underline,
-      //                       fontSize: 16)),
-      //             ),
-      //             ElevatedButton(
-      //               onPressed: () {
-      //                 toggleTextStart();
-      //               },
-      //               style: const ButtonStyle(
-      //                 backgroundColor: MaterialStatePropertyAll<Color>(
-      //                   Color.fromARGB(255, 255, 255, 255),
-      //                 ),
-      //                 foregroundColor:
-      //                     MaterialStatePropertyAll<Color>(Colors.black),
-      //               ),
-      //               child: const Icon(Icons.align_horizontal_left),
-      //             ),
-      //             ElevatedButton(
-      //               onPressed: () {
-      //                 toggleTextCenter();
-      //               },
-      //               style: const ButtonStyle(
-      //                 backgroundColor: MaterialStatePropertyAll<Color>(
-      //                   Color.fromARGB(255, 255, 255, 255),
-      //                 ),
-      //                 foregroundColor:
-      //                     MaterialStatePropertyAll<Color>(Colors.black),
-      //               ),
-      //               child: const Icon(Icons.align_horizontal_center),
-      //             ),
-      //             ElevatedButton(
-      //               onPressed: () {
-      //                 toggleTextEnd();
-      //               },
-      //               style: const ButtonStyle(
-      //                 backgroundColor: MaterialStatePropertyAll<Color>(
-      //                   Color.fromARGB(255, 255, 255, 255),
-      //                 ),
-      //                 foregroundColor:
-      //                     MaterialStatePropertyAll<Color>(Colors.black),
-      //               ),
-      //               child: const Icon(Icons.align_horizontal_right),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
+  }
+}
+
+class WaveAnimation extends StatefulWidget {
+  final double size;
+  final Color color;
+  final Widget centerChild;
+
+  const WaveAnimation({
+    this.size = 80.0,
+    this.color = Colors.red,
+    required this.centerChild,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  WaveAnimationState createState() => WaveAnimationState();
+}
+
+class WaveAnimationState extends State<WaveAnimation>
+    with TickerProviderStateMixin {
+  late AnimationController animCtr;
+
+  @override
+  void initState() {
+    super.initState();
+    animCtr = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    )..repeat();
+  }
+
+  Widget getAnimatedWidget() {
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.size),
+          gradient: RadialGradient(
+            colors: [
+              widget.color,
+              Color.lerp(widget.color, Colors.black, .05)!
+            ],
+          ),
+        ),
+        child: ScaleTransition(
+          scale: Tween(begin: 0.95, end: 1.0).animate(
+            CurvedAnimation(
+              parent: animCtr,
+              curve: CurveWave(),
+            ),
+          ),
+          child: Container(
+            width: widget.size * 0.4,
+            height: widget.size * 0.4,
+            margin: const EdgeInsets.all(6),
+            child: widget.centerChild,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(context) {
+    return CustomPaint(
+      painter: CirclePainter(animCtr, color: widget.color),
+      child: SizedBox(
+        width: widget.size * 1.6,
+        height: widget.size * 1.6,
+        child: getAnimatedWidget(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    animCtr.dispose();
+    super.dispose();
+  }
+}
+
+class CirclePainter extends CustomPainter {
+  final Color color;
+  final Animation<double> animation;
+
+  CirclePainter(
+    this.animation, {
+    required this.color,
+  }) : super(repaint: animation);
+
+  void circle(Canvas canvas, Rect rect, double value) {
+    final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
+    final Color rippleColor = color.withOpacity(opacity);
+    final double size = rect.width / 2;
+    final double area = size * size;
+    final double radius = math.sqrt(area * value / 4);
+    final Paint paint = Paint()..color = rippleColor;
+    canvas.drawCircle(rect.center, radius, paint);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
+    for (int wave = 3; wave >= 0; wave--) {
+      circle(canvas, rect, wave + animation.value);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CirclePainter oldDelegate) => true;
+}
+
+class CurveWave extends Curve {
+  @override
+  double transform(double t) {
+    if (t == 0 || t == 1) {
+      return 0.01;
+    }
+    return math.sin(t * math.pi);
   }
 }

@@ -67,7 +67,7 @@ class _suggesiondetailState extends State<suggesiondetail> {
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
@@ -121,15 +121,19 @@ class _suggesiondetailState extends State<suggesiondetail> {
                                 widget.suggestedtext[index],
                                 style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 13,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.bold),
                               ),
-                              Text(
-                                widget.suggestedcontent[index],
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 10,
-                                ),
+                              Column(
+                                children: [
+                                  Text(
+                                    widget.suggestedcontent[index],
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
                               )
                             ],
                           ),

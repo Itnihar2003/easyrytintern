@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:todoaiapp/pages/home/homepage.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
+import 'dart:math' as math show sin, pi, sqrt;
 
 class notes extends StatefulWidget {
   const notes({super.key});
@@ -282,33 +283,64 @@ class _notesState extends State<notes> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 50),
-        child: InkWell(
-            onTap: () {
-              showreward();
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => home(
-                      datas: [],
-                    ),
-                  ),
-                  (Route) => false);
-              save1();
-              writingController.clear();
-              writingController.clear();
-              print(allnote.length);
-            },
-            child: const CircleAvatar(
-              radius: 25,
-              backgroundColor: Colors.black,
-              child: Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 30,
-              ),
-            )),
+      floatingActionButton: Stack(
+        children: [
+          WaveAnimation(
+            size: 60.0,
+            color: Color.fromARGB(255, 172, 172, 172),
+            centerChild: Stack(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // Handle button tap
+                    showreward();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => home(
+                            datas: [],
+                          ),
+                        ),
+                        (Route) => false);
+                    save1();
+                    writingController.clear();
+                    writingController.clear();
+                    print(allnote.length);
+                  },
+                  child: Text(""),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 17,
+            left: 18,
+            child: CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.black,
+                child: IconButton(
+                    onPressed: () {
+                      showreward();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => home(
+                              datas: [],
+                            ),
+                          ),
+                          (Route) => false);
+                      save1();
+                      writingController.clear();
+                      writingController.clear();
+                      print(allnote.length);
+                    },
+                    icon: const Icon(
+                      color: Colors.white,
+                      Icons.add,
+                      size: 30,
+                    ))),
+          )
+        ],
       ),
+
       body: SafeArea(
         top: true,
         child: Stack(
@@ -554,5 +586,124 @@ class _notesState extends State<notes> {
       //   ),
       // ),
     );
+  }
+}
+
+class WaveAnimation extends StatefulWidget {
+  final double size;
+  final Color color;
+  final Widget centerChild;
+
+  const WaveAnimation({
+    this.size = 80.0,
+    this.color = Colors.red,
+    required this.centerChild,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  WaveAnimationState createState() => WaveAnimationState();
+}
+
+class WaveAnimationState extends State<WaveAnimation>
+    with TickerProviderStateMixin {
+  late AnimationController animCtr;
+
+  @override
+  void initState() {
+    super.initState();
+    animCtr = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    )..repeat();
+  }
+
+  Widget getAnimatedWidget() {
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.size),
+          gradient: RadialGradient(
+            colors: [
+              widget.color,
+              Color.lerp(widget.color, Colors.black, .05)!
+            ],
+          ),
+        ),
+        child: ScaleTransition(
+          scale: Tween(begin: 0.95, end: 1.0).animate(
+            CurvedAnimation(
+              parent: animCtr,
+              curve: CurveWave(),
+            ),
+          ),
+          child: Container(
+            width: widget.size * 0.4,
+            height: widget.size * 0.4,
+            margin: const EdgeInsets.all(6),
+            child: widget.centerChild,
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(context) {
+    return CustomPaint(
+      painter: CirclePainter(animCtr, color: widget.color),
+      child: SizedBox(
+        width: widget.size * 1.6,
+        height: widget.size * 1.6,
+        child: getAnimatedWidget(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    animCtr.dispose();
+    super.dispose();
+  }
+}
+
+class CirclePainter extends CustomPainter {
+  final Color color;
+  final Animation<double> animation;
+
+  CirclePainter(
+    this.animation, {
+    required this.color,
+  }) : super(repaint: animation);
+
+  void circle(Canvas canvas, Rect rect, double value) {
+    final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
+    final Color rippleColor = color.withOpacity(opacity);
+    final double size = rect.width / 2;
+    final double area = size * size;
+    final double radius = math.sqrt(area * value / 4);
+    final Paint paint = Paint()..color = rippleColor;
+    canvas.drawCircle(rect.center, radius, paint);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
+    for (int wave = 3; wave >= 0; wave--) {
+      circle(canvas, rect, wave + animation.value);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CirclePainter oldDelegate) => true;
+}
+
+class CurveWave extends Curve {
+  @override
+  double transform(double t) {
+    if (t == 0 || t == 1) {
+      return 0.01;
+    }
+    return math.sin(t * math.pi);
   }
 }
