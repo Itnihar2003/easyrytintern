@@ -242,12 +242,13 @@ class _CameraScreenState extends State<CameraScreen> {
     filteredLanguages = List.from(languages);
 
     await showDialog(
+      barrierColor: Colors.grey,
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
-              title: Text('Select Language'),
+              surfaceTintColor: Colors.white,
               content: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -270,8 +271,9 @@ class _CameraScreenState extends State<CameraScreen> {
                           });
                         },
                         decoration: InputDecoration(
+                          labelStyle: TextStyle(color: Colors.black),
                           labelText: 'Search Language',
-                          hintText: 'Enter language name or code',
+                          hintText: 'Enter language name ',
                         ),
                       ),
                     ),
@@ -280,7 +282,7 @@ class _CameraScreenState extends State<CameraScreen> {
                       // height: 300,
                       // color: Colors.blue,
                       width: MediaQuery.of(context).size.width * 0.7,
-                      height: MediaQuery.of(context).size.height * 0.62,
+                      height: MediaQuery.of(context).size.height * 0.5,
                       child: ListView.builder(
                         itemCount: filteredLanguages.length,
                         itemBuilder: (context, index) {
@@ -294,7 +296,7 @@ class _CameraScreenState extends State<CameraScreen> {
                               Navigator.pop(context);
                             },
                             title: Text(
-                              '${filteredLanguages[index]['Language']} (${filteredLanguages[index]['Lang Code']})',
+                              '${filteredLanguages[index]['Language']}',
                             ),
                           );
                         },

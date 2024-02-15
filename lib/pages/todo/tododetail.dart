@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoaiapp/pages/home/homepage.dart';
+import 'package:todoaiapp/pages/todo/complete.dart';
 import 'package:todoaiapp/pages/todo/data.dart';
 import 'package:todoaiapp/pages/todo/deletedata.dart';
 import 'package:todoaiapp/pages/todo/notification.dart';
@@ -54,7 +55,7 @@ class _detailState extends State<detail> {
     startrewardad();
     update1();
     update();
-    update2();
+
     super.initState();
     notificationservice.initialisenotification();
   }
@@ -81,13 +82,6 @@ class _detailState extends State<detail> {
     List<String> deleteList =
         deletedata.map((data4) => jsonEncode(data4.toJson())).toList();
     pref1.setStringList('myData1', deleteList);
-  }
-
-  setdata2() async {
-    SharedPreferences pref1 = await SharedPreferences.getInstance();
-    List<String> workall =
-        worklist.map((data5) => jsonEncode(data5.toJson())).toList();
-    pref1.setStringList('myData2', workall);
   }
 
   DateTime datetime = DateTime.now();
@@ -117,18 +111,6 @@ class _detailState extends State<detail> {
     }
   }
 
-  getdata2() async {
-    SharedPreferences pref1 = await SharedPreferences.getInstance();
-    List<String>? workall = pref1.getStringList('myData2');
-    if (workall != null) {
-      List<workdata> finaldata2 = workall
-          //here data and data1 are not same
-          .map((data5) => workdata.fromJson(json.decode(data5)))
-          .toList();
-      return finaldata2;
-    }
-  }
-
   update() async {
     List<data> sdata = await getdata();
     setState(() {
@@ -145,16 +127,24 @@ class _detailState extends State<detail> {
     });
   }
 
-  update2() async {
-    List<workdata> work = await getdata2();
+  savedeleteitem(
+      String tittle,
+      String content,
+      String priority,
+      String duedate,
+      bool check,
+      String reminder,
+      //  String category;
+      int id) {
     setState(() {
-      worklist = work;
-    });
-  }
-
-  savedeleteitem(String data) {
-    setState(() {
-      deletedata.add(data4(tittle: data));
+      deletedata.add(data4(
+          tittle: tittle,
+          content: content,
+          priority: priority,
+          duedate: duedate,
+          check: check,
+          id: id,
+          reminder: reminder));
     });
 
     setdata1();
@@ -163,8 +153,8 @@ class _detailState extends State<detail> {
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
-        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
         request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (RewardedAd ad) {
@@ -741,7 +731,7 @@ class _detailState extends State<detail> {
                 ]),
             Container(
               width: MediaQuery.of(context).size.width,
-              height: 450,
+              height: 400,
               child: TabBarView(
                   physics: NeverScrollableScrollPhysics(),
                   children: [
@@ -814,14 +804,20 @@ class _detailState extends State<detail> {
                                                     data1s[index].check =
                                                         value!;
                                                     savedeleteitem(
-                                                        data1s[index].tittle);
+                                                        data1s[index].tittle,
+                                                        data1s[index].content,
+                                                        data1s[index].priority,
+                                                        data1s[index].duedate,
+                                                        data1s[index].check,
+                                                        data1s[index].reminder,
+                                                        data1s[index].id);
+                                                    setdata1();
+                                                    data1s.removeAt(index);
+                                                    setdata();
+                                                    notificationservice
+                                                        .stopNotifications(
+                                                            data1s[index].id);
                                                   });
-                                                  data1s.removeAt(index);
-                                                  notificationservice
-                                                      .stopNotifications(
-                                                          data1s[index].id);
-                                                  setdata1();
-                                                  setdata();
                                                 },
                                               ),
                                               Column(
@@ -946,11 +942,6 @@ class _detailState extends State<detail> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
-                                                // Image.asset(
-                                                //   "assets/icons/menu.png",
-                                                //   height: 20,
-                                                //   width: 20,
-                                                // ),
                                                 Checkbox(
                                                   value: data1s[index].check,
                                                   onChanged: (value) {
@@ -958,14 +949,22 @@ class _detailState extends State<detail> {
                                                       data1s[index].check =
                                                           value!;
                                                       savedeleteitem(
-                                                          data1s[index].tittle);
+                                                          data1s[index].tittle,
+                                                          data1s[index].content,
+                                                          data1s[index]
+                                                              .priority,
+                                                          data1s[index].duedate,
+                                                          data1s[index].check,
+                                                          data1s[index]
+                                                              .reminder,
+                                                          data1s[index].id);
+                                                      setdata1();
+                                                      data1s.removeAt(index);
+                                                      setdata();
+                                                      notificationservice
+                                                          .stopNotifications(
+                                                              data1s[index].id);
                                                     });
-                                                    data1s.removeAt(index);
-                                                    notificationservice
-                                                        .stopNotifications(
-                                                            data1s[index].id);
-                                                    setdata1();
-                                                    setdata();
                                                   },
                                                 ),
                                                 Column(
@@ -1108,17 +1107,31 @@ class _detailState extends State<detail> {
                                                   value: data1s[index].check,
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      data1s[index].check =
-                                                          value!;
-                                                      savedeleteitem(
-                                                          data1s[index].tittle);
-                                                    });
-                                                    data1s.removeAt(index);
-                                                    notificationservice
-                                                        .stopNotifications(
+                                                      setState(() {
+                                                        data1s[index].check =
+                                                            value!;
+                                                        savedeleteitem(
+                                                            data1s[index]
+                                                                .tittle,
+                                                            data1s[index]
+                                                                .content,
+                                                            data1s[index]
+                                                                .priority,
+                                                            data1s[index]
+                                                                .duedate,
+                                                            data1s[index].check,
+                                                            data1s[index]
+                                                                .reminder,
                                                             data1s[index].id);
-                                                    setdata1();
-                                                    setdata();
+                                                        setdata1();
+                                                        data1s.removeAt(index);
+                                                        setdata();
+                                                        notificationservice
+                                                            .stopNotifications(
+                                                                data1s[index]
+                                                                    .id);
+                                                      });
+                                                    });
                                                   },
                                                 ),
                                                 Column(
@@ -1261,17 +1274,31 @@ class _detailState extends State<detail> {
                                                   value: data1s[index].check,
                                                   onChanged: (value) {
                                                     setState(() {
-                                                      data1s[index].check =
-                                                          value!;
-                                                      savedeleteitem(
-                                                          data1s[index].tittle);
-                                                    });
-                                                    data1s.removeAt(index);
-                                                    notificationservice
-                                                        .stopNotifications(
+                                                      setState(() {
+                                                        data1s[index].check =
+                                                            value!;
+                                                        savedeleteitem(
+                                                            data1s[index]
+                                                                .tittle,
+                                                            data1s[index]
+                                                                .content,
+                                                            data1s[index]
+                                                                .priority,
+                                                            data1s[index]
+                                                                .duedate,
+                                                            data1s[index].check,
+                                                            data1s[index]
+                                                                .reminder,
                                                             data1s[index].id);
-                                                    setdata1();
-                                                    setdata();
+                                                        setdata1();
+                                                        data1s.removeAt(index);
+                                                        setdata();
+                                                        notificationservice
+                                                            .stopNotifications(
+                                                                data1s[index]
+                                                                    .id);
+                                                      });
+                                                    });
                                                   },
                                                 ),
                                                 Column(
@@ -1418,18 +1445,33 @@ class _detailState extends State<detail> {
                                                     value: data1s[index].check,
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        data1s[index].check =
-                                                            value!;
-                                                        savedeleteitem(
-                                                            data1s[index]
-                                                                .tittle);
-                                                      });
-                                                      data1s.removeAt(index);
-                                                      notificationservice
-                                                          .stopNotifications(
+                                                        setState(() {
+                                                          data1s[index].check =
+                                                              value!;
+                                                          savedeleteitem(
+                                                              data1s[index]
+                                                                  .tittle,
+                                                              data1s[index]
+                                                                  .content,
+                                                              data1s[index]
+                                                                  .priority,
+                                                              data1s[index]
+                                                                  .duedate,
+                                                              data1s[index]
+                                                                  .check,
+                                                              data1s[index]
+                                                                  .reminder,
                                                               data1s[index].id);
-                                                      setdata1();
-                                                      setdata();
+                                                          setdata1();
+                                                          data1s
+                                                              .removeAt(index);
+                                                          setdata();
+                                                          notificationservice
+                                                              .stopNotifications(
+                                                                  data1s[index]
+                                                                      .id);
+                                                        });
+                                                      });
                                                     },
                                                   ),
                                                   Column(
@@ -1510,7 +1552,22 @@ class _detailState extends State<detail> {
                         )),
                   ]),
             ),
-            Text("Completed Tasks"),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => completed(
+                        maindata: data1s,
+                        deletedata: deletedata,
+                      ),
+                    ));
+              },
+              child: Text(
+                "Completed Tasks",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
             Container(
               child: ListView.builder(
                 itemCount: deletedata.length,
@@ -1530,21 +1587,57 @@ class _detailState extends State<detail> {
                           borderRadius: BorderRadius.circular(15),
                           color: const Color.fromARGB(255, 244, 242, 242)),
                       child: ListTile(
-                        leading: Icon(
-                          Icons.add_task_rounded,
-                          color: Colors.green,
+                        leading: Checkbox(
+                          activeColor: Colors.white,
+                          checkColor: Colors.red,
+                          value: deletedata[index].check,
+                          onChanged: (value) {
+                            setState(() {
+                              data1s.add(data(
+                                  tittle: deletedata[index].tittle,
+                                  content: deletedata[index].content,
+                                  priority: deletedata[index].priority,
+                                  duedate: deletedata[index].duedate,
+                                  check: value!,
+                                  id: deletedata[index].id,
+                                  reminder: deletedata[index].reminder));
+                              setdata();
+                              deletedata.removeAt(index);
+                              setdata1();
+                            });
+                          },
                         ),
                         trailing: IconButton(
                             onPressed: () {
                               setState(() {
                                 deletedata.removeAt(index);
+
                                 setdata1();
                               });
                             },
-                            icon: Icon(Icons.delete)),
-                        title: Text(
-                          deletedata[index].tittle,
-                          style: TextStyle(color: Colors.grey),
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            )),
+                        title: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              deletedata[index].tittle.length > 20
+                                  ? deletedata[index].tittle.substring(0, 20) +
+                                      "..."
+                                  : deletedata[index].tittle,
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            Text(
+                              deletedata[index].duedate,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 10,
+                                  color: Color.fromARGB(255, 207, 37, 25)),
+                            )
+                          ],
                         ),
                       ),
                     ),

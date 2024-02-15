@@ -114,8 +114,8 @@ class _aiState extends State<ai2> {
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
-        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
         request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (RewardedAd ad) {
@@ -600,51 +600,7 @@ class _aiState extends State<ai2> {
                       ),
                       message.isMe
                           ? Row(
-                              children: [
-                                // IconButton(
-                                //     onPressed: () {
-                                //       showDialog(
-                                //         context: context,
-                                //         builder: (context) => AlertDialog(
-                                //           actions: [
-                                //             ElevatedButton(
-                                //                 onPressed: () {
-                                //                   if (editdata == "") {
-                                //                     _textEditingController.text =
-                                //                         message.text;
-                                //                     onSendMessage();
-                                //                   } else {
-                                //                     _textEditingController.text =
-                                //                         editdata;
-                                //                     onSendMessage();
-                                //                   }
-                                //                   Navigator.pop(context);
-                                //                 },
-                                //                 child: Text("send"))
-                                //           ],
-                                //           title: Text("Edit"),
-                                //           content: Container(
-                                //             height: 500,
-                                //             child: TextFormField(
-                                //               decoration: InputDecoration(
-                                //                   border: OutlineInputBorder()),
-                                //               maxLines: 100,
-                                //               initialValue: message.text,
-                                //               onChanged: (value) {
-                                //                 editdata = value;
-                                //                 _textEditingController.text =
-                                //                     value;
-                                //               },
-                                //             ),
-                                //           ),
-                                //         ),
-                                //       );
-                                //     },
-                                //     icon: Icon(
-                                //       Icons.edit,
-                                //       size: 15,
-                                //     )),
-                              ],
+                              children: [],
                             )
                           : Container(
                               width: 150,
@@ -756,7 +712,7 @@ class _aiState extends State<ai2> {
                                           ),
                                           TextButton(
                                               onPressed: () {
-                                                showreward();
+                                                // showreward();
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -828,7 +784,7 @@ class _aiState extends State<ai2> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
-                                                showreward();
+                                                // showreward();
                                                 // if (await _request_per(Permission.storage) ==
                                                 //     true) {
                                                 int a = messages.length;
@@ -865,7 +821,7 @@ class _aiState extends State<ai2> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
-                                                showreward();
+                                                // showreward();
                                                 // if (await _request_per(Permission.storage) ==
                                                 //     true) {
                                                 int a = messages.length;
@@ -902,7 +858,7 @@ class _aiState extends State<ai2> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
-                                                showreward();
+                                                // showreward();
                                                 // if (await _request_per(Permission.storage) ==
                                                 //     true) {
                                                 int a = messages.length;
@@ -987,7 +943,7 @@ class _aiState extends State<ai2> {
             ],
             leading: IconButton(
                 onPressed: () {
-                  showreward();
+                  // showreward();
                   int a = messages.length;
                   for (int i = 0; i < a; i++) {
                     all = all + "\n" + messages[i];
@@ -1055,15 +1011,6 @@ class _aiState extends State<ai2> {
                   ],
                 ),
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Center(
-                child: Text(
-                  widget.givencontent,
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-              ),
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
@@ -1121,7 +1068,7 @@ class _aiState extends State<ai2> {
               padding: const EdgeInsets.only(bottom: 70, right: 10),
               child: InkWell(
                 onTap: () {
-                  showreward();
+                  // showreward();
                   int a = messages.length;
                   for (int i = 0; i < a; i++) {
                     all = all + "\n" + messages[i];

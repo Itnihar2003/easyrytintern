@@ -387,8 +387,8 @@ class _aiState extends State<ai> {
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
-        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
         request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (RewardedAd ad) {
@@ -1307,7 +1307,7 @@ class _aiState extends State<ai> {
                                           ),
                                           TextButton(
                                               onPressed: () {
-                                                showreward();
+                                                // showreward();
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -1379,7 +1379,7 @@ class _aiState extends State<ai> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
-                                                showreward();
+                                                // showreward();
                                                 // if (await permission.isGranted) {
                                                 int a = messages.length;
                                                 for (int i = 0; i < a; i++) {
@@ -1415,7 +1415,7 @@ class _aiState extends State<ai> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
-                                                showreward();
+                                                // showreward();
                                                 // if (await permission.isGranted) {
                                                 int a = messages.length;
                                                 for (int i = 0; i < a; i++) {
@@ -1451,7 +1451,7 @@ class _aiState extends State<ai> {
                                                   ))),
                                           TextButton(
                                               onPressed: () async {
-                                                showreward();
+                                                // showreward();
                                                 // if (await permission.isGranted) {
                                                 int a = messages.length;
                                                 for (int i = 0; i < a; i++) {
@@ -1645,7 +1645,7 @@ class _aiState extends State<ai> {
                   for (int i = 0; i < a; i++) {
                     all = all + "\n" + messages[i];
                   }
-                  showreward();
+                  // showreward();
                   save1(all);
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(

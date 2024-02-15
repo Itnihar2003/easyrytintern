@@ -193,8 +193,8 @@ class _notesState extends State<notes> {
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
-        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
         request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (RewardedAd ad) {
@@ -293,7 +293,7 @@ class _notesState extends State<notes> {
                 ElevatedButton(
                   onPressed: () {
                     // Handle button tap
-                    showreward();
+                    // showreward();
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
                           builder: (context) => home(
@@ -319,7 +319,7 @@ class _notesState extends State<notes> {
                 backgroundColor: Colors.black,
                 child: IconButton(
                     onPressed: () {
-                      showreward();
+                      // showreward();
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                             builder: (context) => home(

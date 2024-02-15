@@ -177,7 +177,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   @override
   void initState() {
     //only for final update on play store
-    checkForAppUpdate();
+  checkForAppUpdate();
 
     Timer.periodic(Duration(minutes: 2), (_) {
       showDialog(
@@ -843,211 +843,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                             MaterialPageRoute(
                                               builder: (context) => setting(),
                                             ));
-                                        // showModalBottomSheet(
-                                        //   context: context,
-                                        //   builder: (context) => SizedBox(
-                                        //     height: 350,
-                                        //     child: Column(
-                                        //       mainAxisAlignment:
-                                        //           MainAxisAlignment.start,
-                                        //       children: [
-                                        //         Container(
-                                        //           padding: const EdgeInsets
-                                        //               .symmetric(horizontal: 5),
-                                        //           decoration:
-                                        //               const BoxDecoration(
-                                        //             color: Colors.white,
-                                        //             borderRadius:
-                                        //                 BorderRadius.only(
-                                        //               topLeft:
-                                        //                   Radius.circular(6),
-                                        //               topRight:
-                                        //                   Radius.circular(6),
-                                        //             ),
-                                        //           ),
-                                        //           child: Row(
-                                        //             mainAxisAlignment:
-                                        //                 MainAxisAlignment
-                                        //                     .spaceBetween,
-                                        //             children: [
-                                        //               Row(
-                                        //                 children: [
-                                        //                   const SizedBox(
-                                        //                       height: 50,
-                                        //                       width: 10),
-                                        //                   Text(
-                                        //                     "Quick Note",
-                                        //                     style: GoogleFonts
-                                        //                         .poppins(
-                                        //                       color:
-                                        //                           Colors.black,
-                                        //                       fontSize: 17,
-                                        //                       fontWeight:
-                                        //                           FontWeight
-                                        //                               .w400,
-                                        //                     ),
-                                        //                   ),
-                                        //                 ],
-                                        //               ),
-                                        //               Padding(
-                                        //                   padding:
-                                        //                       const EdgeInsets
-                                        //                           .only(
-                                        //                           right: 10),
-                                        //                   child: TextButton(
-                                        //                     onPressed: () {
-                                        //                       Navigator.pop(
-                                        //                           context);
-                                        //                     },
-                                        //                     child: Text(
-                                        //                       "close",
-                                        //                       style: GoogleFonts
-                                        //                           .poppins(
-                                        //                         color: Colors
-                                        //                             .black,
-                                        //                         fontSize: 15,
-                                        //                       ),
-                                        //                     ),
-                                        //                   )),
-                                        //             ],
-                                        //           ),
-                                        //         ),
-                                        //         Expanded(
-                                        //           child: Container(
-                                        //             decoration:
-                                        //                 const BoxDecoration(
-                                        //               color: Color(0xFFF6F6F6),
-                                        //             ),
-                                        //             child:
-                                        //                 SingleChildScrollView(
-                                        //               child: Column(
-                                        //                 children: [
-                                        //                   const SizedBox(
-                                        //                       height: 2.5),
-                                        //                   const Padding(
-                                        //                     padding: EdgeInsets
-                                        //                         .symmetric(
-                                        //                       horizontal: 5,
-                                        //                       vertical: 2.5,
-                                        //                     ),
-                                        //                   ),
-                                        //                   TextButton(
-                                        //                       onPressed: () {},
-                                        //                       child: ListTile(
-                                        //                           leading: Container(
-                                        //                               height:
-                                        //                                   40,
-                                        //                               width: 40,
-                                        //                               color: Color(
-                                        //                                   0xFFF6F6F6),
-                                        //                               child: Image
-                                        //                                   .asset(
-                                        //                                       "assets/1.png")),
-                                        //                           title:
-                                        //                               const Text(
-                                        //                             "share the App",
-                                        //                             style:
-                                        //                                 TextStyle(
-                                        //                               fontSize:
-                                        //                                   18,
-                                        //                             ),
-                                        //                           ),
-                                        //                           trailing:
-                                        //                               const Icon(
-                                        //                                   Icons
-                                        //                                       .arrow_forward_ios))),
-                                        //                   TextButton(
-                                        //                       onPressed: () {},
-                                        //                       child: ListTile(
-                                        //                           leading: Container(
-                                        //                               height:
-                                        //                                   40,
-                                        //                               width: 40,
-                                        //                               color: Color(
-                                        //                                   0xFFF6F6F6),
-                                        //                               child: Image
-                                        //                                   .asset(
-                                        //                                       "assets/2.png")),
-                                        //                           title:
-                                        //                               const Text(
-                                        //                             "Rate us",
-                                        //                             style:
-                                        //                                 TextStyle(
-                                        //                               fontSize:
-                                        //                                   18,
-                                        //                             ),
-                                        //                           ),
-                                        //                           trailing:
-                                        //                               const Icon(
-                                        //                                   Icons
-                                        //                                       .arrow_forward_ios))),
-                                        //                   TextButton(
-                                        //                       onPressed: () {},
-                                        //                       child: ListTile(
-                                        //                           leading: Container(
-                                        //                               height:
-                                        //                                   40,
-                                        //                               width: 40,
-                                        //                               color: Color(
-                                        //                                   0xFFF6F6F6),
-                                        //                               child: Image
-                                        //                                   .asset(
-                                        //                                       "assets/3.png")),
-                                        //                           title:
-                                        //                               const Text(
-                                        //                             "Terms of Use",
-                                        //                             style:
-                                        //                                 TextStyle(
-                                        //                               fontSize:
-                                        //                                   18,
-                                        //                             ),
-                                        //                           ),
-                                        //                           trailing:
-                                        //                               const Icon(
-                                        //                                   Icons
-                                        //                                       .arrow_forward_ios))),
-                                        //                   TextButton(
-                                        //                       onPressed: () {
-                                        //                         Navigator.push(
-                                        //                             context,
-                                        //                             MaterialPageRoute(
-                                        //                               builder:
-                                        //                                   (context) =>
-                                        //                                       privacy(),
-                                        //                             ));
-                                        //                       },
-                                        //                       child: ListTile(
-                                        //                           leading: Container(
-                                        //                               height:
-                                        //                                   40,
-                                        //                               width: 40,
-                                        //                               color: Color(
-                                        //                                   0xFFF6F6F6),
-                                        //                               child: Image
-                                        //                                   .asset(
-                                        //                                       "assets/4.png")),
-                                        //                           title:
-                                        //                               const Text(
-                                        //                             "Privacy Policy",
-                                        //                             style:
-                                        //                                 TextStyle(
-                                        //                               fontSize:
-                                        //                                   18,
-                                        //                             ),
-                                        //                           ),
-                                        //                           trailing:
-                                        //                               const Icon(
-                                        //                                   Icons
-                                        //                                       .arrow_forward_ios))),
-                                        //                 ],
-                                        //               ),
-                                        //             ),
-                                        //           ),
-                                        //         )
-                                        //       ],
-                                        //     ),
-                                        //   ),
-                                        // );
+                                
                                       },
                                       icon: const Icon(Icons.settings)),
                                 ],
@@ -1056,49 +852,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      // const SizedBox(height: 15),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(16.0),
-                      //   child: Container(
-                      //     child: ImageChanger(),
-                      //     height: 140,
-                      //     width: MediaQuery.of(context).size.width,
-                      //     margin: const EdgeInsets.symmetric(horizontal: 5),
-                      //     decoration: BoxDecoration(
-                      //       borderRadius: BorderRadius.circular(12),
-                      //       color: Colors.white,
-                      //       boxShadow: const [
-                      //         BoxShadow(
-                      //           color: Color.fromRGBO(100, 100, 111, 0.1),
-                      //           blurRadius: 10,
-                      //           spreadRadius: 0,
-                      //           offset: Offset(0, 7),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      // Quick Tools
+                 
                       SizedBox(
                         height: 10,
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8.0),
-                      //   child: Center(
-                      //     child: Container(
-                      //         height: _bannerAd.size.height.toDouble(),
-                      //         width: _bannerAd.size.width.toDouble(),
-                      //         child: _isadloaded
-                      //             ? AdWidget(ad: _bannerAd)
-                      //             : Container(
-                      //                 decoration: BoxDecoration(
-                      //                     gradient: LinearGradient(colors: [
-                      //                   Colors.green,
-                      //                   Colors.blue
-                      //                 ])),
-                      //               )),
-                      //   ),
-                      // ),
+                    
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -1387,7 +1145,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            showreward();
+                                                                            // showreward();
 
                                                                             // if (await permission.isGranted) {
                                                                             convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
@@ -1409,7 +1167,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            showreward();
+                                                                            // showreward();
                                                                             // if (await permission.isGranted) {
                                                                             convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
@@ -1430,7 +1188,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            showreward();
+                                                                            // showreward();
                                                                             // if (await permission.isGranted) {
                                                                             downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
@@ -1451,7 +1209,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            showreward();
+                                                                            // showreward();
                                                                             await Share.share(widget.datas[index].tittle1 +
                                                                                 "\n" +
                                                                                 widget.datas[index].content1 +
@@ -1612,7 +1370,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
               padding: const EdgeInsets.all(5.0),
               child: InkWell(
                 onTap: () {
-                  showreward();
+                  // showreward();
                   _sendAnalyticsEvent("suggestions", 6);
                   Navigator.push(
                       context,

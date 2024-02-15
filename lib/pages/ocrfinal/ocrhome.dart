@@ -15,6 +15,7 @@ import 'package:todoaiapp/pages/ocrfinal/textviewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:http/http.dart' as http;
+import 'dart:math' as math show sin, pi, sqrt;
 
 class ocrhome extends StatefulWidget {
   const ocrhome({super.key});
@@ -474,48 +475,170 @@ class _ocrhomeState extends State<ocrhome> {
         ),
         body: Container(
           height: size.height,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // bottom drive box
-              ],
+          child: Center(
+              child: Container(
+            width: 200,
+            child: Image.asset(
+              "assets/Group 620 (1).png",
             ),
-          ),
+          )),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            openCustomCamera();
-          },
-          child: Container(
-            height: size.height * 0.07,
-            width: size.width * 0.23,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black54,
-                  offset: Offset(0, 0),
-                  blurRadius: 0.1,
-                  spreadRadius: 0.3,
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Image.asset(
-                'assets/images/CAMERA.png',
-                fit: BoxFit.fitHeight,
-                // color: Colors.black,
+        floatingActionButton: Stack(
+          children: [
+            WaveAnimation(
+              size: 60.0,
+              color: Color.fromARGB(255, 172, 172, 172),
+              centerChild: Stack(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle button tap
+                      openCustomCamera();
+                    },
+                    child: Text(""),
+                  ),
+                ],
               ),
             ),
+            Positioned(
+              top: 17,
+              left: 18,
+              child: CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.black,
+                  child: IconButton(
+                      onPressed: () {
+                        openCustomCamera();
+                      },
+                      icon: const Icon(
+                        Icons.camera_alt_outlined,
+                        color: Colors.white,
+                        size: 30,
+                      ))),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class WaveAnimation extends StatefulWidget {
+  final double size;
+  final Color color;
+  final Widget centerChild;
+
+  const WaveAnimation({
+    this.size = 80.0,
+    this.color = Colors.red,
+    required this.centerChild,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  WaveAnimationState createState() => WaveAnimationState();
+}
+
+class WaveAnimationState extends State<WaveAnimation>
+    with TickerProviderStateMixin {
+  late AnimationController animCtr;
+
+  @override
+  void initState() {
+    super.initState();
+    animCtr = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    )..repeat();
+  }
+
+  Widget getAnimatedWidget() {
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.size),
+          gradient: RadialGradient(
+            colors: [
+              widget.color,
+              Color.lerp(widget.color, Colors.black, .05)!
+            ],
+          ),
+        ),
+        child: ScaleTransition(
+          scale: Tween(begin: 0.95, end: 1.0).animate(
+            CurvedAnimation(
+              parent: animCtr,
+              curve: CurveWave(),
+            ),
+          ),
+          child: Container(
+            width: widget.size * 0.4,
+            height: widget.size * 0.4,
+            margin: const EdgeInsets.all(6),
+            child: widget.centerChild,
           ),
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(context) {
+    return CustomPaint(
+      painter: CirclePainter(animCtr, color: widget.color),
+      child: SizedBox(
+        width: widget.size * 1.6,
+        height: widget.size * 1.6,
+        child: getAnimatedWidget(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    animCtr.dispose();
+    super.dispose();
+  }
+}
+
+class CirclePainter extends CustomPainter {
+  final Color color;
+  final Animation<double> animation;
+
+  CirclePainter(
+    this.animation, {
+    required this.color,
+  }) : super(repaint: animation);
+
+  void circle(Canvas canvas, Rect rect, double value) {
+    final double opacity = (1.0 - (value / 4.0)).clamp(0.0, 1.0);
+    final Color rippleColor = color.withOpacity(opacity);
+    final double size = rect.width / 2;
+    final double area = size * size;
+    final double radius = math.sqrt(area * value / 4);
+    final Paint paint = Paint()..color = rippleColor;
+    canvas.drawCircle(rect.center, radius, paint);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Rect.fromLTRB(0.0, 0.0, size.width, size.height);
+    for (int wave = 3; wave >= 0; wave--) {
+      circle(canvas, rect, wave + animation.value);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CirclePainter oldDelegate) => true;
+}
+
+class CurveWave extends Curve {
+  @override
+  double transform(double t) {
+    if (t == 0 || t == 1) {
+      return 0.01;
+    }
+    return math.sin(t * math.pi);
   }
 }

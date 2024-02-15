@@ -443,8 +443,8 @@ class _TextViewerState extends State<TextViewer> {
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
-        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
         request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (RewardedAd ad) {
@@ -523,7 +523,7 @@ class _TextViewerState extends State<TextViewer> {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-                showreward();
+                // showreward();
                 save1("${_textController.text.toString()}");
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
@@ -629,7 +629,7 @@ class _TextViewerState extends State<TextViewer> {
                                         ),
                                         TextButton(
                                             onPressed: () async {
-                                              showreward();
+                                              // showreward();
                                               convertToPDF(
                                                 _textController.text.toString(),
                                                 widget.langCode,
@@ -655,7 +655,7 @@ class _TextViewerState extends State<TextViewer> {
                                                 ))),
                                         TextButton(
                                             onPressed: () async {
-                                              showreward();
+                                              // showreward();
                                               convertToDocx(_textController.text
                                                   .toString());
                                             },
@@ -679,7 +679,7 @@ class _TextViewerState extends State<TextViewer> {
                                                 ))),
                                         TextButton(
                                             onPressed: () async {
-                                              showreward();
+                                              // showreward();
                                               downloadTxt(_textController.text
                                                   .toString());
                                             },
@@ -719,12 +719,6 @@ class _TextViewerState extends State<TextViewer> {
               ],
             )
           ],
-          title: Row(
-            children: [
-              IconButton(onPressed: () {}, icon: const Icon(Icons.undo)),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.redo)),
-            ],
-          ),
         ),
         backgroundColor: Colors.white,
         body: Container(
@@ -886,7 +880,7 @@ class _TextViewerState extends State<TextViewer> {
                   ElevatedButton(
                     onPressed: () {
                       // Handle button tap
-                      showreward();
+                      // showreward();
                       save1("${_textController.text.toString()}");
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
@@ -909,7 +903,7 @@ class _TextViewerState extends State<TextViewer> {
                   backgroundColor: Colors.black,
                   child: IconButton(
                       onPressed: () {
-                        showreward();
+                        // showreward();
                         save1("${_textController.text.toString()}");
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(
