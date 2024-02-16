@@ -177,7 +177,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   @override
   void initState() {
     //only for final update on play store
-  checkForAppUpdate();
+    checkForAppUpdate();
 
     Timer.periodic(Duration(minutes: 2), (_) {
       showDialog(
@@ -843,7 +843,6 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                             MaterialPageRoute(
                                               builder: (context) => setting(),
                                             ));
-                                
                                       },
                                       icon: const Icon(Icons.settings)),
                                 ],
@@ -852,11 +851,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                 
+
                       SizedBox(
                         height: 10,
                       ),
-                    
+
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -1019,7 +1018,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                       context: context,
                                                       builder: (context) =>
                                                           SizedBox(
-                                                        height: 370,
+                                                        height: 350,
                                                         child: Column(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
@@ -1129,127 +1128,231 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                               () {
                                                                             FlutterClipboard.copy("${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
                                                                             Get.snackbar("copied",
-                                                                                "${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                                                                                "");
                                                                             Navigator.pop(context);
                                                                           },
-                                                                          child: ListTile(
-                                                                              leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
-                                                                              title: const Text(
-                                                                                "copy to clipboard",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                30,
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/copy.png")),
+                                                                                      Text(
+                                                                                        "copy to clipboard",
+                                                                                        style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w400),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Icon(
+                                                                                        Icons.arrow_forward_ios,
+                                                                                        size: 20,
+                                                                                      )
+                                                                                    ],
+                                                                                  )
+                                                                                ],
                                                                               ),
-                                                                              trailing: const Icon(
-                                                                                Icons.arrow_forward_ios,
-                                                                                size: 20,
-                                                                              ))),
+                                                                            ),
+                                                                          )),
                                                                       TextButton(
                                                                           onPressed:
-                                                                              () async {
-                                                                            // showreward();
-
-                                                                            // if (await permission.isGranted) {
+                                                                              () {
                                                                             convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
-                                                                            // } else {
-                                                                            //   print("permission not granted");
-                                                                            // }
                                                                           },
-                                                                          child: ListTile(
-                                                                              leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
-                                                                              title: const Text(
-                                                                                "PDF",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                30,
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/pop.png")),
+                                                                                      Text(
+                                                                                        "PDF",
+                                                                                        style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w400),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Icon(
+                                                                                        Icons.arrow_forward_ios,
+                                                                                        size: 20,
+                                                                                      )
+                                                                                    ],
+                                                                                  )
+                                                                                ],
                                                                               ),
-                                                                              trailing: const Icon(
-                                                                                Icons.arrow_forward_ios,
-                                                                                size: 20,
-                                                                              ))),
+                                                                            ),
+                                                                          )),
                                                                       TextButton(
                                                                           onPressed:
-                                                                              () async {
-                                                                            // showreward();
-                                                                            // if (await permission.isGranted) {
+                                                                              () {
                                                                             convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
-                                                                            // } else {
-                                                                            //   print("permission not granted");
-                                                                            // }
                                                                           },
-                                                                          child: ListTile(
-                                                                              leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
-                                                                              title: const Text(
-                                                                                "Word",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                30,
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/word.png")),
+                                                                                      Text(
+                                                                                        "Word",
+                                                                                        style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w400),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Icon(
+                                                                                        Icons.arrow_forward_ios,
+                                                                                        size: 20,
+                                                                                      )
+                                                                                    ],
+                                                                                  )
+                                                                                ],
                                                                               ),
-                                                                              trailing: const Icon(
-                                                                                Icons.arrow_forward_ios,
-                                                                                size: 20,
-                                                                              ))),
+                                                                            ),
+                                                                          )),
                                                                       TextButton(
                                                                           onPressed:
-                                                                              () async {
-                                                                            // showreward();
-                                                                            // if (await permission.isGranted) {
+                                                                              () {
                                                                             downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
                                                                             print("permission granted");
-                                                                            // } else {
-                                                                            //   print("permission not granted");
-                                                                            // }
                                                                           },
-                                                                          child: ListTile(
-                                                                              leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
-                                                                              title: const Text(
-                                                                                "Txt",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                30,
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/text.png")),
+                                                                                      Text(
+                                                                                        "Txt",
+                                                                                        style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w400),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Icon(
+                                                                                        Icons.arrow_forward_ios,
+                                                                                        size: 20,
+                                                                                      )
+                                                                                    ],
+                                                                                  )
+                                                                                ],
                                                                               ),
-                                                                              trailing: const Icon(
-                                                                                Icons.arrow_forward_ios,
-                                                                                size: 20,
-                                                                              ))),
+                                                                            ),
+                                                                          )),
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            // showreward();
                                                                             await Share.share(widget.datas[index].tittle1 +
                                                                                 "\n" +
                                                                                 widget.datas[index].content1 +
                                                                                 "\n" +
                                                                                 "https://bit.ly/4bk7ZAV");
                                                                           },
-                                                                          child: ListTile(
-                                                                              leading: Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
-                                                                              title: const Text(
-                                                                                "Share",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                30,
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/share.png")),
+                                                                                      Text(
+                                                                                        "Share",
+                                                                                        style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w400),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Icon(
+                                                                                        Icons.arrow_forward_ios,
+                                                                                        size: 20,
+                                                                                      )
+                                                                                    ],
+                                                                                  )
+                                                                                ],
                                                                               ),
-                                                                              trailing: const Icon(
-                                                                                Icons.arrow_forward_ios,
-                                                                                size: 20,
-                                                                              ))),
+                                                                            ),
+                                                                          )),
                                                                       TextButton(
                                                                           onPressed:
-                                                                              () {
+                                                                              () async {
                                                                             setState(() {
                                                                               widget.datas.removeAt(index);
                                                                               setdata1();
                                                                             });
                                                                             Navigator.pop(context);
                                                                           },
-                                                                          child: ListTile(
-                                                                              leading: Container(
-                                                                                height: 20,
-                                                                                width: 30,
-                                                                                color: Colors.white,
-                                                                                child: Image.asset("assets/delete.png"),
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                30,
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                children: [
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Container(height: 20, width: 30, color: Colors.white, child: Image.asset("assets/delete.png")),
+                                                                                      Text(
+                                                                                        "Delete",
+                                                                                        style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w400),
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+                                                                                  Row(
+                                                                                    children: [
+                                                                                      Icon(
+                                                                                        Icons.arrow_forward_ios,
+                                                                                        size: 20,
+                                                                                      )
+                                                                                    ],
+                                                                                  )
+                                                                                ],
                                                                               ),
-                                                                              title: const Text(
-                                                                                "Delete",
-                                                                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-                                                                              ),
-                                                                              trailing: const Icon(
-                                                                                Icons.arrow_forward_ios,
-                                                                                size: 20,
-                                                                              ))),
+                                                                            ),
+                                                                          )),
                                                                     ],
                                                                   ),
                                                                 ),
