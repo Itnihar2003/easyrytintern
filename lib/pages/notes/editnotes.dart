@@ -179,10 +179,6 @@ class _editnotesState extends State<editnotes> {
                                   Navigator.pop(context);
                                 },
                                 icon: const Icon(Icons.arrow_back)),
-                            IconButton(
-                                onPressed: () {}, icon: const Icon(Icons.undo)),
-                            IconButton(
-                                onPressed: () {}, icon: const Icon(Icons.redo)),
                           ],
                         ),
                         Padding(

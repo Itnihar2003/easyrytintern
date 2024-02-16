@@ -51,7 +51,7 @@ class _aiState extends State<ai2> {
 
   @override
   void initState() {
-    startrewardad();
+    // startrewardad();
     update();
     _scrollController = ScrollController();
     super.initState();
@@ -80,9 +80,6 @@ class _aiState extends State<ai2> {
             content1: aimessage));
       });
       setdata1();
-    } else {
-      Get.snackbar("Error", "Plese fill all data",
-          backgroundColor: Colors.grey);
     }
   }
 
@@ -112,17 +109,17 @@ class _aiState extends State<ai2> {
   //rewardbanner
 
   late RewardedAd _rewardedAd;
-  startrewardad() {
-    RewardedAd.load(
-        adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
-        request: AdRequest(),
-        rewardedAdLoadCallback: RewardedAdLoadCallback(
-            onAdLoaded: (RewardedAd ad) {
-              this._rewardedAd = ad;
-            },
-            onAdFailedToLoad: (LoadAdError error) {}));
-  }
+  // startrewardad() {
+  //   RewardedAd.load(
+  //       adUnitId: "ca-app-pub-3940256099942544/5224354917",
+  //       // adUnitId: "ca-app-pub-1396556165266132/1772804526",
+  //       request: AdRequest(),
+  //       rewardedAdLoadCallback: RewardedAdLoadCallback(
+  //           onAdLoaded: (RewardedAd ad) {
+  //             this._rewardedAd = ad;
+  //           },
+  //           onAdFailedToLoad: (LoadAdError error) {}));
+  // }
 
   showreward() {
     _rewardedAd.show(

@@ -441,17 +441,17 @@ class _TextViewerState extends State<TextViewer> {
   }
 
   late RewardedAd _rewardedAd;
-  startrewardad() {
-    RewardedAd.load(
-        adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
-        request: AdRequest(),
-        rewardedAdLoadCallback: RewardedAdLoadCallback(
-            onAdLoaded: (RewardedAd ad) {
-              this._rewardedAd = ad;
-            },
-            onAdFailedToLoad: (LoadAdError error) {}));
-  }
+  // startrewardad() {
+  //   RewardedAd.load(
+  //       adUnitId: "ca-app-pub-3940256099942544/5224354917",
+  //       // adUnitId: "ca-app-pub-1396556165266132/1772804526",
+  //       request: AdRequest(),
+  //       rewardedAdLoadCallback: RewardedAdLoadCallback(
+  //           onAdLoaded: (RewardedAd ad) {
+  //             this._rewardedAd = ad;
+  //           },
+  //           onAdFailedToLoad: (LoadAdError error) {}));
+  // }
 
   showreward() {
     _rewardedAd.show(
@@ -476,7 +476,7 @@ class _TextViewerState extends State<TextViewer> {
   @override
   void initState() {
     update();
-    startrewardad();
+    // startrewardad();
     _textController.text = widget.data;
     super.initState();
   }
@@ -501,8 +501,6 @@ class _TextViewerState extends State<TextViewer> {
             content1: aimessage));
       });
       setdata1();
-    } else {
-      Get.snackbar("Error", "No data", backgroundColor: Colors.grey);
     }
   }
 
@@ -526,11 +524,7 @@ class _TextViewerState extends State<TextViewer> {
                 // showreward();
                 save1("${_textController.text.toString()}");
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => home(
-                        datas: [],
-                      ),
-                    ),
+                    MaterialPageRoute(builder: (context) => ocrhome()),
                     (Route) => false);
               },
               icon: Icon(

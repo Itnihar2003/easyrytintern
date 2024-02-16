@@ -493,7 +493,7 @@ class _recentState extends State<recent> {
             ),
             SingleChildScrollView(
               child: Container(
-                height: MediaQuery.of(context).size.height,
+                height: 630,
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
