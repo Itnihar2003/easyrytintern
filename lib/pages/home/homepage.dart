@@ -943,7 +943,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                         child: Container(
                           height: (widget.datas.length % 2 == 0)
                               ? (widget.datas.length / 2) * 207
-                              : widget.datas.length * 180,
+                              : ((widget.datas.length + 1) / 2) * 207,
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: GridView.builder(
                             physics: const NeverScrollableScrollPhysics(),
