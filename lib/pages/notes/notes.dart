@@ -21,17 +21,17 @@ class notes extends StatefulWidget {
 class _notesState extends State<notes> {
  
   late RewardedAd _rewardedAd;
-  // startrewardad() {
-  //   RewardedAd.load(
-  //       adUnitId: "ca-app-pub-3940256099942544/5224354917",
-  //       // adUnitId: "ca-app-pub-1396556165266132/1772804526",
-  //       request: AdRequest(),
-  //       rewardedAdLoadCallback: RewardedAdLoadCallback(
-  //           onAdLoaded: (RewardedAd ad) {
-  //             this._rewardedAd = ad;
-  //           },
-  //           onAdFailedToLoad: (LoadAdError error) {}));
-  // }
+  startrewardad() {
+    RewardedAd.load(
+        adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        request: AdRequest(),
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+            onAdLoaded: (RewardedAd ad) {
+              this._rewardedAd = ad;
+            },
+            onAdFailedToLoad: (LoadAdError error) {}));
+  }
 
   showreward() {
     _rewardedAd.show(
@@ -77,7 +77,7 @@ class _notesState extends State<notes> {
   @override
   void initState() {
     update();
-    // startrewardad();
+    startrewardad();
     super.initState();
   }
 
@@ -149,7 +149,7 @@ class _notesState extends State<notes> {
                 backgroundColor: Colors.black,
                 child: IconButton(
                     onPressed: () {
-                      // showreward();
+                      showreward();
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                             builder: (context) => home(

@@ -756,6 +756,7 @@ class _detailState extends State<detail> {
                                     borderRadius: BorderRadius.circular(15),
                                     color: Colors.white),
                                 child: InkWell(
+                                  borderRadius: BorderRadius.circular(15),
                                   onTap: () {
                                     Navigator.push(
                                         context,
@@ -906,6 +907,7 @@ class _detailState extends State<detail> {
                                       borderRadius: BorderRadius.circular(15),
                                       color: Colors.white),
                                   child: InkWell(
+                                    borderRadius: BorderRadius.circular(15),
                                     onTap: () {
                                       Navigator.push(
                                           context,
@@ -1062,6 +1064,7 @@ class _detailState extends State<detail> {
                                       borderRadius: BorderRadius.circular(15),
                                       color: Colors.white),
                                   child: InkWell(
+                                    borderRadius: BorderRadius.circular(15),
                                     onTap: () {
                                       Navigator.push(
                                           context,
@@ -1229,6 +1232,7 @@ class _detailState extends State<detail> {
                                       borderRadius: BorderRadius.circular(15),
                                       color: Colors.white),
                                   child: InkWell(
+                                    borderRadius: BorderRadius.circular(15),
                                     onTap: () {
                                       Navigator.push(
                                           context,
@@ -1397,6 +1401,7 @@ class _detailState extends State<detail> {
                                         borderRadius: BorderRadius.circular(15),
                                         color: Colors.white),
                                     child: InkWell(
+                                      borderRadius: BorderRadius.circular(15),
                                       onTap: () {
                                         Navigator.push(
                                             context,
@@ -1554,7 +1559,7 @@ class _detailState extends State<detail> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => completed(

@@ -174,22 +174,16 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     }
   }
 
+  Timer? timer;
   @override
   void initState() {
     //only for final update on play store
-    checkForAppUpdate();
+    // checkForAppUpdate();
+    timer = Timer.periodic(Duration(seconds: 120), (Timer t) => showreward());
 
-    Timer.periodic(Duration(minutes: 2), (_) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: showreward(),
-        ),
-      );
-      // show popup from here
-    });
     startrewardad();
-    initialadd();
+    // initialadd();
+
     analytics.setAnalyticsCollectionEnabled(true);
     rateMyApp.init().then((_) {
       rateMyApp.conditions.forEach((condition) {
@@ -275,6 +269,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
       payload: 'item x',
     );
   }
+  //concent form
 
   List text = [
     "Marketing Strategy Blueprint:",
@@ -763,6 +758,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   @override
   void dispose() {
     _controller.dispose();
+    timer?.cancel();
     super.dispose();
   }
 
@@ -779,7 +775,6 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
             children: [
               Expanded(
                 child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -855,7 +850,17 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                       SizedBox(
                         height: 10,
                       ),
-
+                      // _isadloaded
+                      //     ? Container(
+                      //         height: _bannerAd.size.height.toDouble(),
+                      //         width: _bannerAd.size.width.toDouble(),
+                      //         child: AdWidget(ad: _bannerAd),
+                      //       )
+                      //     : Container(
+                      //         height: _bannerAd.size.height.toDouble(),
+                      //         width: _bannerAd.size.width.toDouble(),
+                      //         color: Colors.amber,
+                      //       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -959,6 +964,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: InkWell(
+                                  borderRadius: BorderRadius.circular(15),
                                   onTap: () {
                                     Navigator.push(
                                         context,
@@ -1472,6 +1478,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
             return Padding(
               padding: const EdgeInsets.all(5.0),
               child: InkWell(
+                borderRadius: BorderRadius.circular(12),
                 onTap: () {
                   // showreward();
                   _sendAnalyticsEvent("suggestions", 6);

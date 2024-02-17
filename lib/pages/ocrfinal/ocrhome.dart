@@ -452,73 +452,72 @@ class _ocrhomeState extends State<ocrhome> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          leading: IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => home(datas: []),
-                    ));
-              },
-              icon: Icon(
-                Icons.arrow_back,
-                size: 30,
-              )),
-          title: Text(
-            "OCR",
-            style: TextStyle(fontWeight: FontWeight.bold),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => home(datas: []),
+                  ));
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              size: 30,
+            )),
+        title: Text(
+          "OCR",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Container(
+        height: size.height,
+        child: Center(
+            child: Container(
+          width: 200,
+          child: Image.asset(
+            "assets/Group 620 (1).png",
           ),
-        ),
-        body: Container(
-          height: size.height,
-          child: Center(
-              child: Container(
-            width: 200,
-            child: Image.asset(
-              "assets/Group 620 (1).png",
+        )),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Stack(
+        children: [
+          WaveAnimation(
+            size: 60.0,
+            color: Color.fromARGB(255, 172, 172, 172),
+            centerChild: Stack(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // Handle button tap
+                    openCustomCamera();
+                  },
+                  child: Text(""),
+                ),
+              ],
             ),
-          )),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Stack(
-          children: [
-            WaveAnimation(
-              size: 60.0,
-              color: Color.fromARGB(255, 172, 172, 172),
-              centerChild: Stack(
-                children: [
-                  ElevatedButton(
+          ),
+          Positioned(
+            top: 17,
+            left: 18,
+            child: CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.black,
+                child: IconButton(
                     onPressed: () {
-                      // Handle button tap
                       openCustomCamera();
                     },
-                    child: Text(""),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              top: 17,
-              left: 18,
-              child: CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.black,
-                  child: IconButton(
-                      onPressed: () {
-                        openCustomCamera();
-                      },
-                      icon: const Icon(
-                        Icons.camera_alt_outlined,
-                        color: Colors.white,
-                        size: 30,
-                      ))),
-            )
-          ],
-        ),
+                    icon: const Icon(
+                      Icons.camera_alt_outlined,
+                      color: Colors.white,
+                      size: 30,
+                    ))),
+          )
+        ],
       ),
     );
   }

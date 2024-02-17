@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:todoaiapp/pages/home/concentscreen.dart';
 import 'package:todoaiapp/pages/home/homepage.dart';
 import 'package:todoaiapp/pages/todo/notification.dart';
 import 'package:todoaiapp/pages/welcomepage.dart';
@@ -25,15 +26,16 @@ class _splashoneState extends State<splashtwo> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    Timer(Duration(seconds: 1), () {
+    Timer(Duration(seconds: 1), () async {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => home(datas: []),
+            builder: (context) =>
+                initializescreen(targetwidget: home(datas: [])),
           ));
     });
     notificationservice.initialisenotification();
-    // TODO: implement initState
+    // TODO: implement initState 
     super.initState();
   }
 

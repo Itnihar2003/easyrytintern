@@ -90,6 +90,7 @@ class _suggesiondetailState extends State<suggesiondetail> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
+                      borderRadius: BorderRadius.circular(15),
                       onTap: () {
                         Navigator.push(
                             context,
