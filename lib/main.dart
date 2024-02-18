@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,6 +24,8 @@ void main(List<String> args) async {
   );
   SharedPreferences pref = await SharedPreferences.getInstance();
   inviewed = pref.getInt("onboard");
+  MobileAds.instance.initialize();
+  ConsentInformation.instance.getConsentStatus();
   runApp(
     GetMaterialApp(
       title: 'NotaAI - Ask AI Chat to Write',

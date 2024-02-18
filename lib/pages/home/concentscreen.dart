@@ -22,11 +22,9 @@ class _initializescreenState extends State<initializescreen> {
     final navigator = Navigator.of(context);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await _initializationhelper.initialize();
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => widget.targetwidget,
-          ));
+      navigator.pushReplacement(MaterialPageRoute(
+        builder: (context) => widget.targetwidget,
+      ));
     });
   }
 

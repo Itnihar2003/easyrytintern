@@ -28,14 +28,14 @@ class _splashoneState extends State<splashtwo> with TickerProviderStateMixin {
   void initState() {
     Timer(Duration(seconds: 1), () async {
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                initializescreen(targetwidget: home(datas: [])),
-          ));
+          context, MaterialPageRoute(builder: (context) => home(datas: [])));
+      // final navigator = Navigator.of(context);
+      // navigator.pushReplacement(MaterialPageRoute(
+      //   builder: (context) => initializescreen(targetwidget: home(datas: [])),
+      // ));
     });
     notificationservice.initialisenotification();
-    // TODO: implement initState 
+    // TODO: implement initState
     super.initState();
   }
 

@@ -179,7 +179,10 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   void initState() {
     //only for final update on play store
     checkForAppUpdate();
-    timer = Timer.periodic(Duration(seconds: 120), (Timer t) => showreward());
+    setState(() {
+      timer = Timer.periodic(Duration(seconds: 120), (Timer t) => showreward());
+    });
+   
 
     startrewardad();
     // initialadd();

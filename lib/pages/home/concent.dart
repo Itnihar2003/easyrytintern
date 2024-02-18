@@ -5,11 +5,13 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 class Initializationhelper {
   Future<FormError?> initialize() async {
     final completer = Completer<FormError?>();
-   
-    ConsentDebugSettings debugSettings = ConsentDebugSettings(
-        debugGeography: DebugGeography.debugGeographyEea, testIdentifiers: ["B782C3827F2CC39BE0CE4AA42D23DE5A"]);
-    ConsentRequestParameters params =
-        ConsentRequestParameters(consentDebugSettings: debugSettings);
+
+    // ConsentDebugSettings debugSettings = ConsentDebugSettings(
+    //     debugGeography: DebugGeography.debugGeographyEea);
+    // ConsentRequestParameters params =
+    //     ConsentRequestParameters(consentDebugSettings: debugSettings);
+   final params = ConsentRequestParameters();
+
     ConsentInformation.instance.requestConsentInfoUpdate(params, () async {
       if (await ConsentInformation.instance.isConsentFormAvailable()) {
         await _loadconcentform();
