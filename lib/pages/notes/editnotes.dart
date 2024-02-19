@@ -154,8 +154,7 @@ class _editnotesState extends State<editnotes> {
           )
         ],
       ),
-      body: SafeArea(
-        top: true,
+      body: SingleChildScrollView(
         child: Stack(
           children: [
             Container(
@@ -257,7 +256,6 @@ class _editnotesState extends State<editnotes> {
                               }
                             });
                           },
-
                           decoration: InputDecoration(
                             hintText: 'Start Writing..',
                             border: InputBorder.none,
@@ -272,18 +270,6 @@ class _editnotesState extends State<editnotes> {
                             focusedErrorBorder: InputBorder.none,
                           ),
                           maxLines: null,
-                          // style: TextStyle(
-                          //   fontSize: _fontSize,
-                          //   color: _textColor,
-                          //   fontFamily: _fontFamily,
-                          //   fontStyle:
-                          //       isItalic ? FontStyle.italic : FontStyle.normal,
-                          //   fontWeight:
-                          //       isBold ? FontWeight.bold : FontWeight.normal,
-                          //   decoration: isUnderlined
-                          //       ? TextDecoration.underline
-                          //       : TextDecoration.none,
-                          // ),
                         ),
                       ),
                     ),

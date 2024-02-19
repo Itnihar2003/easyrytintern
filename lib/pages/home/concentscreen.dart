@@ -10,6 +10,7 @@ class initializescreen extends StatefulWidget {
 }
 
 class _initializescreenState extends State<initializescreen> {
+  final _initializationhelper = Initializationhelper();
   @override
   void initState() {
     _initialize();
@@ -17,10 +18,10 @@ class _initializescreenState extends State<initializescreen> {
     super.initState();
   }
 
-  final _initializationhelper = Initializationhelper();
+  
   Future<void> _initialize() async {
     final navigator = Navigator.of(context);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _initializationhelper.initialize();
       navigator.pushReplacement(MaterialPageRoute(
         builder: (context) => widget.targetwidget,
@@ -32,7 +33,7 @@ class _initializescreenState extends State<initializescreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(color: Colors.black,),
       ),
     );
   }

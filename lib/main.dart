@@ -24,8 +24,7 @@ void main(List<String> args) async {
   );
   SharedPreferences pref = await SharedPreferences.getInstance();
   inviewed = pref.getInt("onboard");
-  MobileAds.instance.initialize();
-  ConsentInformation.instance.getConsentStatus();
+
   runApp(
     GetMaterialApp(
       title: 'NotaAI - Ask AI Chat to Write',

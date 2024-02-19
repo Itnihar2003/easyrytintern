@@ -16,7 +16,7 @@ class Initializationhelper {
       if (await ConsentInformation.instance.isConsentFormAvailable()) {
         await _loadconcentform();
       } else {
-        await initialize();
+        await _initialize();
       }
       completer.complete();
     }, (error) {

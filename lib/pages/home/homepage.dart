@@ -86,6 +86,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
             onAdFailedToLoad: (LoadAdError error) {}));
   }
 
+  List<data1> saveddata = [];
+
   showreward() {
     _rewardedAd.show(
       onUserEarnedReward: (ad, reward) {
@@ -182,7 +184,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     setState(() {
       timer = Timer.periodic(Duration(seconds: 120), (Timer t) => showreward());
     });
-   
+    timer = Timer.periodic(Duration(seconds: 120), (Timer t) => showreward());
 
     startrewardad();
     // initialadd();

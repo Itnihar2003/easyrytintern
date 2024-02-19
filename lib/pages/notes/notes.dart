@@ -149,7 +149,7 @@ class _notesState extends State<notes> {
                 backgroundColor: Colors.black,
                 child: IconButton(
                     onPressed: () {
-                      showreward();
+                    
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                             builder: (context) => home(
@@ -171,8 +171,7 @@ class _notesState extends State<notes> {
         ],
       ),
 
-      body: SafeArea(
-        top: true,
+      body: SingleChildScrollView(
         child: Stack(
           children: [
             Container(
@@ -276,18 +275,7 @@ class _notesState extends State<notes> {
                             focusedErrorBorder: InputBorder.none,
                           ),
                           maxLines: null,
-                          // style: TextStyle(
-                          //   fontSize: _fontSize,
-                          //   color: _textColor,
-                          //   fontFamily: _fontFamily,
-                          //   fontStyle:
-                          //       isItalic ? FontStyle.italic : FontStyle.normal,
-                          //   fontWeight:
-                          //       isBold ? FontWeight.bold : FontWeight.normal,
-                          //   decoration: isUnderlined
-                          //       ? TextDecoration.underline
-                          //       : TextDecoration.none,
-                          // ),
+                      
                         ),
                       ),
                     ),
