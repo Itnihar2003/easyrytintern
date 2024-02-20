@@ -181,9 +181,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   void initState() {
     //only for final update on play store
     checkForAppUpdate();
-    setState(() {
-      timer = Timer.periodic(Duration(seconds: 120), (Timer t) => showreward());
-    });
+
     timer = Timer.periodic(Duration(seconds: 120), (Timer t) => showreward());
 
     startrewardad();
@@ -951,9 +949,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          height: (widget.datas.length % 2 == 0)
-                              ? (widget.datas.length / 2) * 207
-                              : ((widget.datas.length + 1) / 2) * 207,
+                          height: widget.datas.length > 10
+                              ? 1050
+                              : (widget.datas.length % 2 == 0)
+                                  ? (widget.datas.length / 2) * 207
+                                  : ((widget.datas.length + 1) / 2) * 207,
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: GridView.builder(
                             physics: const NeverScrollableScrollPhysics(),
@@ -963,9 +963,12 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                               crossAxisCount: 2,
                               mainAxisSpacing: 10.0,
                             ),
-                            itemCount: widget
-                                .datas.length, // Total number of containers
+                            itemCount: widget.datas.length > 10
+                                ? 10
+                                : widget
+                                    .datas.length, // Total number of containers
                             itemBuilder: (BuildContext context, int index) {
+                              int index1 = widget.datas.length - 1 - index;
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: InkWell(
@@ -975,10 +978,11 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => editnotes(
-                                            tittle: widget.datas[index].tittle1,
+                                            tittle:
+                                                widget.datas[index1].tittle1,
                                             content:
-                                                widget.datas[index].content1,
-                                            id: index,
+                                                widget.datas[index1].content1,
+                                            id: index1,
                                             edit: widget.datas,
                                           ),
                                         ));
@@ -1015,7 +1019,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                 width: 98,
                                                 height: 22,
                                                 child: Text(
-                                                  widget.datas[index].tittle1,
+                                                  widget.datas[index1].tittle1,
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 13,
@@ -1137,7 +1141,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () {
-                                                                            FlutterClipboard.copy("${widget.datas[index].tittle1}\n${widget.datas[index].content1}");
+                                                                            FlutterClipboard.copy("${widget.datas[index1].tittle1}\n${widget.datas[index1].content1}");
                                                                             Get.snackbar("copied",
                                                                                 "");
                                                                             Navigator.pop(context);
@@ -1176,7 +1180,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () {
-                                                                            convertToPDF("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                            convertToPDF("${widget.datas[index1].tittle1}\n\n${widget.datas[index1].content1}");
                                                                             print("permission granted");
                                                                           },
                                                                           child:
@@ -1213,7 +1217,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () {
-                                                                            convertToDocx("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                            convertToDocx("${widget.datas[index1].tittle1}\n\n${widget.datas[index1].content1}");
                                                                             print("permission granted");
                                                                           },
                                                                           child:
@@ -1250,7 +1254,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () {
-                                                                            downloadTxt("${widget.datas[index].tittle1}\n\n${widget.datas[index].content1}");
+                                                                            downloadTxt("${widget.datas[index1].tittle1}\n\n${widget.datas[index1].content1}");
                                                                             print("permission granted");
                                                                           },
                                                                           child:
@@ -1287,9 +1291,9 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                       TextButton(
                                                                           onPressed:
                                                                               () async {
-                                                                            await Share.share(widget.datas[index].tittle1 +
+                                                                            await Share.share(widget.datas[index1].tittle1 +
                                                                                 "\n" +
-                                                                                widget.datas[index].content1 +
+                                                                                widget.datas[index1].content1 +
                                                                                 "\n" +
                                                                                 "https://bit.ly/4bk7ZAV");
                                                                           },
@@ -1328,7 +1332,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                                                           onPressed:
                                                                               () async {
                                                                             setState(() {
-                                                                              widget.datas.removeAt(index);
+                                                                              widget.datas.removeAt(index1);
                                                                               setdata1();
                                                                             });
                                                                             Navigator.pop(context);
@@ -1390,7 +1394,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                                               height: 120,
                                               child: SingleChildScrollView(
                                                   child: Text(widget
-                                                      .datas[index].content1))),
+                                                      .datas[index1]
+                                                      .content1))),
                                         )
                                       ],
                                     ),
@@ -1401,6 +1406,42 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
+                      widget.datas.length > 10
+                          ? Center(
+                              child: Container(
+                                width: 120,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 150),
+                                  child: Center(
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => recent(
+                                                    datas: widget.datas,
+                                                  ),
+                                                ));
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "See All",
+                                                style: TextStyle(
+                                                    color: Colors.black),
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward,
+                                                color: Colors.black,
+                                              )
+                                            ],
+                                          ))),
+                                ),
+                              ),
+                            )
+                          : SizedBox(
+                              height: 0,
+                            )
                     ],
                   ),
                 ),

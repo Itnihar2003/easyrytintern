@@ -50,7 +50,7 @@ class Notificationservice {
   }
 
   void scheduleminute(
-      String title, String body, DateTime scheduledNotificationDateTime) async {
+      String title, String body) async {
     AndroidNotificationDetails androidNotificationDetails =
         const AndroidNotificationDetails("channelId", "channelName",
             importance: Importance.max, priority: Priority.high);
@@ -64,4 +64,5 @@ class Notificationservice {
   void stopNotifications(int id,) async {
     _flutterLocalNotificationsPlugin.cancel(id);
   }
+  
 }

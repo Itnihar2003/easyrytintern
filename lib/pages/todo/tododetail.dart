@@ -55,7 +55,9 @@ class _detailState extends State<detail> {
     startrewardad();
     update1();
     update();
-
+    // Timer(Duration(seconds: 2), () {
+    //   setState(() {});
+    // });
     super.initState();
     notificationservice.initialisenotification();
   }
@@ -226,7 +228,6 @@ class _detailState extends State<detail> {
   String finaltime = "";
   int finalid = 0;
   String? dropdownValue;
-
   DateTime selectedDate = DateTime.now();
 
   final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm');
@@ -633,6 +634,11 @@ class _detailState extends State<detail> {
                   const SizedBox(
                     height: 30,
                   ),
+                  // ElevatedButton(
+                  //     onPressed: () {
+                  //       notificationservice.scheduleminute("complete", "");
+                  //     },
+                  //     child: Text("everyminute")),
                   Center(
                     child: ElevatedButton(
                         onPressed: () {
