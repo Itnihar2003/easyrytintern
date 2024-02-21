@@ -537,7 +537,7 @@ class _recentState extends State<recent> {
                                       showModalBottomSheet(
                                         context: context,
                                         builder: (context) => SizedBox(
-                                          height: 400,
+                                          height: 350,
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,

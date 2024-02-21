@@ -1,15 +1,21 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todoaiapp/main.dart';
 
 import 'package:todoaiapp/pages/home/homepage.dart';
 import 'package:todoaiapp/pages/notes/notedata.dart';
 import 'dart:math' as math show sin, pi, sqrt;
+import 'package:http/http.dart' as http;
 
 class notes extends StatefulWidget {
   const notes({super.key});
@@ -19,7 +25,6 @@ class notes extends StatefulWidget {
 }
 
 class _notesState extends State<notes> {
- 
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
@@ -98,6 +103,374 @@ class _notesState extends State<notes> {
     }
   }
 
+  bool isLoading = true;
+  String baseUrl = 'https://scannerimage-e52f6979766b.herokuapp.com';
+  void showNotification(String title, String body) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'your_channel_id', // Change this to a unique ID for your app
+      'Your Channel Name',
+      // 'Your Channel Description',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0, // Change this to a unique notification ID
+      title,
+      body,
+      platformChannelSpecifics,
+      payload: 'item x',
+    );
+  }
+
+  //converted to docs
+  Future<void> convertToDocx(String doc) async {
+    if (isLoading) {
+      showDialog(
+        context: context,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(
+            color: Colors.blue,
+          ),
+        ),
+      );
+    } else {
+      const Text("");
+    }
+
+    print("docx conversion started");
+
+    final String convertUrl = '$baseUrl/doc/textToDoc';
+
+    try {
+      // Directory? directory = await getExternalStorageDirectory();
+
+      Directory directory = Directory('/storage/emulated/0/Download');
+      if (await directory.exists()) {
+        String directoryPath = directory.path;
+        String fileName =
+            'converted_text_${DateTime.now().millisecondsSinceEpoch}.docx';
+
+        final userData = {"text": doc};
+        print(doc);
+        http.Response response = await http.post(
+          Uri.parse(convertUrl),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(userData),
+        );
+        print(response.statusCode);
+        if (response.statusCode == 200) {
+          List<int> docxBytes = response.bodyBytes;
+          String filePath = '$directoryPath/$fileName';
+          await File(filePath).writeAsBytes(docxBytes);
+          showNotification(
+              'DOC Conversion Successful', 'Successfully converted to Doc');
+
+          // await OpenFile.open(filePath);
+          Future.delayed(const Duration(seconds: 5), () async {
+            Navigator.of(context).pop();
+            await showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Success'),
+                content: const Text('Successfully converted to Doc '),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                          child: home(datas: const []),
+                          type: PageTransitionType.fade,
+                          isIos: true,
+                          duration: const Duration(milliseconds: 900),
+                        ),
+                        (route) => false),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Error'),
+              content: Text('Failed to convert to DOCX ${response.statusCode}'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+
+          print('Failed to convert to DOCX: ${response.statusCode}');
+        }
+      } else {
+        print('External storage directory not available');
+      }
+    } catch (error) {
+      print('Error: $error');
+      setState(() {
+        isLoading = false;
+      });
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Failed to convert to DOCX'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  //converted to txt
+  Future<void> downloadTxt(String txt) async {
+    if (isLoading) {
+      showDialog(
+        context: context,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(
+            color: Colors.blue,
+          ),
+        ),
+      );
+    } else {
+      const Text("");
+    }
+    print("text conversion started");
+
+    // final String convertUrl = 'https://ocr-xj19.onrender.com/txt/textTotxt';
+    final String convertUrl = '$baseUrl/txt/textTotxt';
+
+    try {
+      // Directory? directory = await getExternalStorageDirectory();
+      // if (directory != null) {
+      Directory directory = Directory('/storage/emulated/0/Download');
+      if (await directory.exists()) {
+        String directoryPath = directory.path;
+        String fileName =
+            'converted_text_${DateTime.now().millisecondsSinceEpoch}.txt';
+        final userData = {"text": txt};
+        http.Response response = await http.post(
+          Uri.parse(convertUrl),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(userData),
+        );
+        print(response.statusCode);
+        if (response.statusCode == 200) {
+          List<int> txtBytes = response.bodyBytes;
+          String filePath = '$directoryPath/$fileName';
+          await File(filePath).writeAsBytes(txtBytes);
+          showNotification(
+              'TXT Conversion Successful', 'Successfully converted to txt');
+
+          // await OpenFile.open(filePath);
+          Future.delayed(const Duration(seconds: 2), () {
+            Navigator.of(context).pop();
+            // Close the dialog
+
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Success'),
+                content: const Text('Successfully converted to txt '),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                          child: home(datas: const []),
+                          type: PageTransitionType.fade,
+                          isIos: true,
+                          duration: const Duration(milliseconds: 900),
+                        ),
+                        (route) => false),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+            print("loading");
+            setState(() {
+              isLoading = false;
+            });
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Error'),
+              content: Text('Failed to convert to TXT ${response.statusCode}'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+          // throw 'Failed to convert to TXT: ${response.statusCode}';
+        }
+      } else {
+        print('External storage directory not available');
+      }
+    } catch (error) {
+      print('Error: $error');
+      setState(() {
+        isLoading = false;
+      });
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Failed to convert to TXT'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+  //convert to pdf
+
+  Future<void> convertToPDF(String pdf) async {
+    if (isLoading) {
+      showDialog(
+        context: context,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(
+            color: Colors.blue,
+          ),
+        ),
+      );
+    } else {
+      const Text("");
+    }
+
+    print("pdf conversion started");
+    // final String convertUrl = 'https://ocr-xj19.onrender.com/pdf/textToPdf';
+    final String convertUrl = '$baseUrl/pdf/textToPdf';
+
+    try {
+      // Directory? directory = await getExternalStorageDirectory();
+      Directory directory = Directory('/storage/emulated/0/Download');
+      print(directory);
+      if (await directory.exists()) {
+        String directoryPath = directory.path;
+        String fileName =
+            'converted_text_${DateTime.now().millisecondsSinceEpoch}.pdf';
+
+        // here in body add langcode same as language code selected
+        final userData = {"text": pdf, "langCode": 'eng'};
+        http.Response response = await http.post(
+          Uri.parse(convertUrl),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(userData),
+        );
+
+        print(response.statusCode);
+        if (response.statusCode == 200) {
+          List<int> pdfBytes = response.bodyBytes;
+          String filePath = '$directoryPath/$fileName';
+          await File(filePath).writeAsBytes(pdfBytes);
+          // await OpenFile.open(filePath);
+          showNotification(
+              'PDF Conversion Successful', 'Successfully converted to PDF');
+          Future.delayed(const Duration(seconds: 5), () {
+            Navigator.of(context).pop();
+
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text('Success'),
+                content: const Text('Successfully converted to pdf '),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pushAndRemoveUntil(
+                        context,
+                        PageTransition(
+                          child: home(datas: const []),
+                          type: PageTransitionType.fade,
+                          isIos: true,
+                          duration: const Duration(milliseconds: 900),
+                        ),
+                        (route) => false),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+
+            print("loading");
+            setState(() {
+              isLoading = false;
+            });
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Error'),
+              content: Text('Failed to convert to pdf ${response.statusCode}'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
+          print('Failed to convert to PDF: ${response.statusCode}');
+        }
+      } else {
+        print('External storage directory not available');
+      }
+    } catch (error) {
+      print('Error: $error');
+      setState(() {
+        isLoading = false;
+      });
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Failed to convert to pdf'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   TextEditingController titleController = TextEditingController();
   TextEditingController writingController = TextEditingController();
 
@@ -149,7 +522,6 @@ class _notesState extends State<notes> {
                 backgroundColor: Colors.black,
                 child: IconButton(
                     onPressed: () {
-                    
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                             builder: (context) => home(
@@ -207,20 +579,395 @@ class _notesState extends State<notes> {
                                 icon: const Icon(Icons.arrow_back)),
                           ],
                         ),
-                        Padding(
+                    Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Row(
                             children: [
                               IconButton(
-                                  onPressed: () async {
-                                    await Share.share(titleController.text +
-                                        "\n" +
-                                        writingController.text);
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) => SizedBox(
+                                        height: 300,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(6),
+                                                  topRight: Radius.circular(6),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      const SizedBox(
+                                                          height: 50,
+                                                          width: 10),
+                                                      Text(
+                                                        "Quick Note",
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              right: 10),
+                                                      child: TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Text(
+                                                          "close",
+                                                          style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      )),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Color(0xFFF6F6F6),
+                                                ),
+                                                child: SingleChildScrollView(
+                                                  child: Column(
+                                                    children: [
+                                                      const SizedBox(
+                                                          height: 2.5),
+                                                      const Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                          horizontal: 5,
+                                                          vertical: 2.5,
+                                                        ),
+                                                      ),
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            FlutterClipboard.copy(
+                                                                "${titleController.text + "\n" + writingController.text}");
+                                                            Get.snackbar(
+                                                                "copied", "");
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Container(
+                                                            height: 30,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Container(
+                                                                          height:
+                                                                              20,
+                                                                          width:
+                                                                              30,
+                                                                          color: Colors
+                                                                              .white,
+                                                                          child:
+                                                                              Image.asset("assets/copy.png")),
+                                                                      Text(
+                                                                        "copy to clipboard",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                15,
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontWeight: FontWeight.w400),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .arrow_forward_ios,
+                                                                        size:
+                                                                            20,
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          )),
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            convertToPDF(
+                                                                "${titleController.text + "\n" + writingController.text}");
+                                                            print(
+                                                                "permission granted");
+                                                          },
+                                                          child: Container(
+                                                            height: 30,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Container(
+                                                                          height:
+                                                                              20,
+                                                                          width:
+                                                                              30,
+                                                                          color: Colors
+                                                                              .white,
+                                                                          child:
+                                                                              Image.asset("assets/pop.png")),
+                                                                      Text(
+                                                                        "PDF",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                15,
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontWeight: FontWeight.w400),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .arrow_forward_ios,
+                                                                        size:
+                                                                            20,
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          )),
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            convertToDocx(
+                                                                "${titleController.text + "\n" + writingController.text}");
+                                                            print(
+                                                                "permission granted");
+                                                          },
+                                                          child: Container(
+                                                            height: 30,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Container(
+                                                                          height:
+                                                                              20,
+                                                                          width:
+                                                                              30,
+                                                                          color: Colors
+                                                                              .white,
+                                                                          child:
+                                                                              Image.asset("assets/word.png")),
+                                                                      Text(
+                                                                        "Word",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                15,
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontWeight: FontWeight.w400),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .arrow_forward_ios,
+                                                                        size:
+                                                                            20,
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          )),
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            downloadTxt(
+                                                                "${titleController.text + "\n" + writingController.text}");
+                                                            print(
+                                                                "permission granted");
+                                                          },
+                                                          child: Container(
+                                                            height: 30,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Container(
+                                                                          height:
+                                                                              20,
+                                                                          width:
+                                                                              30,
+                                                                          color: Colors
+                                                                              .white,
+                                                                          child:
+                                                                              Image.asset("assets/text.png")),
+                                                                      Text(
+                                                                        "Txt",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                15,
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontWeight: FontWeight.w400),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .arrow_forward_ios,
+                                                                        size:
+                                                                            20,
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          )),
+                                                      TextButton(
+                                                          onPressed: () async {
+                                                            await Share.share(
+                                                                titleController
+                                                                        .text +
+                                                                    "\n" +
+                                                                    writingController
+                                                                        .text +
+                                                                    "\n" +
+                                                                    "https://bit.ly/4bk7ZAV");
+                                                          },
+                                                          child: Container(
+                                                            height: 30,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          10),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    children: [
+                                                                      Container(
+                                                                          height:
+                                                                              20,
+                                                                          width:
+                                                                              30,
+                                                                          color: Colors
+                                                                              .white,
+                                                                          child:
+                                                                              Image.asset("assets/share.png")),
+                                                                      Text(
+                                                                        "Share",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                15,
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontWeight: FontWeight.w400),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .arrow_forward_ios,
+                                                                        size:
+                                                                            20,
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          )),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
                                   },
-                                  icon: const Icon(Icons.share)),
+                                  icon: SizedBox(
+                                    width: 12,
+                                    height: 12,
+                                    child: Image.asset("assets/dot.png"),
+                                  )),
                             ],
                           ),
-                        )
+                        ),    
                       ],
                     ),
                   ),
@@ -275,7 +1022,6 @@ class _notesState extends State<notes> {
                             focusedErrorBorder: InputBorder.none,
                           ),
                           maxLines: null,
-                      
                         ),
                       ),
                     ),

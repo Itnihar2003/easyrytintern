@@ -76,8 +76,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
-        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
         request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (RewardedAd ad) {
@@ -108,6 +108,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
     );
   }
 
+  final ScrollController1 = ScrollController();
   //rating the app
   final RateMyApp rateMyApp = RateMyApp(
       remindLaunches: 2,
@@ -180,7 +181,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   @override
   void initState() {
     //only for final update on play store
-    checkForAppUpdate();
+    // checkForAppUpdate();
 
     timer = Timer.periodic(Duration(seconds: 120), (Timer t) => showreward());
 
@@ -766,7 +767,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   }
 
   int num = 0;
-
+  final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -964,7 +965,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                               mainAxisSpacing: 10.0,
                             ),
                             itemCount: widget.datas.length > 10
-                                ? 10
+                                ? 10 + 1
                                 : widget
                                     .datas.length, // Total number of containers
                             itemBuilder: (BuildContext context, int index) {

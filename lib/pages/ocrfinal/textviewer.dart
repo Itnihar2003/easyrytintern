@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -535,181 +536,371 @@ class _TextViewerState extends State<TextViewer> {
           actions: [
             Row(
               children: [
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        shareText();
-                        send = !send;
-                        edit = false;
-                        camera = false;
-                        save = false;
-                      });
-                      // Share.share(data);
-                    },
-                    icon: Icon(
-                      Icons.share,
-                      color: Colors.black,
-                      size: 20,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) => SizedBox(
-                          height: 300,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(6),
-                                    topRight: Radius.circular(6),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) => SizedBox(
+                                height: 300,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      children: [
-                                        const SizedBox(height: 50, width: 10),
-                                        Text(
-                                          "Quick Note",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(6),
+                                          topRight: Radius.circular(6),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                  height: 50, width: 10),
+                                              Text(
+                                                "Quick Note",
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 10),
+                                              child: TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  "close",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFFF6F6F6),
+                                        ),
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(height: 2.5),
+                                              const Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 5,
+                                                  vertical: 2.5,
+                                                ),
+                                              ),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    FlutterClipboard.copy(
+                                                        "${_textController.text.toString()}");
+                                                    Get.snackbar("copied", "");
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Container(
+                                                    height: 30,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                  height: 20,
+                                                                  width: 30,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          "assets/copy.png")),
+                                                              Text(
+                                                                "copy to clipboard",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .arrow_forward_ios,
+                                                                size: 20,
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    convertToPDF(
+                                                      _textController.text
+                                                          .toString(),
+                                                      widget.langCode,
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    height: 30,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                  height: 20,
+                                                                  width: 30,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          "assets/pop.png")),
+                                                              Text(
+                                                                "PDF",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .arrow_forward_ios,
+                                                                size: 20,
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    convertToDocx(
+                                                        _textController.text
+                                                            .toString());
+                                                  },
+                                                  child: Container(
+                                                    height: 30,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                  height: 20,
+                                                                  width: 30,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          "assets/word.png")),
+                                                              Text(
+                                                                "Word",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .arrow_forward_ios,
+                                                                size: 20,
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    downloadTxt(_textController
+                                                        .text
+                                                        .toString());
+                                                  },
+                                                  child: Container(
+                                                    height: 30,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                  height: 20,
+                                                                  width: 30,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          "assets/text.png")),
+                                                              Text(
+                                                                "Txt",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .arrow_forward_ios,
+                                                                size: 20,
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )),
+                                              TextButton(
+                                                  onPressed: () async {
+                                                    setState(() {
+                                                      shareText();
+                                                      send = !send;
+                                                      edit = false;
+                                                      camera = false;
+                                                      save = false;
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    height: 30,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Container(
+                                                                  height: 20,
+                                                                  width: 30,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  child: Image
+                                                                      .asset(
+                                                                          "assets/share.png")),
+                                                              Text(
+                                                                "Share",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .arrow_forward_ios,
+                                                                size: 20,
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 10),
-                                        child: TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            "close",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        )),
+                                      ),
+                                    )
                                   ],
                                 ),
                               ),
-                              Expanded(
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFFF6F6F6),
-                                  ),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(height: 2.5),
-                                        const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 5,
-                                            vertical: 2.5,
-                                          ),
-                                        ),
-                                        TextButton(
-                                            onPressed: () async {
-                                              // showreward();
-                                              convertToPDF(
-                                                _textController.text.toString(),
-                                                widget.langCode,
-                                              );
-                                            },
-                                            child: ListTile(
-                                                leading: Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    color: Colors.white,
-                                                    child: Image.asset(
-                                                        "assets/pop.png")),
-                                                title: const Text(
-                                                  "PDF",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                                trailing: const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  size: 20,
-                                                ))),
-                                        TextButton(
-                                            onPressed: () async {
-                                              // showreward();
-                                              convertToDocx(_textController.text
-                                                  .toString());
-                                            },
-                                            child: ListTile(
-                                                leading: Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    color: Colors.white,
-                                                    child: Image.asset(
-                                                        "assets/word.png")),
-                                                title: const Text(
-                                                  "Word",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                                trailing: const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  size: 20,
-                                                ))),
-                                        TextButton(
-                                            onPressed: () async {
-                                              // showreward();
-                                              downloadTxt(_textController.text
-                                                  .toString());
-                                            },
-                                            child: ListTile(
-                                                leading: Container(
-                                                    height: 20,
-                                                    width: 30,
-                                                    color: Colors.white,
-                                                    child: Image.asset(
-                                                        "assets/text.png")),
-                                                title: const Text(
-                                                  "Txt",
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                                trailing: const Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  size: 20,
-                                                ))),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    icon: SizedBox(
-                      width: 12,
-                      height: 12,
-                      child: Image.asset("assets/dot.png"),
-                    ))
+                            );
+                          },
+                          icon: SizedBox(
+                            width: 12,
+                            height: 12,
+                            child: Image.asset("assets/dot.png"),
+                          )),
+                    ],
+                  ),
+                ),
               ],
             )
           ],
