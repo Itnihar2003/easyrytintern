@@ -600,7 +600,7 @@ class _detailState extends State<detail> {
                                                                 'complete your task',
                                                             body: pop.text,
                                                             scheduledNotificationDateTime:
-                                                                scheduleTime,
+                                                                date.subtract(Duration(minutes: 5)),
                                                             id: finalid);
                                                   },
                                                 ),

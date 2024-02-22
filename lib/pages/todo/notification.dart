@@ -49,7 +49,7 @@ class Notificationservice {
         androidAllowWhileIdle: true);
   }
 
-  void scheduleminute(
+  void scheduleminute(int id,
       String title, String body) async {
     AndroidNotificationDetails androidNotificationDetails =
         const AndroidNotificationDetails("channelId", "channelName",
@@ -58,7 +58,7 @@ class Notificationservice {
         NotificationDetails(android: androidNotificationDetails);
 
     await _flutterLocalNotificationsPlugin.periodicallyShow(
-        0, title, body, RepeatInterval.everyMinute, notificationDetails);
+        id, title, body, RepeatInterval.everyMinute, notificationDetails);
   }
 
   void stopNotifications(int id,) async {

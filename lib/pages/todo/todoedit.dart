@@ -486,7 +486,7 @@ class _editState extends State<edit> {
                                                                       newreminder
                                                                           .text,
                                                                   scheduledNotificationDateTime:
-                                                                      duereminder,
+                                                                      date2.subtract(Duration(minutes: 5)),
                                                                   id: widget
                                                                       .id);
                                                         },

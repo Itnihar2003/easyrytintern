@@ -76,8 +76,8 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   late RewardedAd _rewardedAd;
   startrewardad() {
     RewardedAd.load(
-        adUnitId: "ca-app-pub-3940256099942544/5224354917",
-        // adUnitId: "ca-app-pub-1396556165266132/1772804526",
+        // adUnitId: "ca-app-pub-3940256099942544/5224354917",
+        adUnitId: "ca-app-pub-1396556165266132/1772804526",
         request: AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
             onAdLoaded: (RewardedAd ad) {
@@ -181,7 +181,7 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
   @override
   void initState() {
     //only for final update on play store
-    // checkForAppUpdate();
+    checkForAppUpdate();
 
     timer = Timer.periodic(Duration(seconds: 120), (Timer t) => showreward());
 
@@ -1412,31 +1412,41 @@ class _HomeScreenState extends State<home> with TickerProviderStateMixin {
                               child: Container(
                                 width: 120,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 150),
+                                  padding: const EdgeInsets.only(bottom: 140),
                                   child: Center(
-                                      child: ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => recent(
-                                                    datas: widget.datas,
-                                                  ),
-                                                ));
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "See All",
-                                                style: TextStyle(
-                                                    color: Colors.black),
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward,
-                                                color: Colors.black,
-                                              )
-                                            ],
-                                          ))),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .push(_createRoute(widget.datas));
+                                      },
+                                      child: Container(
+                                          height: 40,
+                                          width: 60,
+                                          child: Image.asset(
+                                            "assets/GxTk30Bwgk.gif",
+                                            fit: BoxFit.cover,
+                                          )),
+                                    ),
+                                    // child: ElevatedButton(
+                                    //     style: ElevatedButton.styleFrom(
+                                    //       backgroundColor: Colors.white,
+                                    //     ),
+                                    //     onPressed: () {
+                                    //       Navigator.of(context).push(
+                                    //           _createRoute(widget.datas));
+                                    //       // Navigator.push(
+                                    //       //     context,
+                                    //       //     MaterialPageRoute(
+                                    //       //       builder: (context) => recent(
+                                    //       //         datas: widget.datas,
+                                    //       //       ),
+                                    //       //     ));
+                                    //     },
+                                    // child: Container(
+                                    //     width: 30,
+                                    //     child: Image.asset(
+                                    //         "assets/GxTk30Bwgk.gif")))
+                                  ),
                                 ),
                               ),
                             )
@@ -1836,4 +1846,23 @@ class CurveWave extends Curve {
     }
     return math.sin(t * math.pi);
   }
+}
+
+Route _createRoute(List<data1> list) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        recent(datas: list),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(0.0, 1.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
 }
